@@ -5,11 +5,11 @@ import sqlTools.LibrarianTools;
 import model.Reader;
 import model.Librarian;
 
-public class Login_Service 
+public class LoginLogout_Service 
 {
-	public static String idReader;
-	public static String nameReader;
-	public static String nameUser;
+	private static String idReader;
+	private static String nameReader;
+	private static String nameUser;
 	public Reader reader;
 	public Librarian lib;
 
@@ -41,5 +41,41 @@ public class Login_Service
 			nameUser = lib.getNameUser();
 		
 	}
+	
+	void ReaderLogout()
+	{
+		idReader=null;
+		nameReader=null;
+	}
+	
+	void LibLogout()
+	{
+		nameUser=null;
+	}
 
+	public static String getIdReader() {
+		return idReader;
+	}
+
+	public static String getNameUser() {
+		return nameUser;
+	}
+
+	public static void setNameUser(String nameUser) {
+		LoginLogout_Service.nameUser = nameUser;
+	}
+
+	public static void setIdReader(String idReader) {
+		LoginLogout_Service.idReader = idReader;
+	}
+
+	public static String getNameReader() {
+		return nameReader;
+	}
+
+	public static void setNameReader(String nameReader) {
+		LoginLogout_Service.nameReader = nameReader;
+	}
+
+	
 }
