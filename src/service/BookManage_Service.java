@@ -22,7 +22,7 @@ public class BookManage_Service
 			return "借出";
 	}
 	
-	void updateBook(Book book,Author author,Publisher publisher)
+	void UpdateBook(Book book,Author author,Publisher publisher)
 	{
 		publisherTools.UpdatePublisher(publisher);
 		publisherTools.AddPublisher(publisher);		
@@ -34,5 +34,26 @@ public class BookManage_Service
             return "成功更新图书信息！";
 		 else 
 			return "更新图书信息失败！";
+	}
+	
+	String RegisterBook(Book book,Author author,Publisher publisher)
+	{
+		publisherTools.AddPublisher(publisher);
+		authorTools.AddAuthor(author);
+		
+		int i = bookTools.AddBook(book);
+		if (i == 1) 
+			return "成功新增图书信息！";
+		else 
+			return "新增图书信息失败！";
+	}
+	
+	String DeleteBook(String idBook)
+	{
+		int i = bookTools.DeleteBook(idBook);
+		if (i == 1) 
+			return "成功删除书籍信息！";
+		else
+			return "删除书籍信息失败！";
 	}
 }
