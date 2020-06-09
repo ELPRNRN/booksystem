@@ -13,7 +13,7 @@ public class LoginLogout_Service
 	public Reader reader;
 	public Librarian lib;
 
-	void ReaderLogin(String UserID,String Password)
+	boolean ReaderLogin(String UserID,String Password)
 	{
 		reader=new Reader();
 		ReaderTools rTools = new ReaderTools();
@@ -25,11 +25,14 @@ public class LoginLogout_Service
 		{
 			nameReader=rTools.ReaderData(reader.getIdReader()).get(0).getNameReader();
 			idReader = reader.getIdReader();
+			return true;
 		}
+		else
+			return false;
 		
 	}
 	
-	void LibLogin(String UserName,String Password)
+	boolean LibLogin(String UserName,String Password)
 	{
 		LibrarianTools libTools = new LibrarianTools();
 		lib = new Librarian();
@@ -38,7 +41,12 @@ public class LoginLogout_Service
 		
 		boolean whether_login = libTools.LibrarianLogin(lib.getNameUser(), lib.getPassword());
 		if (whether_login == true) 
+		{
 			nameUser = lib.getNameUser();
+			return true;
+		}
+		else
+			return false;
 		
 	}
 	
