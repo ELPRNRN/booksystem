@@ -13,6 +13,7 @@ public class LoginLogout_Service
 	public Reader reader;
 	public Librarian lib;
 
+	//读者登录
 	boolean ReaderLogin(String UserID,String Password)
 	{
 		reader=new Reader();
@@ -32,6 +33,7 @@ public class LoginLogout_Service
 		
 	}
 	
+	//管理员登陆
 	boolean LibLogin(String UserName,String Password)
 	{
 		LibrarianTools libTools = new LibrarianTools();
@@ -50,12 +52,14 @@ public class LoginLogout_Service
 		
 	}
 	
+	//读者登出
 	void ReaderLogout()
 	{
 		idReader=null;
 		nameReader=null;
 	}
 	
+	//管理员登出
 	void LibLogout()
 	{
 		nameUser=null;

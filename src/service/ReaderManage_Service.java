@@ -13,25 +13,29 @@ public class ReaderManage_Service
 {
 	ReaderTools readerTools = new ReaderTools();
 	
-	List<Reader> SearchReaderByID(String idReader)//通过读者号查找读者
+	//通过读者号查找读者
+	List<Reader> SearchReaderByID(String idReader)
 	{
 		List<Reader> readerlist = readerTools.ReaderData(idReader);
 		return readerlist;
 	}
 	
-	List<Reader> SearchAllReaders()//返回所有读者
+	//返回所有读者
+	List<Reader> SearchAllReaders()
 	{
 		List<Reader> readerlist = readerTools.ReaderData();
 		return readerlist;
 	}
 	
+	//通过读者姓名查找读者
 	List<Reader> SearchReaderByName(String keyword)
 	{
 		List<Reader> readerlist = readerTools.ReaderDataSearch(keyword);
 		return readerlist;
 	}
 	
-	boolean UpdateReader(Reader reader)//管理员更新读者
+	//管理员更新读者
+	boolean UpdateReader(Reader reader)
 	{
 		int i = readerTools.UpdateReader(reader);
 		if ( i == 1 ) 
@@ -40,7 +44,8 @@ public class ReaderManage_Service
             return false;
 	}
 	
-	boolean AddReader(Reader reader)//管理员新增读者
+	//管理员新增读者
+	boolean AddReader(Reader reader)
 	{
 		int i = readerTools.AddReader(reader);
 		if (i == 1) 
@@ -49,7 +54,8 @@ public class ReaderManage_Service
 			return false;
 	}
 	
-	boolean DeleteReader(String idReader)//删除读者
+	//删除读者
+	boolean DeleteReader(String idReader)
 	{
 		int i = readerTools.DeleteReader(idReader);
 		if (i == 1) 

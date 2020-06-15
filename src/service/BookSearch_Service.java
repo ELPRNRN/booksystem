@@ -48,12 +48,14 @@ public class BookSearch_Service
 		return booklist;
 	}
 	
+	//搜索作者信息
 	List<Author> searchAuthorInfo(String nameAuthor)
 	{
 		List<Author> authorlist = authorTools.AuthorData(temp.getAuthor());
 		return authorlist;
 	}
 	
+	//搜索出版社信息
 	publisher searchPublisherInfo(String namePublisher)
 	{
 		Publisher publisher = publisherTools.PublisherData(temp.getPublisher());

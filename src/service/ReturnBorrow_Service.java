@@ -7,6 +7,7 @@ public class ReturnBorrow_Service
 {
 	Borrowtools borrowtools =new Borrowtools();
 	
+	//ΩË È
 	boolean BorrowBook(String idBook)
 	{
 		String idReader=LoginLogout_Service.idReader;
@@ -17,6 +18,7 @@ public class ReturnBorrow_Service
 			return false;
 	}
 	
+	//ªπ È
 	boolean ReturnBook(String idBook)
 	{
 		int i = borrowtools.ReturnBook(idBook);
