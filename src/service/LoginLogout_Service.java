@@ -7,6 +7,7 @@ import model.Librarian;
 
 public class LoginLogout_Service 
 {
+	//存储当前读者或管理员信息
 	private static String idReader;
 	private static String nameReader;
 	private static String nameUser;

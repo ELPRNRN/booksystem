@@ -12,6 +12,13 @@ import model.Reader;
 public class ReaderManage_Service 
 {
 	ReaderTools readerTools = new ReaderTools();
+	private static ReaderManage_Service ReaderManage_Service_Instance = new ReaderManage_Service();
+	
+	//单例
+	public static ReaderManage_Service getInstance() {
+		return ReaderManage_Service_Instance;
+	}
+	private ReaderManage_Service() {};
 	
 	//通过读者号查找读者
 	List<Reader> SearchReaderByID(String idReader)

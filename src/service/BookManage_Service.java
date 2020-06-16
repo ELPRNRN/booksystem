@@ -13,11 +13,18 @@ public class BookManage_Service
 	BookTools bookTools = new BookTools();
 	AuthorTools authorTools = new AuthorTools();
 	PublisherTools publisherTools = new PublisherTools();
+    private static BookManage_Service BookManage_Service_Instance = new BookManage_Service();
+	
+	//单例
+	public static BookManage_Service getInstance() {
+		return BookManage_Service_Instance;
+	}
+	private BookManage_Service() {};
 	
 	//查看书本是否在库
 	String BookWhetherInStock(String idBook)
 	{
-		if (borrowtools.whetherInStock(temp.getIdBook()) == true) 
+		if (borrowtools.whetherInStock(idBook) == true) 
 			return "在库"; 
 		else 
 			return "借出";
@@ -60,4 +67,6 @@ public class BookManage_Service
 		else
 			return false;
 	}
+	
+	
 }
