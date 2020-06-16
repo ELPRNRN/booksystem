@@ -17,7 +17,7 @@ public class BookManage_Service
 	//查看书本是否在库
 	String BookWhetherInStock(String idBook)
 	{
-		if (borrowtools.whetherInStock(idBook) )
+		if (borrowtools.whetherInStock(temp.getIdBook()) == true) 
 			return "在库"; 
 		else 
 			return "借出";
@@ -59,11 +59,5 @@ public class BookManage_Service
 			return true;
 		else
 			return false;
-	}
-	
-	//检测用户还书是否违期
-	void BooksOvertime(Book book)
-	{
-		
 	}
 }

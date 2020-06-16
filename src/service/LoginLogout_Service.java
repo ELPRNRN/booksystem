@@ -7,15 +7,21 @@ import model.Librarian;
 
 public class LoginLogout_Service 
 {
-	//存储当前读者信息或管理员信息
 	private static String idReader;
 	private static String nameReader;
 	private static String nameUser;
 	public Reader reader;
 	public Librarian lib;
-
+	private static LoginLogout_Service loginLogout_Service_Instance = new LoginLogout_Service();
+	
+	//单例
+	public static LoginLogout_Service getInstance() {
+		return loginLogout_Service_Instance;
+	}
+	private LoginLogout_Service() {};
+	
 	//读者登录
-	boolean ReaderLogin(String UserID,String Password)
+	public boolean ReaderLogin(String UserID,String Password)
 	{
 		reader=new Reader();
 		ReaderTools rTools = new ReaderTools();
@@ -35,7 +41,7 @@ public class LoginLogout_Service
 	}
 	
 	//管理员登陆
-	boolean LibLogin(String UserName,String Password)
+	public boolean LibLogin(String UserName,String Password)
 	{
 		LibrarianTools libTools = new LibrarianTools();
 		lib = new Librarian();
@@ -54,14 +60,14 @@ public class LoginLogout_Service
 	}
 	
 	//读者登出
-	void ReaderLogout()
+	public void ReaderLogout()
 	{
 		idReader=null;
 		nameReader=null;
 	}
 	
 	//管理员登出
-	void LibLogout()
+	public void LibLogout()
 	{
 		nameUser=null;
 	}
