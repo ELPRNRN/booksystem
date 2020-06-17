@@ -1,6 +1,7 @@
 package frame;
 
 import java.awt.CardLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import service.LoginLogout_Service;
@@ -20,7 +21,11 @@ public class Login_Register_Frame extends JFrame{
 		JPanel cardPanel=new JPanel(cardLayout);
 		add(cardPanel);
 		JPanel loginPanel=new JPanel();
-		cardPanel.add(loginPanel);
+		cardPanel.add(loginPanel);	
+		JPanel registerPanel =new JPanel();
+		cardPanel.add(registerPanel);
+		
+		//µÇÂ¼Ò³Ãæ
 		JLabel IDLabel= new JLabel("ÕËºÅ/account ID");
 		loginPanel.add(IDLabel);
 		JTextField IDTextField= new JTextField(1);
@@ -29,7 +34,7 @@ public class Login_Register_Frame extends JFrame{
 		loginPanel.add(pwdLabel);
 		JTextField pwdTextField= new JTextField(1);
 		loginPanel.add(pwdTextField);
-		JButton loginButton=new JButton();
+		JButton loginButton=new JButton("µÇÂ¼/login");
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -46,6 +51,51 @@ public class Login_Register_Frame extends JFrame{
 			}
 		});
 		loginPanel.add(loginButton);
+		JButton toregisterButton=new JButton("ÎÒ»¹Ã»ÓÐÕËºÅ/I haven't account yet");
+		toregisterButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.next(cardPanel);
+			}
+		});
+		loginPanel.add(toregisterButton);
+		loginPanel.setLayout(new GridLayout(6,1));
+		
+		//×¢²áÒ³Ãæ 
+		JLabel rIDLabel= new JLabel("ÕËºÅ/account ID");
+		registerPanel.add(rIDLabel);
+		JTextField rIDTextField= new JTextField(1);
+		registerPanel.add(rIDTextField);
+		JLabel rpwdLabel= new JLabel("ÃÜÂë/password");
+		registerPanel.add(rpwdLabel);
+		JTextField rpwdTextField= new JTextField(1);
+		registerPanel.add(rpwdTextField);
+		JButton registerButton=new JButton("×¢²á/register");
+		registerButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String ID=new String(rIDTextField.getText());
+				String pwd=new String(rpwdTextField.getText());
+				//LoginLogout_Service loginLogout_Service = LoginLogout_Service.getInstance();
+				if(false) {//loginLogout_Service.ReaderLogin(ID,pwd)
+					//login success
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "×¢²áÊ§°Ü", "´íÎó", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		JButton tologinButton=new JButton("·µ»ØµÇÂ¼½çÃæ/back to login page");
+		registerPanel.add(registerButton);
+		tologinButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.previous(cardPanel);
+			}
+		});
+		registerPanel.add(tologinButton);
+		registerPanel.setLayout(new GridLayout(6,1));
 		
 		//ÏÔÊ¾´°¿Ú
 		pack();
