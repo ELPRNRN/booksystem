@@ -7,7 +7,7 @@ public class Book {
 	private String type;
 	private String author;
 	private String publisher;
-	private String intro;
+	private String intro;//Ìí¼Ó¼ò½é
 	public String getIdBook() {
 		return idBook;
 	}
