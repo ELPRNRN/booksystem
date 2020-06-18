@@ -4,7 +4,6 @@ import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import service.LoginLogout_Service;
 import javax.swing.*;
 
 public class Login_Register_Frame extends JFrame{
@@ -21,11 +20,14 @@ public class Login_Register_Frame extends JFrame{
 		JPanel cardPanel=new JPanel(cardLayout);
 		add(cardPanel);
 		JPanel loginPanel=new JPanel();
-		cardPanel.add(loginPanel);	
+		cardPanel.add(loginPanel,"login");	
 		JPanel registerPanel =new JPanel();
-		cardPanel.add(registerPanel);
+		cardPanel.add(registerPanel,"register");
+		JPanel liloginPanel=new JPanel();
+		cardPanel.add(liloginPanel,"lilogin");
 		
 		//登录页面
+		setTitle("读者登录/readerlogin");
 		JLabel IDLabel= new JLabel("账号/account ID");
 		loginPanel.add(IDLabel);
 		JTextField IDTextField= new JTextField(1);
@@ -56,10 +58,21 @@ public class Login_Register_Frame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cardLayout.next(cardPanel);
+				setTitle("注册/register");
 			}
 		});
 		loginPanel.add(toregisterButton);
-		loginPanel.setLayout(new GridLayout(6,1));
+		JButton toliButton=new JButton("管理员登录界面/administrator login page");
+		toliButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				cardLayout.next(cardPanel);
+				cardLayout.next(cardPanel);
+			}
+		});
+		loginPanel.add(toliButton);
+		loginPanel.setLayout(new GridLayout(7,1));
 		
 		//注册页面 
 		JLabel rIDLabel= new JLabel("账号/account ID");
@@ -86,16 +99,52 @@ public class Login_Register_Frame extends JFrame{
 				}
 			}
 		});
-		JButton tologinButton=new JButton("返回登录界面/back to login page");
 		registerPanel.add(registerButton);
-		tologinButton.addActionListener(new ActionListener() {
+		JButton retologinButton=new JButton("返回读者登录界面/back to reader login page");
+		retologinButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.previous(cardPanel);
+				cardLayout.show(cardPanel, "login");
 			}
 		});
-		registerPanel.add(tologinButton);
+		registerPanel.add(retologinButton);
 		registerPanel.setLayout(new GridLayout(6,1));
+		
+		//管理员登录界面
+		JLabel liIDLabel= new JLabel("账号/account ID");
+		liloginPanel.add(liIDLabel);
+		JTextField liIDTextField= new JTextField(1);
+		liloginPanel.add(liIDTextField);
+		JLabel lipwdLabel= new JLabel("密码/password");
+		liloginPanel.add(rpwdLabel);
+		JTextField lipwdTextField= new JTextField(1);
+		liloginPanel.add(lipwdTextField);
+		JButton liloginButton=new JButton("管理员登录/administrator login");
+		liloginButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String ID=new String(liIDTextField.getText());
+				String pwd=new String(lipwdTextField.getText());
+				//LoginLogout_Service loginLogout_Service = LoginLogout_Service.getInstance();
+				if(false) {//loginLogout_Service.ReaderLogin(ID,pwd)
+					//login success
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "管理员账号或密码错误", "登录失败", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		liloginPanel.add(liloginButton);
+		JButton litologinButton=new JButton("返回读者登录界面/back to reader login page");
+		litologinButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(cardPanel, "login");
+			}
+		});
+		liloginPanel.add(litologinButton);
+		liloginPanel.setLayout(new GridLayout(6,1));
 		
 		//显示窗口
 		pack();
