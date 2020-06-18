@@ -1,7 +1,7 @@
 package service;
 import sqlTools.BorrowTools;
 import sqlTools.ReaderTools;
-import model.Reader
+import model.Reader;
 
 import java.util.List;
 

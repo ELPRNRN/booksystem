@@ -2,6 +2,7 @@ package service;
 
 import sqlTools.ReaderTools;
 import sqlTools.LibrarianTools;
+import sqlTools.PublisherTools;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -12,6 +13,7 @@ import model.Book;
 import model.Borrow;
 import model.Publisher;
 import model.Reader;
+import sqlTools.AuthorTools;
 import sqlTools.BookTools;
 import sqlTools.BorrowTools;
 
@@ -74,7 +76,7 @@ public class BookSearch_Service
 	}
 	
 	//搜索出版社信息
-	publisher searchPublisherInfo(String namePublisher)
+	Publisher searchPublisherInfo(String namePublisher)
 	{
 		Publisher publisher = publisherTools.PublisherData(namePublisher);
 		return publisher;

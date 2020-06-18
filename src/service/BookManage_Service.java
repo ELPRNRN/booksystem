@@ -1,7 +1,9 @@
 package service;
 
-import javax.swing.JOptionPane;
 
+import model.Author;
+import model.Book;
+import model.Publisher;
 import sqlTools.AuthorTools;
 import sqlTools.BookTools;
 import sqlTools.BorrowTools;

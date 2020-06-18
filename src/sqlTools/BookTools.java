@@ -33,7 +33,7 @@ public class BookTools {
 				book.setType(rs.getString("kind"));
 				book.setAuthor(rs.getString("author"));
 				book.setPublisher(rs.getString("publisher"));
-                                                                book.setIntro(rs.getString("intro"));
+                book.setIntro(rs.getString("intro"));
 				ls.add(book);
 			}
 			rs.close();

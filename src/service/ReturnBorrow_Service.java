@@ -13,7 +13,7 @@ import sqlTools.BorrowTools;
 
 public class ReturnBorrow_Service 
 {
-	Borrowtools borrowtools =new Borrowtools();
+	BorrowTools borrowtools =new BorrowTools();
 	private static ReturnBorrow_Service ReturnBorrow_Service_Instance = new ReturnBorrow_Service();
 	
 	//µ¥Àý

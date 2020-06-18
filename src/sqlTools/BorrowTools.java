@@ -9,6 +9,7 @@ import java.util.List;
 
 import database.DatabaseTools;
 import model.Book;
+import model.Borrow;
 /**
  * 
  * @author lygwangyp
@@ -53,7 +54,7 @@ public class BorrowTools {
 	/**
 	 * 
 	 * @param idReader
-	 * @return 多表查询，返回编号对应读者所借书目
+	 * @return 多表查询，返回编号对应读者所借书目的信息
 	 */
 	public List<Book> BookData_Search_idBook(String idBook) {
 		String sql="select book.idBook,nameBook,price,book.kind,author,publisher,intro from book where book.idBook = '" + idBook + "'";
@@ -83,13 +84,16 @@ public class BorrowTools {
 		}
 		return ls;
 	}
-                /**
-                *
-                *@param idReader
-                *@return 单表查询，
-                */
-                public List<Borrow> BorrowInfo(String idReader) {
-		String sql="select borrow.idReader,idBook,lendDate,dueDate,overtime from borrow where borrow.idReader = '" + idReader + "'";
+                
+	/**
+    *
+    *@param idReader
+    *@return 查询图书借阅情况
+    */
+        public List<Borrow> BorrowInfo(String idReader) {
+		String sql="select borrow.idReader,idBook,lendDate,dueDate,overtime "
+				+ "from borrow "
+				+ "where borrow.idReader = '" + idReader + "'";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs=null;
@@ -99,12 +103,12 @@ public class BorrowTools {
 			rs=st.executeQuery(sql);
 			while(rs.next()){
 				Borrow borrowInfo=new Borrow();
-                                                                borrowInfo.setIdReader(rs.getString("idReader"));
+                borrowInfo.setIdReader(rs.getString("idReader"));
 				borrowInfo.setIdBook(rs.getString("idBook"));
 				borrowInfo.setLendDate(rs.getDate("lendDate"));
 			                borrowInfo.setDueDate(rs.getDate("dueDate"));
 				borrowInfo.setOvertime(rs.getString("overtime"));
-				ls.add(borrow);
+				ls.add(borrowInfo);
 			}
 			rs.close();
 			st.close();
