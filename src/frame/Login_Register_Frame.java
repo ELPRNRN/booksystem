@@ -151,9 +151,9 @@ public class Login_Register_Frame extends JFrame{
 	    setVisible(true);
 	}
 	
-	/*
+	
 	    public static void main(String[] args) {
 		Login_Register_Frame login_Register_Frame=new Login_Register_Frame();
 	}
-	*/
+	
 }

@@ -16,7 +16,7 @@ import service.ReturnBorrow_Service;
 
 public class FunctionTest 
 {
-	 public static void main(String[] args) 
+	/* public static void main(String[] args) 
 	 {
 		 LoginLogout_Service service = LoginLogout_Service.getInstance();
 		 boolean temp=service.ReaderLogin("001", "root");
@@ -26,4 +26,5 @@ public class FunctionTest
 		 System.out.println(temp+" "+idReader+nameReader);
 		  
 	 }
+	 */
 }
