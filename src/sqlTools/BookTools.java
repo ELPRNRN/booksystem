@@ -17,14 +17,15 @@ public class BookTools {
 	 * @return 返回全部图书。List<Book>，获得查找到的对象，存在Java类集list中，并返回list。
 	 */
 	public List<Book> BookData() {
-		String sql="select idBook,nameBook,price,kind,author,publisher,inrto from Book";
+		String sql="select idBook,nameBook,price,kind,author,publisher,intro "
+				+ "from book";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs=null;
 		List<Book> ls=new ArrayList<Book>();
 		try {
 			PreparedStatement st =conn.prepareStatement(sql);
-			rs=st.executeQuery(sql);
+			rs=st.executeQuery();
 			while(rs.next()){
 				Book book=new Book();
 				book.setIdBook(rs.getString("idBook"));
@@ -50,14 +51,16 @@ public class BookTools {
 	 * @return 返回书名类似的图书，List<Book>，获得查找到的对象，存在Java类集list中，并返回list。
 	 */
 	public List<Book> BookData(String nameBook) {
-		String sql="select idBook,nameBook,price,kind,author,publisher intro from Book where nameBook like'%" + nameBook + "%'";
+		String sql="select idBook,nameBook,price,kind,author,publisher,intro "
+				+ "from book "
+				+ "where nameBook like'%" + nameBook + "%'";//模糊搜索
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs=null;
 		List<Book> ls=new ArrayList<Book>();
 		try {
 			PreparedStatement st =conn.prepareStatement(sql);
-			rs=st.executeQuery(sql);
+			rs=st.executeQuery();
 			while(rs.next()){
 				Book book=new Book();
 				book.setIdBook(rs.getString("idBook"));
@@ -66,7 +69,7 @@ public class BookTools {
 				book.setType(rs.getString("kind"));
 				book.setAuthor(rs.getString("author"));
 				book.setPublisher(rs.getString("publisher"));
-                                                                book.setIntro(rs.getString("intro"));
+                book.setIntro(rs.getString("intro"));
 				ls.add(book);
 			}
 			rs.close();
@@ -79,27 +82,30 @@ public class BookTools {
 	}
 	/**
 	 * 
-	 * @param idBook
-	 * @return 返回特定编号的图书，获得查找到的对象，存储在Book中，并返回Book。
+	 * @param idReader
+	 * @return 多表查询，返回编号对应读者所借书目的信息
 	 */
-	public Book Search_Book(String idBook) {
-		String sql="select idBook,nameBook,price,kind,author,publisher,intro from Book where idBook='" + idBook + "'";
+	public List<Book> BookData_Search_idBook(String idBook) {
+		String sql="select book.idBook,nameBook,price,book.kind,author,publisher,intro "
+				+ "from book "
+				+ "where book.idBook = '" + idBook + "'";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs=null;
-		Book book = null;
+		List<Book> ls=new ArrayList<Book>();
 		try {
 			PreparedStatement st =conn.prepareStatement(sql);
-			rs=st.executeQuery(sql);
+			rs=st.executeQuery();
 			while(rs.next()){
-				book=new Book();
+				Book book=new Book();
 				book.setIdBook(rs.getString("idBook"));
 				book.setNameBook(rs.getString("nameBook"));
 				book.setPrice(rs.getInt("price"));
 				book.setType(rs.getString("kind"));
 				book.setAuthor(rs.getString("author"));
 				book.setPublisher(rs.getString("publisher"));
-                                                                book.setIntro(rs.getString("intro"));
+                book.setIntro(rs.getString("intro"));
+				ls.add(book);
 			}
 			rs.close();
 			st.close();
@@ -107,7 +113,7 @@ public class BookTools {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return book;
+		return ls;
 	}
 	/**
 	 * 
@@ -118,7 +124,7 @@ public class BookTools {
 	 */
 	public int AddBook(Book book) {
 		int i=0;
-		String sql="insert into book (idBook,nameBook,price,kind,author,publisher,intro)values(?,?,?,?,?,?,?)";
+		String sql="insert into book (idBook,nameBook,price,kind,author,publisher,intro) values(?,?,?,?,?,?,?)";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		try {
@@ -129,7 +135,7 @@ public class BookTools {
 			st.setString(4, book.getType());
 			st.setString(5, book.getAuthor());
 			st.setString(6, book.getPublisher());
-                                                st.setString(7,book.getIntro());
+            st.setString(7,book.getIntro());
 			i=st.executeUpdate();
 			st.close();
 			conn.close();
@@ -147,7 +153,9 @@ public class BookTools {
 	 */
 	public int UpdateBook(Book book) {
 		int i=0;
-		String sql="update book set idBook=?,nameBook=?,price=?,kind=?,author=?,publisher=?,intro=? where idBook=?";
+		String sql="update book "
+				+ "set idBook=?,nameBook=?,price=?,kind=?,author=?,publisher=?,intro=? "
+				+ "where idBook=?";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		try {
@@ -158,7 +166,7 @@ public class BookTools {
 			st.setString(4, book.getType());
 			st.setString(5, book.getAuthor());
 			st.setString(6, book.getPublisher());
-                                                st.setString(7,book.getIntro());
+            st.setString(7,book.getIntro());
 			st.setString(8, book.getIdBook());
 			i=st.executeUpdate();
 			st.close();
@@ -177,7 +185,7 @@ public class BookTools {
 	 */
 	public int DeleteBook(String idbook) {
 		int i=0;
-		String sql="delete from Book where idBook=?";
+		String sql="delete from book where idBook=?";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		try {

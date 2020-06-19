@@ -17,6 +17,19 @@ public class Book {
 	public String getNameBook() {
 		return nameBook;
 	}
+	
+	public Book() {}
+	
+	public Book(String idBook, String nameBook, int price, String type, String author, String publisher, String intro) {
+		super();
+		this.idBook = idBook;
+		this.nameBook = nameBook;
+		this.price = price;
+		this.type = type;
+		this.author = author;
+		this.publisher = publisher;
+		this.intro = intro;
+	}
 	public void setNameBook(String nameBook) {
 		this.nameBook = nameBook;
 	}

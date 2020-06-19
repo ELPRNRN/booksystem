@@ -24,7 +24,7 @@ public class BookManage_Service
 	private BookManage_Service() {};
 	
 	//查看书本是否在库
-	String BookWhetherInStock(String idBook)
+	public String BookWhetherInStock(String idBook)
 	{
 		if (borrowtools.whetherInStock(idBook) == true) 
 			return "在库"; 
@@ -33,12 +33,12 @@ public class BookManage_Service
 	}
 	
 	//更新图书相关信息
-	boolean UpdateBook(Book book,Author author,Publisher publisher)
+	public boolean UpdateBook(Book book,Author author,Publisher publisher)
 	{
-		publisherTools.UpdatePublisher(publisher);
-		publisherTools.AddPublisher(publisher);		
-		authorTools.UpdateAuthor(author);
-		authorTools.AddAuthor(author);
+		publisherTools.AddUpdatePublisher(publisher);
+		//publisherTools.AddPublisher(publisher);		
+		authorTools.AddUpdateAuthor(author);
+		//authorTools.AddAuthor(author);
 		
 		int i = bookTools.UpdateBook(book);
 		if ( i == 1) 
@@ -48,10 +48,12 @@ public class BookManage_Service
 	}
 	
 	//书本注册入库
-	boolean RegisterBook(Book book,Author author,Publisher publisher)
+	public boolean RegisterBook(Book book,Author author,Publisher publisher)
 	{
-		publisherTools.AddPublisher(publisher);
-		authorTools.AddAuthor(author);
+		//publisherTools.AddPublisher(publisher);
+		publisherTools.AddUpdatePublisher(publisher);
+		//authorTools.AddAuthor(author);
+		authorTools.AddUpdateAuthor(author);
 		
 		int i = bookTools.AddBook(book);
 		if (i == 1) 
@@ -61,7 +63,7 @@ public class BookManage_Service
 	}
 	
 	//删除书本
-	boolean DeleteBook(String idBook)
+	public boolean DeleteBook(String idBook)
 	{
 		int i = bookTools.DeleteBook(idBook);
 		if (i == 1) 

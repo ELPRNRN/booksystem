@@ -14,20 +14,24 @@ public class PublisherTools {
 	/**
 	 * 
 	 * @param name
-	 * @return 返回特定编号的出版社，List<Publisher>，获得查找到的对象，存在Java类集list中，并返回list。
+	 * @return 返回特定编号的出版社，List<Publisher>获得查找到的对象，存在Java类集list中，并返回list。
 	 */
-	public Publisher PublisherData(String name) {
-		String sql="select name,address from publisher where name='" + name + "'";
+	public List<Publisher> PublisherData(String name) {
+		String sql="select name,address "
+				+ "from publisher "
+				+ "where name='" + name + "'";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs=null;
-		Publisher publisher = new Publisher();
+		List<Publisher> ls=new ArrayList<Publisher>();
 		try {
 			PreparedStatement st =conn.prepareStatement(sql);
-			rs=st.executeQuery(sql);
+			rs=st.executeQuery();
 			while(rs.next()){
+				Publisher publisher=new Publisher();
 				publisher.setName(rs.getString("name"));
 				publisher.setAddress(rs.getString("address"));
+				ls.add(publisher);
 			}
 			rs.close();
 			st.close();
@@ -35,7 +39,7 @@ public class PublisherTools {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return publisher;
+		return ls;
 	}
 	/**
 	 * 
@@ -43,14 +47,15 @@ public class PublisherTools {
 	 * 
 	 */
 	public List<Publisher> PublisherData() {
-		String sql="select name,address from publisher";
+		String sql="select name,address "
+				+ "from publisher";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs=null;
 		List<Publisher> ls=new ArrayList<Publisher>();
 		try {
 			PreparedStatement st =conn.prepareStatement(sql);
-			rs=st.executeQuery(sql);
+			rs=st.executeQuery();
 			while(rs.next()){
 				Publisher publisher=new Publisher();
 				publisher.setName(rs.getString("name"));
@@ -72,6 +77,7 @@ public class PublisherTools {
 	 * 返回值：
 	 * (1) SQL 数据操作语言 (DML) 语句的行数 (2) 对于无返回内容的 SQL 语句，返回 0 
 	 */
+	/*
 	public int AddPublisher(Publisher publisher) {
 		int i=0;
 		String sql="insert into publisher (name,address)values(?,?)";
@@ -89,6 +95,7 @@ public class PublisherTools {
 		}
 		return i;
 	}
+	*/
 	/**
 	 * 
 	 * @param publisher
@@ -96,16 +103,23 @@ public class PublisherTools {
 	 * 返回值：
 	 * (1) SQL 数据操作语言 (DML) 语句的行数 (2) 对于无返回内容的 SQL 语句，返回 0 
 	 */
-	public int UpdatePublisher(Publisher publisher) {
+	public int AddUpdatePublisher(Publisher publisher) {
 		int i=0;
-		String sql="update publisher set name=?,address=? where name=?";
+		String sql="if not exists (select name from publisher where name = ?)" + 
+				"   	INSERT INTO publisher VALUES (?,?)" + 
+				"else"+
+				"   UPDATE publisher SET name = ?, address = ?" + 
+				"   WHERE name = ? ";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		try {
 			PreparedStatement st = conn.prepareStatement(sql);
 			st.setString(1, publisher.getName());
-			st.setString(2, publisher.getAddress());
-			st.setString(3, publisher.getName());
+			st.setString(2, publisher.getName());
+			st.setString(3, publisher.getAddress());
+			st.setString(4, publisher.getName());
+			st.setString(5, publisher.getAddress());
+			st.setString(6, publisher.getName());
 			i=st.executeUpdate();
 			st.close();
 			conn.close();

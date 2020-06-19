@@ -19,9 +19,11 @@ public class LibrarianTools {
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		try {
-			String sql = "select nameUser,password from librarian where nameUser='" + nameUser + "' and password='" + password+"'";
+			String sql = "select nameUser,password "
+					+ "from librarian "
+					+ "where nameUser='" + nameUser + "' and password='" + password+"'";
 			PreparedStatement st =conn.prepareStatement(sql);
-			ResultSet rs = st.executeQuery(sql);
+			ResultSet rs = st.executeQuery();
 			if (rs.next()) {
 				return true;
 			}

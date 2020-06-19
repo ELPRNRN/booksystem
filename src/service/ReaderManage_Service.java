@@ -1,13 +1,8 @@
 package service;
-import sqlTools.BorrowTools;
 import sqlTools.ReaderTools;
 import model.Reader;
-
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
-import model.Reader;
 
 public class ReaderManage_Service 
 {

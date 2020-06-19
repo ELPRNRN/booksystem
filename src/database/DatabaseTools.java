@@ -9,7 +9,7 @@ public class DatabaseTools
 	public Connection conn=null;
     String connectionUrl =
             "jdbc:sqlserver://localhost:1433;"
-            + "database=university;"
+            + "database=library;"
             + "user=root;"
             + "password=123456;";
         

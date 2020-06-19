@@ -17,14 +17,16 @@ public class ReaderTools {
 	 * @return 返回特定编号的读者，List<Reader>，获得查找到的对象，存在Java类集list中，并返回list。
 	 */
 	public List<Reader> ReaderData(String idReader) {
-		String sql = "select idReader,nameReader,kind,sex,password from Reader where idReader =" + idReader + "";
+		String sql = "select idReader,nameReader,kind,sex,password "
+				+ "from reader "
+				+ "where idReader =" + idReader + "";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs = null;
 		List<Reader> ls = new ArrayList<Reader>();
 		try {
 			PreparedStatement st = conn.prepareStatement(sql);
-			rs = st.executeQuery(sql);
+			rs = st.executeQuery();
 			while (rs.next()) {
 				Reader reader = new Reader();
 				reader.setIdReader(rs.getString("idReader"));
@@ -49,15 +51,16 @@ public class ReaderTools {
 	 * @return 返回特定编号的读者，List<Reader>，获得查找到的对象，存在Java类集list中，并返回list。
 	 */
 	public List<Reader> ReaderDataSearch(String nameReader) {
-		String sql = "select idReader,nameReader,kind,sex,password from Reader where nameReader like'%" + nameReader
-				+ "%'";
+		String sql = "select idReader,nameReader,kind,sex,password "
+				+ "from reader "
+				+ "where nameReader like'%" + nameReader+ "%'";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs = null;
 		List<Reader> ls = new ArrayList<Reader>();
 		try {
 			PreparedStatement st = conn.prepareStatement(sql);
-			rs = st.executeQuery(sql);
+			rs = st.executeQuery();
 			while (rs.next()) {
 				Reader reader = new Reader();
 				reader.setIdReader(rs.getString("idReader"));
@@ -83,14 +86,15 @@ public class ReaderTools {
 	 * 
 	 */
 	public List<Reader> ReaderData() {
-		String sql = "select idReader,nameReader,kind,sex,password from Reader";
+		String sql = "select idReader,nameReader,kind,sex,password "
+				+ "from reader";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs = null;
 		List<Reader> ls = new ArrayList<Reader>();
 		try {
 			PreparedStatement st = conn.prepareStatement(sql);
-			rs = st.executeQuery(sql);
+			rs = st.executeQuery();
 			while (rs.next()) {
 				Reader reader = new Reader();
 				reader.setIdReader(rs.getString("idReader"));
@@ -120,10 +124,12 @@ public class ReaderTools {
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		try {
-			String sql = "select idReader,password from reader where idReader='" + idReader + "' and password='"
+			String sql = "select idReader,password "
+					+ "from reader "
+					+ "where idReader='" + idReader + "' and password='"
 					+ password + "'";
 			PreparedStatement st = conn.prepareStatement(sql);
-			ResultSet rs = st.executeQuery(sql);
+			ResultSet rs = st.executeQuery();
 			if (rs.next()) {
 				return true;
 			}
@@ -143,7 +149,7 @@ public class ReaderTools {
 	 */
 	public int AddReader(Reader reader) {
 		int i = 0;
-		String sql = "insert into reader (idReader,nameReader,kind,sex,password)values(?,?,?,?,?)";
+		String sql = "insert into reader (idReader,nameReader,kind,sex,password) values(?,?,?,?,?)";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		try {
@@ -170,7 +176,9 @@ public class ReaderTools {
 	 */
 	public int UpdateReader(Reader reader) {
 		int i = 0;
-		String sql = "update reader set idReader=?,nameReader=?,kind=?,sex=?,password=? where idReader=?";
+		String sql = "update reader "
+				+ "set idReader=?,nameReader=?,kind=?,sex=?,password=? "
+				+ "where idReader=?";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		try {
@@ -198,7 +206,8 @@ public class ReaderTools {
 	 */
 	public int DeleteReader(String idreader) {
 		int i = 0;
-		String sql = "delete from reader where idReader=?";
+		String sql = "delete from reader "
+				+ "where idReader=?";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		try {

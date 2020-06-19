@@ -2,13 +2,7 @@ package service;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.JOptionPane;
-
-import model.Author;
-import model.Book;
 import model.Borrow;
-import model.Publisher;
 import sqlTools.BorrowTools;
 
 public class ReturnBorrow_Service 
