@@ -12,7 +12,7 @@ public class Login_Register_Frame extends JFrame{
 		//窗口初始化
 		setBounds(100, 100, 996, 699);
 		setDefaultLookAndFeelDecorated(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("图书管理系统");
 		
 		//布局
@@ -116,7 +116,7 @@ public class Login_Register_Frame extends JFrame{
 		JTextField liIDTextField= new JTextField(1);
 		liloginPanel.add(liIDTextField);
 		JLabel lipwdLabel= new JLabel("密码/password");
-		liloginPanel.add(rpwdLabel);
+		liloginPanel.add(lipwdLabel);
 		JTextField lipwdTextField= new JTextField(1);
 		liloginPanel.add(lipwdTextField);
 		JButton liloginButton=new JButton("管理员登录/administrator login");
