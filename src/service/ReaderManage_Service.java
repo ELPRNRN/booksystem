@@ -15,7 +15,7 @@ public class ReaderManage_Service
 	}
 	private ReaderManage_Service() {};
 	
-	//通过读者号查找读者
+	//通过读者号查找读者，返回查询读者列表
 	List<Reader> SearchReaderByID(String idReader)
 	{
 		List<Reader> readerlist = readerTools.ReaderData(idReader);
@@ -29,7 +29,7 @@ public class ReaderManage_Service
 		return readerlist;
 	}
 	
-	//通过读者姓名查找读者
+	//通过读者姓名查找读者，返回查询读者列表
 	List<Reader> SearchReaderByName(String keyword)
 	{
 		List<Reader> readerlist = readerTools.ReaderDataSearch(keyword);

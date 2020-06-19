@@ -22,6 +22,7 @@ public class LoginLogout_Service
 	private LoginLogout_Service() {};
 	
 	//读者登录
+	//读者账号数据库中已添加
 	public boolean ReaderLogin(String UserID,String Password)
 	{
 		reader=new Reader();
@@ -42,6 +43,7 @@ public class LoginLogout_Service
 	}
 	
 	//管理员登陆
+	//管理员帐号数据库中已添加
 	public boolean LibLogin(String UserName,String Password)
 	{
 		LibrarianTools libTools = new LibrarianTools();

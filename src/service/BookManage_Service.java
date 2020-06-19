@@ -23,7 +23,7 @@ public class BookManage_Service
 	}
 	private BookManage_Service() {};
 	
-	//查看书本是否在库
+	//查看书本是否在库（通过书号查找）
 	public String BookWhetherInStock(String idBook)
 	{
 		if (borrowtools.whetherInStock(idBook) == true) 
@@ -32,7 +32,7 @@ public class BookManage_Service
 			return "借出";
 	}
 	
-	//更新图书相关信息
+	//更新图书相关信息，更新时需要提供书、作者、出版社三者所有信息
 	public boolean UpdateBook(Book book,Author author,Publisher publisher)
 	{
 		publisherTools.AddUpdatePublisher(publisher);
@@ -42,12 +42,12 @@ public class BookManage_Service
 		
 		int i = bookTools.UpdateBook(book);
 		if ( i == 1) 
-            return true;
+            return true;//更新成功
 		 else 
-			return false;
+			return false;//更新失败
 	}
 	
-	//书本注册入库
+	//书本注册入库，更新时需要提供书、作者、出版社三者所有信息
 	public boolean RegisterBook(Book book,Author author,Publisher publisher)
 	{
 		//publisherTools.AddPublisher(publisher);
@@ -57,19 +57,19 @@ public class BookManage_Service
 		
 		int i = bookTools.AddBook(book);
 		if (i == 1) 
-			return true;
+			return true;//注册成功
 		else 
-			return false;
+			return false;//注册失败
 	}
 	
-	//删除书本
+	//删除书本（通过书号查找）
 	public boolean DeleteBook(String idBook)
 	{
 		int i = bookTools.DeleteBook(idBook);
 		if (i == 1) 
-			return true;
+			return true;//删除成功
 		else
-			return false;
+			return false;//删除失败
 	}
 	
 	
