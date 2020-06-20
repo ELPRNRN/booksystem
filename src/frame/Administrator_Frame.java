@@ -25,19 +25,65 @@ public class Administrator_Frame extends JFrame{
 		cardPanel.add(blankPanel,"blank");
 		JPanel bookManagePanel=new JPanel();
 		cardPanel.add(bookManagePanel,"book manage");
+		JPanel borrowManagePanel=new JPanel();
+		cardPanel.add(borrowManagePanel,"borrow manage");
+		JPanel readerManagePanel=new JPanel();
+		cardPanel.add(readerManagePanel,"reader manage");
+		JPanel addBookPanel=new JPanel();
+		cardPanel.add(addBookPanel,"add book");
+		JPanel readerRegisterPanel=new JPanel();
+		cardPanel.add(readerRegisterPanel,"reader register");
 		
+		//菜单面板
 		JPanel manuPanel=new JPanel();
 		manuPanel.setLayout(new FlowLayout());
 		add(manuPanel,BorderLayout.WEST);
-		JButton tobookmanageButton=new JButton("图书管理/Book Manage");
-		tobookmanageButton.addActionListener(new ActionListener() {
+		JButton toBookManageButton=new JButton("图书管理/Book Manage");
+		toBookManageButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				cardLayout.show(cardPanel, "book manage");
+			}
+		});
+		JButton toBorrowManageButton=new JButton("借阅管理/Borrow Manage");
+		toBorrowManageButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				cardLayout.show(cardPanel, "borrow manage");
+			}
+		});
+		JButton toReaderManageButton=new JButton("读者管理/Reader Manage");
+		toReaderManageButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				cardLayout.show(cardPanel, "reader manage");
+			}
+		});
+		JButton toAddBookButton=new JButton("添加图书/Add Book");
+		toAddBookButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				cardLayout.show(cardPanel, "add book");
+			}
+		});
+		JButton toReaderRegisterButton=new JButton("读者注册/Reader Register");
+		toReaderRegisterButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				cardLayout.show(cardPanel, "reader register");
 			}
 		});
 		
 		
+		//图书管理面板
+		//借阅管理面板
+		//读者管理面板
+		//添加图书面板
+		//读者注册面板
 	}
 }
