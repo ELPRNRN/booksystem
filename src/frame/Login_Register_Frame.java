@@ -1,6 +1,7 @@
 package frame;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,10 +21,13 @@ public class Login_Register_Frame extends JFrame{
 		JPanel cardPanel=new JPanel(cardLayout);
 		add(cardPanel);
 		JPanel loginPanel=new JPanel();
+		loginPanel.setBackground(Color.white);
 		cardPanel.add(loginPanel,"login");	
 		JPanel registerPanel =new JPanel();
+		registerPanel.setBackground(Color.white);
 		cardPanel.add(registerPanel,"register");
 		JPanel liloginPanel=new JPanel();
+		liloginPanel.setBackground(Color.white);
 		cardPanel.add(liloginPanel,"lilogin");
 		
 		//µÇÂ¼Ò³Ãæ
@@ -37,6 +41,8 @@ public class Login_Register_Frame extends JFrame{
 		JTextField pwdTextField= new JTextField(1);
 		loginPanel.add(pwdTextField);
 		JButton loginButton=new JButton("µÇÂ¼/login");
+		loginButton.setBorderPainted(false);
+		loginButton.setBackground(new Color(46,188,79));
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
