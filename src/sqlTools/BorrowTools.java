@@ -21,7 +21,7 @@ public class BorrowTools {
 	 * @return 多表查询，返回编号对应读者所借书目的信息
 	 */
 	public List<Book> BookData(String idReader) {
-		String sql="select book.idBook,nameBook,price,book.kind,author,publisher,intro "
+		String sql="select book.idBook,nameBook,price,book.kind,author,publisher,intro,amount "
 				+ "from reader,borrow,book "
 				+ "where book.idBook = borrow.idBook and reader.idReader = borrow.idReader "
 				+ "and reader.idReader = '" + idReader + "'";
@@ -41,6 +41,7 @@ public class BorrowTools {
 				book.setAuthor(rs.getString("author"));
 				book.setPublisher(rs.getString("publisher"));
                 book.setIntro(rs.getString("intro"));
+                book.setAmount(rs.getInt("amount"));
 				ls.add(book);
 			}
 			rs.close();
@@ -120,7 +121,7 @@ public class BorrowTools {
 	 * 返回值：
 	 * (1) SQL 数据操作语言 (DML) 语句的行数 (2) 对于无返回内容的 SQL 语句，返回 0 
 	 */
-	public int BorrowBook(String idReader,String idbook) {
+	public int BorrowBook(String idReader,String idBook) {
 		int i=0;
 		String sql="insert into borrow (idReader,idbook,lendDate,dueDate,overtime)values(?,?,"
 				+ "GETDATE(),DATEADD(MONTH,2,GETDATE()),'否')";
@@ -129,7 +130,7 @@ public class BorrowTools {
 		try {
 			PreparedStatement st = conn.prepareStatement(sql);		
 			st.setString(1, idReader);
-			st.setString(2, idbook);
+			st.setString(2, idBook);
 			i=st.executeUpdate();
 			st.close();
 			conn.close();
@@ -146,15 +147,16 @@ public class BorrowTools {
 	 * 返回值：
 	 * (1) SQL 数据操作语言 (DML) 语句的行数 (2) 对于无返回内容的 SQL 语句，返回 0 
 	 */
-	public int ReturnBook(String idbook) {
+	public int ReturnBook(String idReader,String idBook) {
 		int i=0;
 		String sql="delete from borrow "
-				+ "where idBook=?";
+				+ "where idReader=? and idBook=?";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		try {
 			PreparedStatement st = conn.prepareStatement(sql);
-			st.setString(1, idbook);
+			st.setString(1, idReader);
+			st.setString(2, idBook);
 			i=st.executeUpdate();
 			st.close();
 			conn.close();

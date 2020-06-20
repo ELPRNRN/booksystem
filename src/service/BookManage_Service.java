@@ -32,13 +32,13 @@ public class BookManage_Service
 			return "借出";
 	}
 	
+	
+	
 	//更新图书相关信息，更新时需要提供书、作者、出版社三者所有信息
 	public boolean UpdateBook(Book book,Author author,Publisher publisher)
 	{
-		publisherTools.AddUpdatePublisher(publisher);
-		//publisherTools.AddPublisher(publisher);		
+		publisherTools.AddUpdatePublisher(publisher);	
 		authorTools.AddUpdateAuthor(author);
-		//authorTools.AddAuthor(author);
 		
 		int i = bookTools.UpdateBook(book);
 		if ( i == 1) 
@@ -50,16 +50,14 @@ public class BookManage_Service
 	//书本注册入库，更新时需要提供书、作者、出版社三者所有信息
 	public boolean RegisterBook(Book book,Author author,Publisher publisher)
 	{
-		//publisherTools.AddPublisher(publisher);
 		publisherTools.AddUpdatePublisher(publisher);
-		//authorTools.AddAuthor(author);
 		authorTools.AddUpdateAuthor(author);
 		
 		int i = bookTools.AddBook(book);
 		if (i == 1) 
 			return true;//注册成功
 		else 
-			return false;//注册失败
+			return false;//注册失败,书号已存在
 	}
 	
 	//删除书本（通过书号查找）

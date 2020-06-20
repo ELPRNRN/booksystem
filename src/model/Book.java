@@ -8,6 +8,7 @@ public class Book {
 	private String author;
 	private String publisher;
 	private String intro;//添加简介
+	private int amount;//添加书本数量
 	public String getIdBook() {
 		return idBook;
 	}
@@ -20,7 +21,8 @@ public class Book {
 	
 	public Book() {}
 	
-	public Book(String idBook, String nameBook, int price, String type, String author, String publisher, String intro) {
+	public Book(String idBook, String nameBook, int price, String type, String author, String publisher, String intro,
+			int amount) {
 		super();
 		this.idBook = idBook;
 		this.nameBook = nameBook;
@@ -29,6 +31,7 @@ public class Book {
 		this.author = author;
 		this.publisher = publisher;
 		this.intro = intro;
+		this.amount = amount;
 	}
 	public void setNameBook(String nameBook) {
 		this.nameBook = nameBook;
@@ -58,6 +61,12 @@ public class Book {
 		this.publisher = publisher;
 	}
 
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -119,7 +128,7 @@ public class Book {
 	@Override
 	public String toString() {
 		return "Book [idBook=" + idBook + ", nameBook=" + nameBook + ", price=" + price + ", type=" + type + ", author="
-				+ author + ", publisher=" + publisher + ", intro=" + intro + "]";
+				+ author + ", publisher=" + publisher + ", intro=" + intro + ", amount=" + amount + "]";
 	}
 	public String getIntro() {
 		return intro;

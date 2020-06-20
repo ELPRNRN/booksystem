@@ -53,7 +53,7 @@ public class ReaderManage_Service
 		if (i == 1) 
 			return true;
 		else 
-			return false;
+			return false;//读者号已存在
 	}
 	
 	//删除读者
