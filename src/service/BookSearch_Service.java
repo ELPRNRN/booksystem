@@ -24,6 +24,13 @@ public class BookSearch_Service
 		return BookSearch_Service_Instance;
 	}
 	private BookSearch_Service() {};
+	
+	//按书信息查书（书号、书名、类型、作者名、出版社名，均实现模糊搜索），返回书列表
+	public List<Book> searchByBookInfo(String idBook,String nameBook,String type,String author,String publisher)
+	{
+		List<Book> booklist = bookTools.BookData_SearchByBookInfo(idBook, nameBook, type, author, publisher);
+		return booklist;
+	}
 
 	//查询读者所借书的普通信息，返回书列表
 	public List<Book> searchByReaderID(String idReader)
@@ -61,14 +68,14 @@ public class BookSearch_Service
 		return booklist;
 	}
 	
-	//搜索作者信息，返回书列表（通过作者名查找）
+	//按作者信息查书，返回书列表（通过作者名查找）
 	public List<Author> searchAuthorInfo(String nameAuthor)
 	{
 		List<Author> authorlist = authorTools.AuthorData(nameAuthor);
 		return authorlist;
 	}
 	
-	//搜索出版社信息，返回出版社列表（通过出版社名查找）
+	//按出版社信息查书，返回出版社列表（通过出版社名查找）
 	public List<Publisher> searchPublisherInfo(String namePublisher)
 	{
 		List<Publisher> publisher = publisherTools.PublisherData(namePublisher);
