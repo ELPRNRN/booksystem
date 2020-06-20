@@ -1,7 +1,6 @@
 package service;
 
 import sqlTools.PublisherTools;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import model.Author;
@@ -26,14 +25,14 @@ public class BookSearch_Service
 	}
 	private BookSearch_Service() {};
 
-	//查询读者所借书的普通信息
+	//查询读者所借书的普通信息，返回书列表
 	public List<Book> searchByReaderID(String idReader)
 	{
 		List<Book> booklist = borrowTools.BookData(idReader);//获得读者所借书原有信息
 		return booklist;
 	}
 	
-	//查询读者所借书的借阅信息
+	//查询读者所借书的借阅信息，返回借阅情况列表
 	public List<Borrow> searchBorrowInfo(String idReader)
 	{
 		UpdateOvertime(idReader);
@@ -41,41 +40,42 @@ public class BookSearch_Service
 		return borrowinfo;
 	}
 	
-	//查询所有图书
+	//查询系统中所有图书
 	public List<Book> searchAllBooks()
 	{
 		List<Book> booklist = bookTools.BookData();
 		return booklist;
 	}
 	
-	//按书名查书
+	//按书名查书，返回书列表
 	public List<Book> searchByBookName(String keyword)
 	{
 		List<Book> booklist = bookTools.BookData(keyword);
 		return booklist;
 	}
 	
-	//按书号查书
+	//按书号查书，返回书列表
 	public List<Book> searchByBookID(String idBook)
 	{
 		List<Book> booklist = bookTools.BookData_Search_idBook(idBook);
 		return booklist;
 	}
 	
-	//搜索作者信息
+	//搜索作者信息，返回书列表（通过作者名查找）
 	public List<Author> searchAuthorInfo(String nameAuthor)
 	{
 		List<Author> authorlist = authorTools.AuthorData(nameAuthor);
 		return authorlist;
 	}
 	
-	//搜索出版社信息
+	//搜索出版社信息，返回出版社列表（通过出版社名查找）
 	public List<Publisher> searchPublisherInfo(String namePublisher)
 	{
 		List<Publisher> publisher = publisherTools.PublisherData(namePublisher);
 		return publisher;
 	}
 	
+	//更新图书借阅过期情况
 	public void UpdateOvertime(String idReader)
 	{
 		List<Borrow> borrowinfo=borrowTools.BorrowInfo(idReader);

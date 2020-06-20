@@ -16,7 +16,8 @@ public class ReturnBorrow_Service
 	}
 	private ReturnBorrow_Service() {};
 	
-	//读者借书
+	//有书过期未还就不能借书
+	//读者借书（通过书号）
 	String BorrowBook(String idBook)
 	{
 		UpdateOvertime(LoginLogout_Service.getIdReader());
@@ -34,7 +35,8 @@ public class ReturnBorrow_Service
 			}
 	}
 	
-	//读者还书
+	//有书过期未还就不能还书
+	//读者还书（通过书号）
 	String ReturnBook(String idBook)
 	{
 		UpdateOvertime(LoginLogout_Service.getIdReader());
@@ -51,7 +53,7 @@ public class ReturnBorrow_Service
 			}
 	}
 	
-	//管理员删除读者所借书
+	//管理员删除读者所借书（通过书号）
 	String DeleteBorrowBook(String idBook)
 	{
 		int i = borrowtools.ReturnBook(idBook);
@@ -62,26 +64,28 @@ public class ReturnBorrow_Service
 	}
 	
 	
-	//更新读者借阅图书的过期标志
-	void UpdateOvertime(String idReader)
+	//更新读者借阅图书的过期标志（通过读者号查找读者借阅的书）
+	public void UpdateOvertime(String idReader)
 	{
 		List<Borrow> borrowinfo=borrowtools.BorrowInfo(idReader);
 		for (Iterator<Borrow> iterator = borrowinfo.iterator(); iterator.hasNext();) 
 		{
 			Borrow temp = (Borrow) iterator.next();
-			Date date=new Date();//当前时间
 			
-			int datecompare=date.compareTo(temp.getDueDate());
+			java.util.Date javaDate = new java.util.Date();
+			java.sql.Date sqlDate = new java.sql.Date(javaDate.getTime());//当前时间（年-月-日）	
+			int datecompare=sqlDate.compareTo(temp.getDueDate());
 
 			if(datecompare>0)  //书本过期未还
-				temp.setOvertime("是");
-			else  //书本未过期限
-				temp.setOvertime("否");
+				{
+					temp.setOvertime("是");//修改书本过期标志
+					borrowtools.updateBorrowInfo(temp);//更新借阅情况
+				}
 		}
 		
 	}
 	
-	//查看读者是否有书过期未还
+	//查看读者是否有书过期未还（通过读者号查找读者借阅的书）
 	boolean WhetherBookOverTime(String idReader)
 	{
 		List<Borrow> borrowinfo=borrowtools.BorrowInfo(idReader);
