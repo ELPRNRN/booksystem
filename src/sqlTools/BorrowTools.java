@@ -123,7 +123,7 @@ public class BorrowTools {
 	public int BorrowBook(String idReader,String idbook) {
 		int i=0;
 		String sql="insert into borrow (idReader,idbook,lendDate,dueDate,overtime)values(?,?,"
-				+ "CURRENT_DATE(),DATE_ADD(CURRENT_DATE(),INTERVAL 2 MONTH),'·ñ')";
+				+ "GETDATE(),DATEADD(MONTH,2,GETDATE()),'·ñ')";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		try {
