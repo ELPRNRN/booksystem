@@ -9,6 +9,15 @@ public class Reader {
 	public String getIdReader() {
 		return idReader;
 	}
+	public Reader() {}
+	public Reader(String idReader, String nameReader, String type, String sex, String password) {
+		super();
+		this.idReader = idReader;
+		this.nameReader = nameReader;
+		this.type = type;
+		this.sex = sex;
+		this.password = password;
+	}
 	public void setIdReader(String idReader) {
 		this.idReader = idReader;
 	}

@@ -3,11 +3,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import model.Borrow;
+import sqlTools.BookTools;
 import sqlTools.BorrowTools;
 
 public class ReturnBorrow_Service 
 {
 	BorrowTools borrowtools =new BorrowTools();
+	BookTools booktools=new BookTools();
 	private static ReturnBorrow_Service ReturnBorrow_Service_Instance = new ReturnBorrow_Service();
 	
 	//单例
@@ -18,47 +20,69 @@ public class ReturnBorrow_Service
 	
 	//有书过期未还就不能借书
 	//读者借书（通过书号）
-	String BorrowBook(String idBook)
+	public String BorrowBook(String idBook)
 	{
-		UpdateOvertime(LoginLogout_Service.getIdReader());
-		boolean overtime=WhetherBookOverTime(LoginLogout_Service.getIdReader());
+		String idReader=LoginLogout_Service.getIdReader();
+		UpdateOvertime(idReader);
+		boolean overtime=WhetherBookOverTime(idReader);
 		if(overtime==true)
 			return "有书过期未还";
 		else 
 			{
-			String idReader=LoginLogout_Service.getIdReader();
-			int i = borrowtools.BorrowBook(idReader, idBook);
-			if (i == 1) 
-				return "借阅成功";
-			else 
-				return "借阅失败";
+			int bookAmount=booktools.GetBookAmount(idBook);
+			if(bookAmount>0)//书数量大于0，可以借出
+			{
+				int i = borrowtools.BorrowBook(idReader, idBook);
+				if (i == 1) 
+				{
+					bookAmount=bookAmount-1;
+					booktools.UpdateBookAmount(idBook, bookAmount);
+					return "借阅成功";
+				}
+				else 
+					return "借阅失败";//已经借过这本书
+			}
+			else
+				return "没有库存";
 			}
 	}
 	
 	//有书过期未还就不能还书
 	//读者还书（通过书号）
-	String ReturnBook(String idBook)
+	public String ReturnBook(String idBook)
 	{
-		UpdateOvertime(LoginLogout_Service.getIdReader());
-		boolean overtime=WhetherBookOverTime(LoginLogout_Service.getIdReader());
+		String idReader=LoginLogout_Service.getIdReader();
+		UpdateOvertime(idReader);
+		boolean overtime=WhetherBookOverTime(idReader);
 		if(overtime==true)
 			return "有书过期未还";
 		else
 			{
-			int i = borrowtools.ReturnBook(idBook);
+			int i = borrowtools.ReturnBook(idReader,idBook);
+
 			if (i == 1) 
+			{
+				int bookAmount=booktools.GetBookAmount(idBook);
+				bookAmount=bookAmount+1;
+				booktools.UpdateBookAmount(idBook, bookAmount);
 				return "还书成功";
+			}
 			else 
 				return "还书失败";
 			}
 	}
 	
 	//管理员删除读者所借书（通过书号）
-	String DeleteBorrowBook(String idBook)
+	public String DeleteBorrowBook(String idReader,String idBook)
 	{
-		int i = borrowtools.ReturnBook(idBook);
+		int i = borrowtools.ReturnBook(idReader,idBook);
 		if (i == 1) 
+		{
+			int bookAmount=booktools.GetBookAmount(idBook);
+			bookAmount=bookAmount+1;
+			booktools.UpdateBookAmount(idBook, bookAmount);
 			return "删除成功";
+		}
 		else 
 			return "删除失败";		
 	}
@@ -86,16 +110,17 @@ public class ReturnBorrow_Service
 	}
 	
 	//查看读者是否有书过期未还（通过读者号查找读者借阅的书）
-	boolean WhetherBookOverTime(String idReader)
+	public boolean WhetherBookOverTime(String idReader)
 	{
+		boolean overtime=false;
 		List<Borrow> borrowinfo=borrowtools.BorrowInfo(idReader);
 		for (Iterator<Borrow> iterator = borrowinfo.iterator(); iterator.hasNext();) 
 		{
 			Borrow temp = (Borrow) iterator.next();
-			if(temp.getOvertime()=="是")
-				return true;
+			if(temp.getOvertime().equals("是"))
+				overtime=true;
 		}
 		
-		return false;
+		return overtime;
 	}
 }
