@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+import service.LoginLogout_Service;
+
 public class Login_Register_Frame extends JFrame{
 	
 	public Login_Register_Frame() {
@@ -49,9 +51,9 @@ public class Login_Register_Frame extends JFrame{
 				// TODO Auto-generated method stub
 				String ID=new String(IDTextField.getText());
 				String pwd=new String(pwdTextField.getText());
-				//LoginLogout_Service loginLogout_Service = LoginLogout_Service.getInstance();
-				if(false) {//loginLogout_Service.ReaderLogin(ID,pwd)
-					//login success
+				LoginLogout_Service loginLogout_Service = LoginLogout_Service.getInstance();
+				if(loginLogout_Service.ReaderLogin(ID,pwd)) {
+					dispose();//Œ¥ÕÍ≥…
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "’À∫≈ªÚ√‹¬Î¥ÌŒÛ£¨«Î ‰»Î’˝»∑µƒ’À∫≈∫Õ√‹¬Î", "¥ÌŒÛ", JOptionPane.ERROR_MESSAGE);
@@ -132,9 +134,10 @@ public class Login_Register_Frame extends JFrame{
 				// TODO Auto-generated method stub
 				String ID=new String(liIDTextField.getText());
 				String pwd=new String(lipwdTextField.getText());
-				//LoginLogout_Service loginLogout_Service = LoginLogout_Service.getInstance();
-				if(false) {//loginLogout_Service.ReaderLogin(ID,pwd)
-					//login success
+				LoginLogout_Service loginLogout_Service = LoginLogout_Service.getInstance();
+				if(loginLogout_Service.LibLogin(ID, pwd)) {
+					Administrator_Frame administrator_Frame=new Administrator_Frame(ID);
+					dispose();
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "π‹¿Ì‘±’À∫≈ªÚ√‹¬Î¥ÌŒÛ", "µ«¬º ß∞‹", JOptionPane.ERROR_MESSAGE);
@@ -158,7 +161,7 @@ public class Login_Register_Frame extends JFrame{
 	}
 	
 	
-	    public static void main(String[] args) {
+	public static void main(String[] args) {
 		Login_Register_Frame login_Register_Frame=new Login_Register_Frame();
 	}
 	

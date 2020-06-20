@@ -1,3 +1,5 @@
 /ReaderManage_Service.class
 /BookSearch_Service.class
 /BookManage_Service.class
+/LoginLogout_Service.class
+/ReturnBorrow_Service.class
