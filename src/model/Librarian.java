@@ -1,8 +1,10 @@
 package model;
 
-public class Librarian {
-	private String nameUser;
-	private String password;
+public class Librarian 
+{
+	private String nameUser;//管理员号
+	private String password;//管理员密码
+	
 	public String getNameUser() {
 		return nameUser;
 	}

@@ -16,10 +16,10 @@ public class PublisherTools {
 	 * @param name
 	 * @return 返回特定编号的出版社，List<Publisher>获得查找到的对象，存在Java类集list中，并返回list。
 	 */
-	public List<Publisher> PublisherData(String name) {
+	public List<Publisher> PublisherData(String keyword) {
 		String sql="select name,address "
 				+ "from publisher "
-				+ "where name='" + name + "'";
+				+ "where name like '%" + keyword + "%' ";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs=null;

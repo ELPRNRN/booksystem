@@ -25,21 +25,22 @@ public class BookSearch_Service
 	}
 	private BookSearch_Service() {};
 	
-	//按书信息查书（书号、书名、类型、作者名、出版社名，均实现模糊搜索），返回书列表
+	//按书信息查书（书号、书名、类型、作者名字、出版社名字，均实现模糊搜索），返回书列表；
+	//所有参数必须有值，不能为NULL；如果用户没有输入某个参数，则该参数为空字符串“”；
 	public List<Book> searchByBookInfo(String idBook,String nameBook,String type,String author,String publisher)
 	{
 		List<Book> booklist = bookTools.BookData_SearchByBookInfo(idBook, nameBook, type, author, publisher);
 		return booklist;
 	}
 
-	//查询读者所借书的普通信息，返回书列表
+	//查询读者所借书的普通信息，参数为读者号（精确搜索），返回书列表
 	public List<Book> searchByReaderID(String idReader)
 	{
 		List<Book> booklist = borrowTools.BookData(idReader);//获得读者所借书原有信息
 		return booklist;
 	}
 	
-	//查询读者所借书的借阅信息，返回借阅情况列表
+	//查询读者所借书的借阅信息，参数为读者号（精确搜索），返回借阅情况列表
 	public List<Borrow> searchBorrowInfo(String idReader)
 	{
 		UpdateOvertime(idReader);
@@ -47,42 +48,43 @@ public class BookSearch_Service
 		return borrowinfo;
 	}
 	
-	//查询系统中所有图书
+	//查询系统中所有图书的普通信息，返回书列表
 	public List<Book> searchAllBooks()
 	{
 		List<Book> booklist = bookTools.BookData();
 		return booklist;
 	}
 	
-	//按书名查书，返回书列表
+	//按书名查书，参数为书名关键字（模糊搜索），返回书列表
 	public List<Book> searchByBookName(String keyword)
 	{
 		List<Book> booklist = bookTools.BookData(keyword);
 		return booklist;
 	}
 	
-	//按书号查书，返回书列表
+	//按书号查书，参数为书号（精确搜索），返回书列表
 	public List<Book> searchByBookID(String idBook)
 	{
 		List<Book> booklist = bookTools.BookData_Search_idBook(idBook);
 		return booklist;
 	}
 	
-	//按作者信息查书，返回书列表（通过作者名查找）
-	public List<Author> searchAuthorInfo(String nameAuthor)
+	//按作者名字查找作者，参数为作者名关键字（模糊搜索），返回作者列表
+	public List<Author> searchAuthorInfo(String keyword)
 	{
-		List<Author> authorlist = authorTools.AuthorData(nameAuthor);
+		List<Author> authorlist = authorTools.AuthorData(keyword);
 		return authorlist;
 	}
 	
-	//按出版社信息查书，返回出版社列表（通过出版社名查找）
-	public List<Publisher> searchPublisherInfo(String namePublisher)
+	//按出版社名字查找出版社，参数为出版社名关键字（模糊搜索），返回出版社列表
+	public List<Publisher> searchPublisherInfo(String keyword)
 	{
-		List<Publisher> publisher = publisherTools.PublisherData(namePublisher);
-		return publisher;
+		List<Publisher> publisherlist = publisherTools.PublisherData(keyword);
+		return publisherlist;
 	}
 	
-	//更新图书借阅过期情况
+	//更新读者的图书借阅过期情况
+	//对当前时间和图书的归还期限作比较，如果已过归还期限，则将过期标志设置为“是”
 	public void UpdateOvertime(String idReader)
 	{
 		List<Borrow> borrowinfo=borrowTools.BorrowInfo(idReader);

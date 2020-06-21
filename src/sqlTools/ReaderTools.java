@@ -50,10 +50,10 @@ public class ReaderTools {
 	 * @param idReader
 	 * @return 返回特定编号的读者，List<Reader>，获得查找到的对象，存在Java类集list中，并返回list。
 	 */
-	public List<Reader> ReaderDataSearch(String nameReader) {
+	public List<Reader> ReaderDataSearch(String keyword) {
 		String sql = "select idReader,nameReader,kind,sex,password "
 				+ "from reader "
-				+ "where nameReader like'%" + nameReader+ "%'";
+				+ "where nameReader like '%" + keyword + "%'";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs = null;

@@ -1,11 +1,13 @@
 package model;
 
-public class Reader {
-	private String idReader;
-	private String nameReader;
-	private String type;
-	private String sex;
-	private String password;
+public class Reader 
+{
+	private String idReader;//读者号
+	private String nameReader;//读者名
+	private String type;//读者类型（学生、老师）
+	private String sex;//读者性别
+	private String password;//读者密码
+	
 	public String getIdReader() {
 		return idReader;
 	}

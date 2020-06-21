@@ -21,9 +21,11 @@ public class FunctionTest
 {
 	 public static void main(String[] args) 
 	 {
-	    	 BookSearch_Service service= BookSearch_Service.getInstance();
-			 List<Book> temp=service.searchByBookInfo("", "", "ндя╖", "", "");
-		    
+	    	 LoginLogout_Service service= LoginLogout_Service.getInstance();
+	    	 service.ReaderLogin("001", "root");
+
+	    	 String temp=service.getIdReader()+service.getNameReader();
+	   
 		     System.out.println(temp); 	    	 
 	 }
 	 
