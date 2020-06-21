@@ -1,14 +1,16 @@
 package model;
 
-public class Book {
-	private String idBook;
-	private String nameBook;
-	private int price;
-	private String type;
-	private String author;
-	private String publisher;
-	private String intro;//添加简介
-	private int amount;//添加书本数量
+public class Book 
+{
+	private String idBook;//书号
+	private String nameBook;//书名
+	private int price;//价格
+	private String type;//书类型
+	private String author;//作者名
+	private String publisher;//出版社名
+	private String intro;//书简介
+	private int amount;//书本库存数量，不包括借出的
+	
 	public String getIdBook() {
 		return idBook;
 	}

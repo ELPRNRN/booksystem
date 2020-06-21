@@ -14,13 +14,13 @@ import model.Author;
 public class AuthorTools {
 	/**
 	 * 
-	 * @param name
-	 * @return 返回特定编号的出版社，List<Author>，获得查找到的对象，存在Java类集list中，并返回list。
+	 * @param keyword
+	 * @return 返回特定名字的作者，List<Author>，获得查找到的对象，存在Java类集list中，并返回list。
 	 */
-	public List<Author> AuthorData(String name) {
+	public List<Author> AuthorData(String keyword) {
 		String sql="select name,workplace "
 				+ "from author "
-				+ "where name='" + name + "'";
+				+ "where name like '%" + keyword + "%' ";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs=null;
@@ -44,7 +44,7 @@ public class AuthorTools {
 	}
 	/**
 	 * 
-	 * @return 返回全部出版社，List<Author>，获得查找到的对象，存在Java类集list中，并返回list。
+	 * @return 返回全部作者，List<Author>，获得查找到的对象，存在Java类集list中，并返回list。
 	 * 
 	 */
 	public List<Author> AuthorData() {

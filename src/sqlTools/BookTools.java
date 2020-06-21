@@ -17,7 +17,7 @@ public class BookTools {
 	 * @return 返回全部图书。List<Book>，获得查找到的对象，存在Java类集list中，并返回list。
 	 */
 	public List<Book> BookData() {
-		String sql="select idBook,nameBook,price,kind,author,publisher,intro,amount "
+		String sql="select * "
 				+ "from book";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
@@ -52,7 +52,7 @@ public class BookTools {
 	 * @return 返回书名类似的图书，List<Book>，获得查找到的对象，存在Java类集list中，并返回list。
 	 */
 	public List<Book> BookData(String nameBook) {
-		String sql="select idBook,nameBook,price,kind,author,publisher,intro,amount "
+		String sql="select *"
 				+ "from book "
 				+ "where nameBook like'%" + nameBook + "%'";//模糊搜索
 		DatabaseTools db = new DatabaseTools();
@@ -88,9 +88,47 @@ public class BookTools {
 	 * @return 返回特定图书号的图书信息
 	 */
 	public List<Book> BookData_Search_idBook(String idBook) {
-		String sql="select book.idBook,nameBook,price,book.kind,author,publisher,intro,amount "
+		String sql="select * "
 				+ "from book "
 				+ "where book.idBook = '" + idBook + "'";
+		DatabaseTools db = new DatabaseTools();
+		Connection conn = db.getConn();
+		ResultSet rs=null;
+		List<Book> ls=new ArrayList<Book>();
+		try {
+			PreparedStatement st =conn.prepareStatement(sql);
+			rs=st.executeQuery();
+			while(rs.next()){
+				Book book=new Book();
+				book.setIdBook(rs.getString("idBook"));
+				book.setNameBook(rs.getString("nameBook"));
+				book.setPrice(rs.getInt("price"));
+				book.setType(rs.getString("kind"));
+				book.setAuthor(rs.getString("author"));
+				book.setPublisher(rs.getString("publisher"));
+                book.setIntro(rs.getString("intro"));
+                book.setAmount(rs.getInt("amount"));
+				ls.add(book);
+			}
+			rs.close();
+			st.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ls;
+	}
+	
+	//根据各类书本信息查询书，返回书列表
+	public List<Book> BookData_SearchByBookInfo(String idBook,String nameBook,String type,String author,String publisher) 
+	{
+		String sql="select * "
+				+ "from book "
+				+ "where idBook like '%" + idBook + "%' "
+				+ "and nameBook like '%" + nameBook + "%' "
+				+ "and kind like '%" + type + "%' "
+				+ "and author like '%" + author + "%' "
+				+ "and publisher like '%" + publisher + "%' ";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs=null;

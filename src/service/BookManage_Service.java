@@ -23,6 +23,7 @@ public class BookManage_Service
 	}
 	private BookManage_Service() {};
 	
+	
 	//查看书本是否在库（通过书号查找）
 	public String BookWhetherInStock(String idBook)
 	{
@@ -34,7 +35,7 @@ public class BookManage_Service
 	
 	
 	
-	//更新图书相关信息，更新时需要提供书、作者、出版社三者所有信息
+	//更新图书相关信息，参数为book、author、publisher对象，三者所有信息均不能为空（前端判断）
 	public boolean UpdateBook(Book book,Author author,Publisher publisher)
 	{
 		publisherTools.AddUpdatePublisher(publisher);	
@@ -47,7 +48,7 @@ public class BookManage_Service
 			return false;//更新失败
 	}
 	
-	//书本注册入库，更新时需要提供书、作者、出版社三者所有信息
+	//书本注册入库，参数为book、author、publisher对象，三者所有信息均不能为空（前端判断）
 	public boolean RegisterBook(Book book,Author author,Publisher publisher)
 	{
 		publisherTools.AddUpdatePublisher(publisher);

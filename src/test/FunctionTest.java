@@ -19,25 +19,14 @@ import sqlTools.BorrowTools;
 
 public class FunctionTest 
 {
-	/*
-	     public static void main(String[] args) 
+	 public static void main(String[] args) 
 	 {
-	    	 BookTools booktools=new BookTools();
-	    	 BookSearch_Service service= BookSearch_Service.getInstance();
-			 	 Book book=new Book("014","孟子",36,"文学","山彤","商务印书出版社","孟子",5);
-				 Author author=new Author();
-				 author.setName("哈哈");
-				 author.setWorkplace("中山");
-				 Publisher publisher=new Publisher();
-				 publisher.setName("安少");
-				 publisher.setAddress("中山");
-			
-				 List<Book> temp=service.searchByReaderID("001");
-		    
-		     System.out.println(temp);
-	    	 	    	 
+	    	 LoginLogout_Service service= LoginLogout_Service.getInstance();
+	    	 service.ReaderLogin("001", "root");
+
+	    	 String temp=service.getIdReader()+service.getNameReader();
+	   
+		     System.out.println(temp); 	    	 
 	 }
-	 */
-	 
 	 
 }

@@ -1,8 +1,10 @@
 package model;
 
-public class Publisher {
-	private String name;
-	private String address;
+public class Publisher 
+{
+	private String name;//出版社名
+	private String address;//出版社地址
+	
 	public String getName() {
 		return name;
 	}

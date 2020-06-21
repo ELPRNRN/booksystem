@@ -155,4 +155,5 @@ public class Administrator_Frame extends JFrame{
 	public static void main(String[] args) {
 		Administrator_Frame administrator_Frame=new Administrator_Frame("123");
 	}
+	
 }

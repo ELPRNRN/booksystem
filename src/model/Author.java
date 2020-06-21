@@ -1,8 +1,10 @@
 package model;
 
-public class Author {
-	private String name;
-	private String workplace;
+public class Author 
+{
+	private String name;//作者名
+	private String workplace;//作者工作地
+	
 	public String getName() {
 		return name;
 	}

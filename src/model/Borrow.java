@@ -1,12 +1,14 @@
 package model;
 
 import java.sql.Date;
-public class Borrow {
-	private String idReader;
-	private String idBook;
-	private Date lendDate;
-	private Date dueDate;
-	private String overtime;
+public class Borrow 
+{
+	private String idReader;//读者号
+	private String idBook;//书号
+	private Date lendDate;//借阅日期
+	private Date dueDate;//归还日期
+	private String overtime;//过期未还标志（是、否）
+	
 	public String getIdReader() {
 		return idReader;
 	}
