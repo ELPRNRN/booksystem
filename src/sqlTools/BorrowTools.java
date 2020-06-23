@@ -24,7 +24,8 @@ public class BorrowTools {
 		String sql="select book.idBook,nameBook,price,book.kind,author,publisher,intro,amount "
 				+ "from reader,borrow,book "
 				+ "where book.idBook = borrow.idBook and reader.idReader = borrow.idReader "
-				+ "and reader.idReader = '" + idReader + "'";
+				+ "and reader.idReader = '" + idReader + "'"
+				+ "order by idBook asc";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs=null;
@@ -62,7 +63,8 @@ public class BorrowTools {
         public List<Borrow> BorrowInfo(String idReader) {
 		String sql="select borrow.idReader,idBook,lendDate,dueDate,overtime "
 				+ "from borrow "
-				+ "where borrow.idReader = '" + idReader + "'";
+				+ "where borrow.idReader = '" + idReader + "'"
+				+ "order by idBook asc";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs=null;
