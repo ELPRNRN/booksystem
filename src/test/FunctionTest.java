@@ -22,8 +22,8 @@ public class FunctionTest
 	 public static void main(String[] args) 
 	 {
 	    	 BookSearch_Service service= BookSearch_Service.getInstance();
-	    	 List<Book> temp=service.searchByReaderID("001");
-	    	 List<Borrow> temp2=service.searchBorrowInfo("001");
+	    	 List<Author> temp=service.searchAuthorInfo("向南");
+	    	 List<Publisher> temp2=service.searchPublisherInfo("人民出版社");
 
 	   
 		     System.out.println(temp);

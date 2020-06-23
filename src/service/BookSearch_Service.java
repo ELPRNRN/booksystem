@@ -69,14 +69,14 @@ public class BookSearch_Service
 		return booklist;
 	}
 	
-	//按作者名字查找作者，参数为作者名关键字（模糊搜索），返回作者列表
+	//按作者名字查找作者，参数为作者名（精确搜索），返回作者列表
 	public List<Author> searchAuthorInfo(String keyword)
 	{
 		List<Author> authorlist = authorTools.AuthorData(keyword);
 		return authorlist;
 	}
 	
-	//按出版社名字查找出版社，参数为出版社名关键字（模糊搜索），返回出版社列表
+	//按出版社名字查找出版社，参数为出版社名（精确搜索），返回出版社列表
 	public List<Publisher> searchPublisherInfo(String keyword)
 	{
 		List<Publisher> publisherlist = publisherTools.PublisherData(keyword);
