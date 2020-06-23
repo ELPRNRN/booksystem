@@ -19,7 +19,7 @@ public class PublisherTools {
 	public List<Publisher> PublisherData(String keyword) {
 		String sql="select name,address "
 				+ "from publisher "
-				+ "where name like '%" + keyword + "%' ";
+				+ "where name = '" + keyword + "'";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs=null;

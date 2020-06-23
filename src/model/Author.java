@@ -3,7 +3,7 @@ package model;
 public class Author 
 {
 	private String name;//作者名
-	private String workplace;//作者工作地
+	private String nationality;//作者国籍
 	
 	public String getName() {
 		return name;
@@ -11,18 +11,19 @@ public class Author
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getWorkplace() {
-		return workplace;
-	}
-	public void setWorkplace(String workplace) {
-		this.workplace = workplace;
-	}
 
+
+	public String getNationality() {
+		return nationality;
+	}
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((workplace == null) ? 0 : workplace.hashCode());
+		result = prime * result + ((nationality == null) ? 0 : nationality.hashCode());
 		return result;
 	}
 
@@ -39,17 +40,19 @@ public class Author
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (workplace == null) {
-			if (other.workplace != null)
+		if (nationality == null) {
+			if (other.nationality != null)
 				return false;
-		} else if (!workplace.equals(other.workplace))
+		} else if (!nationality.equals(other.nationality))
 			return false;
 		return true;
 	}
-
+	@Override
 	public String toString() {
-		return "Author [name=" + name + ", workplace=" + workplace + "]";
+		return "Author [name=" + name + ", nationality=" + nationality + "]";
 	}
+
+
 
 }
 

@@ -18,9 +18,9 @@ public class AuthorTools {
 	 * @return 返回特定名字的作者，List<Author>，获得查找到的对象，存在Java类集list中，并返回list。
 	 */
 	public List<Author> AuthorData(String keyword) {
-		String sql="select name,workplace "
+		String sql="select name,nationality "
 				+ "from author "
-				+ "where name like '%" + keyword + "%' ";
+				+ "where name = '" + keyword + "'";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs=null;
@@ -31,7 +31,7 @@ public class AuthorTools {
 			while(rs.next()){
 				Author author=new Author();
 				author.setName(rs.getString("name"));
-				author.setWorkplace(rs.getString("workplace"));
+				author.setNationality(rs.getString("nationality"));
 				ls.add(author);
 			}
 			rs.close();
@@ -48,7 +48,7 @@ public class AuthorTools {
 	 * 
 	 */
 	public List<Author> AuthorData() {
-		String sql="select name,workplace "
+		String sql="select name,nationality "
 				+ "from author";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
@@ -60,7 +60,7 @@ public class AuthorTools {
 			while(rs.next()){
 				Author author=new Author();
 				author.setName(rs.getString("name"));
-				author.setWorkplace(rs.getString("workplace"));
+				author.setNationality(rs.getString("nationality"));
 				ls.add(author);
 			}
 			rs.close();
@@ -109,7 +109,7 @@ public class AuthorTools {
 		String sql="if not exists (select name from author where name = ?)" + 
 				"   	INSERT INTO author VALUES (?,?)" + 
 				"else"+
-				"   UPDATE author SET name = ?, workplace = ?" + 
+				"   UPDATE author SET name = ?, nationality = ?" + 
 				"   WHERE name = ? ";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
@@ -117,9 +117,9 @@ public class AuthorTools {
 			PreparedStatement st =conn.prepareStatement(sql);
 			st.setString(1, author.getName());
 			st.setString(2, author.getName());
-			st.setString(3, author.getWorkplace());
+			st.setString(3, author.getNationality());
 			st.setString(4, author.getName());
-			st.setString(5, author.getWorkplace());
+			st.setString(5, author.getNationality());
 			st.setString(6, author.getName());
 			i=st.executeUpdate();
 			st.close();
