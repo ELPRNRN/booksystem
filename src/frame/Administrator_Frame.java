@@ -7,13 +7,19 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -21,6 +27,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import service.BookManage_Service;
 import service.BookSearch_Service;
@@ -169,7 +176,14 @@ public class Administrator_Frame extends JFrame{
 		Object[] bookAttributeObjects= {"书号","书名","价格","类型","作者","出版社","库存数量","简介"};
 		DefaultTableModel bookSearchResultTableModel =new DefaultTableModel(bookAttributeObjects, 0);
 		bookSearchResulTable.setModel(bookSearchResultTableModel);
-		bookSearchResulTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//
+		bookSearchResulTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			//隐藏简介
+		TableColumn idColumn= bookSearchResulTable.getColumnModel().getColumn(7);
+		idColumn.setWidth(0);
+		idColumn.setMaxWidth(0);
+		idColumn.setMinWidth(0);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0); //设置表的标题的宽度也为0,这个很重要
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
 		bookSearchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -206,6 +220,95 @@ public class Administrator_Frame extends JFrame{
 						bookSearchResultTableModel.addRow(arr);
 					}
 				}
+			}
+		});
+			//图书管理表格右键菜单
+		JPopupMenu bookManagePopupMenu=new JPopupMenu();
+		JMenuItem showBookIntroductionMenuItem=new JMenuItem("查看书本简介");
+		bookManagePopupMenu.add(showBookIntroductionMenuItem);
+		JMenuItem bookUpdatemMenuItem=new JMenuItem("更新书本信息");
+		bookManagePopupMenu.add(bookUpdatemMenuItem);
+		JMenuItem bookDeleteMenuItem=new JMenuItem("删除书本");
+		bookManagePopupMenu.add(bookDeleteMenuItem);
+		bookSearchResulTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                //判断是否为鼠标的BUTTON3按钮，BUTTON3为鼠标右键
+                if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
+                    int focusedRowIndex = bookSearchResulTable.rowAtPoint(evt.getPoint());
+                    if (focusedRowIndex == -1) {
+                        return;
+                    }
+                    //设置焦点
+                    bookSearchResulTable.setRowSelectionInterval(focusedRowIndex, focusedRowIndex);
+                    bookManagePopupMenu.show(bookSearchResulTable, evt.getX(), evt.getY());
+                }
+            }
+		});
+		bookUpdatemMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				// 书本信息更新窗口
+				JFrame bookInformationFrame=new JFrame();
+				bookInformationFrame.setTitle("更改书本信息");
+				JPanel bookInformationGridPanel=new JPanel();
+				bookInformationFrame.add(bookInformationGridPanel);
+				int selectrow=bookSearchResulTable.getSelectedRow();
+				JLabel bookidLabel=new JLabel("书ID号/book ID");
+				bookInformationGridPanel.add(bookidLabel);
+				JTextField bookidTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 0));
+				bookInformationGridPanel.add(bookidTextField);
+				bookidTextField.setEditable(false);
+				JLabel bookNameLabel=new JLabel("书名/book name");
+				bookInformationGridPanel.add(bookNameLabel);
+				JTextField bookNameTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 1));
+				bookInformationGridPanel.add(bookNameTextField);
+				JLabel bookPriceLabel=new JLabel("价格/price");
+				bookInformationGridPanel.add(bookPriceLabel);
+				JTextField bookPriceTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 2));
+				bookInformationGridPanel.add(bookPriceTextField);
+				JLabel authorLabel=new JLabel("作者/author");
+				bookInformationGridPanel.add(authorLabel);
+				JTextField authorTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 4));
+				bookInformationGridPanel.add(authorTextField);
+				JLabel publisherLabel=new JLabel("出版社/publisher");
+				bookInformationGridPanel.add(publisherLabel);
+				JTextField publisherTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 5));
+				bookInformationGridPanel.add(publisherTextField);
+				JLabel typeLabel=new JLabel("分类/type");
+				bookInformationGridPanel.add(typeLabel);
+				String[] booktypestrings= {"文学","哲学","小说","科学","教材","军事","经济","历史"};
+				JComboBox<String> bookTypeComboBox=new JComboBox<String>(booktypestrings);
+				bookInformationGridPanel.add(bookTypeComboBox);
+				int index=-1;
+				for(int i=0;i<booktypestrings.length;i++) {
+					if(((String)bookSearchResulTable.getValueAt(selectrow, 3)).equals(booktypestrings[i])) {
+						index=i;
+					}
+				}
+				bookTypeComboBox.setSelectedIndex(index);
+				JLabel countLabel=new JLabel("库存数量/remaining number");
+				bookInformationGridPanel.add(countLabel);
+				JTextField countTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 6));
+				bookInformationGridPanel.add(countTextField);
+				JLabel introductionLabel=new JLabel("图书简介/introduction");
+				bookInformationGridPanel.add(introductionLabel);
+				JTextField introductionTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 7));
+				bookInformationGridPanel.add(introductionTextField);
+				bookInformationGridPanel.setLayout(new GridLayout(8,2));
+				JButton updateButton=new JButton();
+				bookInformationFrame.add(updateButton);
+				updateButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				bookInformationFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				bookInformationFrame.pack();
+				bookInformationFrame.setVisible(true);
+				bookInformationFrame.setBounds(200, 200, 370,300);
 			}
 		});
 		bookContentPanel.setLayout(new GridLayout(2,6));
@@ -315,10 +418,14 @@ public class Administrator_Frame extends JFrame{
 		});
 		readerSearchGridPanel.setLayout(new GridLayout(1,3));
 		borrowSearchResulTable.setPreferredScrollableViewportSize(new Dimension(550,400));
+
 		//读者管理面板
+		
+		
 		//添加图书面板
 		
 		//读者注册面板
+		
 		//显示窗口
 		pack();
 		setVisible(true);
