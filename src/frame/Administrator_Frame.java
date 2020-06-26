@@ -418,7 +418,7 @@ public class Administrator_Frame extends JFrame{
 		});
 		readerSearchGridPanel.setLayout(new GridLayout(1,3));
 		borrowSearchResulTable.setPreferredScrollableViewportSize(new Dimension(550,400));
-		
+
 		//读者管理面板
 		
 		
