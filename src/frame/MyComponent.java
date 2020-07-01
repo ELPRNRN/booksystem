@@ -116,7 +116,10 @@ public class MyComponent {
 		}
 		
 		public void clear() {
-			tableModel.setColumnCount(0);
+			int num = tableModel.getRowCount();
+			for (int i = 0; i < num; i++) {
+				tableModel.removeRow(0);
+			}
 		}
 	}
 	
@@ -134,7 +137,7 @@ public class MyComponent {
 			arr[2]=reader.getType();
 			arr[3]=reader.getSex();
 			arr[4]=reader.getPassword();
-			super.tableModel.addRow(arr);
+			super.getDefaultTableModel().addRow(arr);
 		}
 	}
 	
@@ -155,7 +158,7 @@ public class MyComponent {
 			arr[5]=book.getPublisher();
 			arr[6]=String.valueOf(book.getAmount());
 			arr[7]=book.getIntro();
-			super.tableModel.addRow(arr);
+			super.getDefaultTableModel().addRow(arr);
 		}
 	}
 	
@@ -281,5 +284,10 @@ public class MyComponent {
 		public JPanel getPanel(int i) {
 			return (JPanel)cardPanel.getComponent(i);
 		}
+	}
+
+	public void addRow(String[] arr) {
+		// TODO Auto-generated method stub
+		
 	}
 }

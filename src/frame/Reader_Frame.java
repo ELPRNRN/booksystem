@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -174,7 +175,8 @@ public class Reader_Frame extends JFrame{
 		borrowManagePanel.add(refreshButton,BorderLayout.NORTH);
 		String[] borrowAttributeObjects= {"书号","书名","类型","作者","出版社","借阅日期","归还日期","是否过期未还"};
 		MyComponent.MyTable borrowSearchResultTable=myComponent.new MyTable(borrowAttributeObjects);
-		borrowManagePanel.add(borrowSearchResultTable.getJScrollPane());
+		JScrollPane borrowScrollPane=borrowSearchResultTable.getJScrollPane();
+		borrowManagePanel.add(borrowScrollPane,BorderLayout.CENTER);
 		refreshButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -194,6 +196,7 @@ public class Reader_Frame extends JFrame{
 					arr[6]=borrow.getDueDate().toString();
 					arr[7]=borrow.getOvertime();
 					borrowSearchResultTable.getDefaultTableModel().addRow(arr);
+					System.out.println(arr[0]);
 				}
 			}
 		});
@@ -321,7 +324,7 @@ public class Reader_Frame extends JFrame{
 		setBounds(100, 100, 996, 699);
 	}
 	
-	public static void main(String[] args) {
+	static void main(String[] args) {
 		Reader_Frame reader_Frame=new Reader_Frame("001");
 	}
 }

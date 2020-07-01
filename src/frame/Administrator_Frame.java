@@ -122,33 +122,46 @@ public class Administrator_Frame extends JFrame{
 				//do nothing
 			}
 		});
-		Object[] bookAttributeObjects= {"书号","书名","价格","类型","作者","出版社","库存数量","简介"};
+		Object[] bookAttributeObjects= {"书号","书名","价格","类型","作者","国籍","出版社","出版社地址","库存数量","简介"};
 		DefaultTableModel bookSearchResultTableModel =new DefaultTableModel(bookAttributeObjects, 0);
 		bookSearchResulTable.setModel(bookSearchResultTableModel);
 		bookSearchResulTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			//隐藏简介
-		TableColumn idColumn= bookSearchResulTable.getColumnModel().getColumn(7);
+		TableColumn idColumn= bookSearchResulTable.getColumnModel().getColumn(9);
 		idColumn.setWidth(0);
 		idColumn.setMaxWidth(0);
 		idColumn.setMinWidth(0);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(9).setMaxWidth(0); //设置表的标题的宽度也为0,这个很重要
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(9).setMinWidth(0);
+			//隐藏简介
+		TableColumn idColumn1= bookSearchResulTable.getColumnModel().getColumn(7);
+		idColumn1.setWidth(0);
+		idColumn1.setMaxWidth(0);
+		idColumn1.setMinWidth(0);
 		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0); //设置表的标题的宽度也为0,这个很重要
 		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
 		bookSearchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				int num = bookSearchResultTableModel.getRowCount();
+				for (int i = 0; i < num; i++) {
+					bookSearchResultTableModel.removeRow(0);
+				}
 				if(bookidTextField.getText().length()!=0) {
 					List<Book> searchresult =bookSearch_Service.searchByBookID(bookidTextField.getText());
-					String[]arr=new String[8];
+					String[]arr=new String[10];
 					Book book=searchresult.get(0);
 					arr[0]=book.getIdBook();
 					arr[1]=book.getNameBook();
 					arr[2]=String.valueOf(book.getPrice());
 					arr[3]=book.getType();
 					arr[4]=book.getAuthor();
-					arr[5]=book.getPublisher();
-					arr[6]=String.valueOf(book.getAmount());
-					arr[7]=book.getIntro();
+					arr[5]=bookSearch_Service.searchAuthorInfo(book.getAuthor()).get(0).getNationality();
+					arr[6]=book.getPublisher();
+					arr[7]=bookSearch_Service.searchPublisherInfo(book.getPublisher()).get(0).getAddress();
+					arr[8]=String.valueOf(book.getAmount());
+					arr[9]=book.getIntro();
 					bookSearchResultTableModel.addRow(arr);
 				}
 				else {
@@ -157,15 +170,17 @@ public class Administrator_Frame extends JFrame{
 					List<Book> searchresult = bookSearch_Service.searchByBookInfo("", bookNameTextField.getText(), typestring, 
 						authorTextField.getText(), publisherTextField.getText());
 					for(Book book:searchresult) {
-						String[]arr=new String[8];
+						String[]arr=new String[10];
 						arr[0]=book.getIdBook();
 						arr[1]=book.getNameBook();
 						arr[2]=String.valueOf(book.getPrice());
 						arr[3]=book.getType();
 						arr[4]=book.getAuthor();
-						arr[5]=book.getPublisher();
-						arr[6]=String.valueOf(book.getAmount());
-						arr[7]=book.getIntro();
+						arr[5]=bookSearch_Service.searchAuthorInfo(book.getAuthor()).get(0).getNationality();
+						arr[6]=book.getPublisher();
+						arr[7]=bookSearch_Service.searchPublisherInfo(book.getPublisher()).get(0).getAddress();
+						arr[8]=String.valueOf(book.getAmount());
+						arr[9]=book.getIntro();
 						bookSearchResultTableModel.addRow(arr);
 					}
 				}
@@ -198,60 +213,45 @@ public class Administrator_Frame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				// 书本信息更新窗口
+				int selectrow=bookSearchResulTable.getSelectedRow();
 				JFrame bookInformationFrame=new JFrame();
 				bookInformationFrame.setTitle("更改书本信息");
-				JPanel bookInformationGridPanel=new JPanel();
-				bookInformationFrame.add(bookInformationGridPanel);
-				int selectrow=bookSearchResulTable.getSelectedRow();
-				JLabel bookidLabel=new JLabel("书ID号/book ID");
-				bookInformationGridPanel.add(bookidLabel);
-				JTextField bookidTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 0));
-				bookInformationGridPanel.add(bookidTextField);
-				bookidTextField.setEditable(false);
-				JLabel bookNameLabel=new JLabel("书名/book name");
-				bookInformationGridPanel.add(bookNameLabel);
-				JTextField bookNameTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 1));
-				bookInformationGridPanel.add(bookNameTextField);
-				JLabel bookPriceLabel=new JLabel("价格/price");
-				bookInformationGridPanel.add(bookPriceLabel);
-				JTextField bookPriceTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 2));
-				bookInformationGridPanel.add(bookPriceTextField);
-				JLabel authorLabel=new JLabel("作者/author");
-				bookInformationGridPanel.add(authorLabel);
-				JTextField authorTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 4));
-				bookInformationGridPanel.add(authorTextField);
-				JLabel publisherLabel=new JLabel("出版社/publisher");
-				bookInformationGridPanel.add(publisherLabel);
-				JTextField publisherTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 5));
-				bookInformationGridPanel.add(publisherTextField);
-				JLabel typeLabel=new JLabel("分类/type");
-				bookInformationGridPanel.add(typeLabel);
-				String[] booktypestrings= {"文学","哲学","小说","科学","教材","军事","经济","历史"};
-				JComboBox<String> bookTypeComboBox=new JComboBox<String>(booktypestrings);
-				bookInformationGridPanel.add(bookTypeComboBox);
-				int index=-1;
-				for(int i=0;i<booktypestrings.length;i++) {
-					if(((String)bookSearchResulTable.getValueAt(selectrow, 3)).equals(booktypestrings[i])) {
-						index=i;
-					}
-				}
-				bookTypeComboBox.setSelectedIndex(index);
-				JLabel countLabel=new JLabel("库存数量/remaining number");
-				bookInformationGridPanel.add(countLabel);
-				JTextField countTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 6));
-				bookInformationGridPanel.add(countTextField);
-				JLabel introductionLabel=new JLabel("图书简介/introduction");
-				bookInformationGridPanel.add(introductionLabel);
-				JTextField introductionTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 7));
-				bookInformationGridPanel.add(introductionTextField);
-				bookInformationGridPanel.setLayout(new GridLayout(8,2));
-				JButton updateButton=new JButton();
-				bookInformationFrame.add(updateButton);
-				updateButton.addActionListener(new ActionListener() {
+				JPanel bookBorderPanel=new JPanel(); 
+				bookInformationFrame.add(bookBorderPanel);
+				bookBorderPanel.setLayout(new BorderLayout());
+				String[]bookStrings= {"书ID号","书名","价格","类型","作者","作者国籍","出版社","出版社地址","库存","简介"};
+				MyComponent.MyPanel bookPanel=myComponent.new MyPanel(bookStrings, 2);
+				bookBorderPanel.add(bookPanel,BorderLayout.CENTER);
+				bookPanel.setJComboBox(7, booktypestrings);
+				bookPanel.setText(1, (String)bookSearchResulTable.getValueAt(selectrow, 0));
+				bookPanel.setText(3, (String)bookSearchResulTable.getValueAt(selectrow, 1));
+				bookPanel.setText(5, (String)bookSearchResulTable.getValueAt(selectrow, 2));
+				bookPanel.setText(7, (String)bookSearchResulTable.getValueAt(selectrow, 3));
+				bookPanel.setText(9, (String)bookSearchResulTable.getValueAt(selectrow, 4));
+				bookPanel.setText(11, (String)bookSearchResulTable.getValueAt(selectrow, 5));
+				bookPanel.setText(13, (String)bookSearchResulTable.getValueAt(selectrow, 6));
+				bookPanel.setText(15, (String)bookSearchResulTable.getValueAt(selectrow, 7));
+				bookPanel.setText(17, (String)bookSearchResulTable.getValueAt(selectrow, 8));
+				bookPanel.setText(19, (String)bookSearchResulTable.getValueAt(selectrow, 9));
+				JButton addBookButton=new JButton("更新图书信息");
+				bookBorderPanel.add(addBookButton,BorderLayout.SOUTH);
+				addBookButton.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						
+						Book book=new Book(bookPanel.getText(1), bookPanel.getText(3),Integer.parseInt(bookPanel.getText(5)),
+								bookPanel.getText(7),bookPanel.getText(9),bookPanel.getText(13),bookPanel.getText(17),
+								Integer.parseInt(bookPanel.getText(19)));
+						Author author=new Author();
+						author.setName(bookPanel.getText(9));
+						author.setNationality(bookPanel.getText(11));
+						Publisher publisher=new Publisher();
+						publisher.setName(bookPanel.getText(13));
+						publisher.setAddress(bookPanel.getText(15));
+						if(bookManage_Service.UpdateBook(book, author, publisher)) {
+							JOptionPane.showMessageDialog(null, "添加图书成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
+							bookSearchButton.getActionListeners()[0].actionPerformed(null);
+						}
 					}
 				});
 				bookInformationFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -267,6 +267,7 @@ public class Administrator_Frame extends JFrame{
 				if(JOptionPane.showConfirmDialog(null,"是否删除该图书？","注意",JOptionPane.YES_NO_OPTION)==0) {
 					if(bookManage_Service.DeleteBook((String)bookSearchResulTable.getValueAt(bookSearchResulTable.getSelectedRow(), 0))) {
 						JOptionPane.showMessageDialog(null, "删除图书成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
+						bookSearchButton.getActionListeners()[0].actionPerformed(null);
 					}
 				}
 			}
@@ -300,6 +301,10 @@ public class Administrator_Frame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				int num = borrowSearchResultTableModel.getRowCount();
+				for (int i = 0; i < num; i++) {
+					borrowSearchResultTableModel.removeRow(0);
+				}
 				int readerSearchMode=readerSearchModeComboBox.getSelectedIndex();
 				if(readerSearchMode==0) {
 					List<Borrow> borrows= bookSearch_Service.searchBorrowInfo(readerSearchReferenceTextField.getText());
@@ -435,6 +440,8 @@ public class Administrator_Frame extends JFrame{
 				}
 				for(Reader reader:readers) {
 					readerManageSearchResulTable.addReader(reader);
+					System.out.println(reader.getIdReader());
+					System.out.println(readerManageSearchResulTable.getColumnCount());
 				}
 			}
 		});
@@ -518,7 +525,7 @@ public class Administrator_Frame extends JFrame{
 		setBounds(100, 100, 996, 699);
 	}
 	
-	static void main(String[] args) {
+	public static void main(String[] args) {
 		Administrator_Frame administrator_Frame=new Administrator_Frame("123");
 	}
 	
