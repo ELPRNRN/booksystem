@@ -32,6 +32,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import frame.MyComponent.MyComboBox;
+import frame.MyComponent.MyPanel;
 import service.BookManage_Service;
 import service.BookSearch_Service;
 import service.ReaderManage_Service;
@@ -50,85 +51,24 @@ public class Administrator_Frame extends JFrame{
 	private static ReturnBorrow_Service returnBorrow_Service=ReturnBorrow_Service.getInstance();
 	private static MyComponent myComponent=MyComponent.getMyComponent();
 	public Administrator_Frame(String ID) {
-		m_ID=ID;
 		//界面初始化
 		setDefaultLookAndFeelDecorated(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("图书管理系统管理员界面");
 		m_ID=new String(ID);
-		BorderLayout borderLayout=new BorderLayout();
-		setLayout(borderLayout);
-		JPanel cardPanel=new JPanel();
-		CardLayout cardLayout=new CardLayout();
-		cardPanel.setLayout(cardLayout);
-		add(cardPanel,BorderLayout.CENTER);
-		JPanel blankPanel=new JPanel();
-		cardPanel.add(blankPanel,"blank");
-		JPanel bookManagePanel=new JPanel();
-		cardPanel.add(bookManagePanel,"book manage");
-		JPanel borrowManagePanel=new JPanel();
-		cardPanel.add(borrowManagePanel,"borrow manage");
-		JPanel readerManagePanel=new JPanel();
-		cardPanel.add(readerManagePanel,"reader manage");
-		JPanel addBookPanel=new JPanel();
-		cardPanel.add(addBookPanel,"add book");
-		JPanel readerRegisterPanel=new JPanel();
-		cardPanel.add(readerRegisterPanel,"reader register");
-		
-		//菜单面板
-		JPanel manuPanel=new JPanel();
-		Box box=Box.createVerticalBox();
-		manuPanel.add(box);
-		add(manuPanel,BorderLayout.WEST);
-		JButton toBookManageButton=new JButton("图书管理/Book Manage");
-		toBookManageButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				cardLayout.show(cardPanel, "book manage");
-			}
-		});
-		box.add(toBookManageButton);
-		JButton toBorrowManageButton=new JButton("借阅管理/Borrow Manage");
-		toBorrowManageButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				cardLayout.show(cardPanel, "borrow manage");
-			}
-		});
-		box.add(toBorrowManageButton);
-		JButton toReaderManageButton=new JButton("读者管理/Reader Manage");
-		toReaderManageButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				cardLayout.show(cardPanel, "reader manage");
-			}
-		});
-		box.add(toReaderManageButton);
-		JButton toAddBookButton=new JButton("添加图书/Add Book");
-		toAddBookButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				cardLayout.show(cardPanel, "add book");
-			}
-		});
-		box.add(toAddBookButton);
-		JButton toReaderRegisterButton=new JButton("读者注册/Reader Register");
-		toReaderRegisterButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				cardLayout.show(cardPanel, "reader register");
-			}
-		});
-		box.add(toReaderRegisterButton);
-		
-		//空面版
-		blankPanel.setBackground(Color.white);
-		
+		String[]strings= {	"  图书管理/Book Manage   ",
+							" 借阅管理/Borrow Manage",
+							" 读者管理/Reader Manage",
+							"    添加图书/Add Book        ",
+							"读者注册/Reader Register"};
+		MyComponent.MyCardPanel myCardPanel=myComponent.new MyCardPanel(strings);
+		add(myCardPanel);
+		JPanel bookManagePanel=myCardPanel.getPanel(0);
+		JPanel borrowManagePanel=myCardPanel.getPanel(1);
+		JPanel readerManagePanel=myCardPanel.getPanel(2);
+		JPanel addBookPanel=myCardPanel.getPanel(3);
+		JPanel readerRegisterPanel=myCardPanel.getPanel(4);
+
 		//图书管理面板
 		JPanel bookContentPanel=new JPanel();
 		bookManagePanel.add(bookContentPanel);
@@ -578,7 +518,7 @@ public class Administrator_Frame extends JFrame{
 		setBounds(100, 100, 996, 699);
 	}
 	
-	public static void main(String[] args) {
+	static void main(String[] args) {
 		Administrator_Frame administrator_Frame=new Administrator_Frame("123");
 	}
 	
