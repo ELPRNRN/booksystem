@@ -1,6 +1,7 @@
 package frame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,8 +51,8 @@ public class Reader_Frame extends JFrame{
 		setTitle("图书管理系统管理员界面");
 		m_ID=new String(ID);
 		String[]strings= {	"  图书搜索/Book Search   ",
-							" 借阅管理/Borrow Manage",
-							" 读者设置/Reader Setting"
+							" 借阅管理/Borrow Manage  ",
+							" 读者设置/Reader Setting "
 						};
 		MyComponent.MyCardPanel myCardPanel=myComponent.new MyCardPanel(strings);
 		add(myCardPanel);

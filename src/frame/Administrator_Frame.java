@@ -56,10 +56,10 @@ public class Administrator_Frame extends JFrame{
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("图书管理系统管理员界面");
 		m_ID=new String(ID);
-		String[]strings= {	"  图书管理/Book Manage   ",
-							" 借阅管理/Borrow Manage",
-							" 读者管理/Reader Manage",
-							"    添加图书/Add Book        ",
+		String[]strings= {	"  图书管理/Book Manage  ",
+							" 借阅管理/Borrow Manage ",
+							" 读者管理/Reader Manage ",
+							"    添加图书/Add Book   ",
 							"读者注册/Reader Register"};
 		MyComponent.MyCardPanel myCardPanel=myComponent.new MyCardPanel(strings);
 		add(myCardPanel);
@@ -523,10 +523,6 @@ public class Administrator_Frame extends JFrame{
 		pack();
 		setVisible(true);
 		setBounds(100, 100, 996, 699);
-	}
-	
-	public static void main(String[] args) {
-		Administrator_Frame administrator_Frame=new Administrator_Frame("123");
 	}
 	
 }

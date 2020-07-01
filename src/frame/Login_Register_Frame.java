@@ -1,19 +1,27 @@
 package frame;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+import java.util.Enumeration;
 
+import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+
+import frame.MyComponent.MyPanel;
+import model.Reader;
 import service.LoginLogout_Service;
+import service.ReaderManage_Service;
 
 public class Login_Register_Frame extends JFrame{
-	
+	private static MyComponent myComponent=MyComponent.getMyComponent();
+	private static ReaderManage_Service readerManage_Service=ReaderManage_Service.getInstance();
 	public Login_Register_Frame() {
 		//窗口初始化
-		setBounds(100, 100, 996, 699);
 		setDefaultLookAndFeelDecorated(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("图书管理系统");
@@ -40,7 +48,7 @@ public class Login_Register_Frame extends JFrame{
 		loginPanel.add(IDTextField);
 		JLabel pwdLabel= new JLabel("密码/password");
 		loginPanel.add(pwdLabel);
-		JTextField pwdTextField= new JTextField(1);
+		JPasswordField pwdTextField= new JPasswordField();
 		loginPanel.add(pwdTextField);
 		JButton loginButton=new JButton("登录/login");
 		loginButton.setBorderPainted(false);
@@ -50,10 +58,11 @@ public class Login_Register_Frame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String ID=new String(IDTextField.getText());
-				String pwd=new String(pwdTextField.getText());
+				String pwd=new String(pwdTextField.getPassword());
 				LoginLogout_Service loginLogout_Service = LoginLogout_Service.getInstance();
 				if(loginLogout_Service.ReaderLogin(ID,pwd)) {
-					dispose();//未完成
+					Reader_Frame reader_Frame=new Reader_Frame(ID);
+					dispose();
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "账号或密码错误，请输入正确的账号和密码", "错误", JOptionPane.ERROR_MESSAGE);
@@ -83,40 +92,46 @@ public class Login_Register_Frame extends JFrame{
 		loginPanel.setLayout(new GridLayout(7,1));
 		
 		//注册页面 
-		JLabel rIDLabel= new JLabel("账号/account ID");
-		registerPanel.add(rIDLabel);
-		JTextField rIDTextField= new JTextField(1);
-		registerPanel.add(rIDTextField);
-		JLabel rpwdLabel= new JLabel("密码/password");
-		registerPanel.add(rpwdLabel);
-		JTextField rpwdTextField= new JTextField(1);
-		registerPanel.add(rpwdTextField);
-		JButton registerButton=new JButton("注册/register");
-		registerButton.addActionListener(new ActionListener() {
+		registerPanel.setLayout(new BorderLayout());
+		JPanel readerRegisterBorderPanel=new JPanel();
+		registerPanel.add(readerRegisterBorderPanel);
+		readerRegisterBorderPanel.setLayout(new BorderLayout());
+		JPanel buttonGridPanel=new JPanel();
+		readerRegisterBorderPanel.add(buttonGridPanel,BorderLayout.SOUTH);
+		String[]readerStrings= {"ID","姓名","类型","性别"};
+		MyComponent.MyPanel readerPanel=myComponent.new MyPanel(readerStrings, 1);
+		String[] readertypeStrings= {"教师","学生"};
+		readerPanel.setJComboBox(5, readertypeStrings);
+		String[]genderStrings= {"男","女"};
+		readerPanel.setJComboBox(7, genderStrings);
+		JLabel pwdLabel2=new JLabel("密码");
+		readerPanel.add(pwdLabel2);
+		JPasswordField pwdField=new JPasswordField();
+		readerPanel.add(pwdField);
+		readerPanel.setLayout(new GridLayout(5,2));
+		readerRegisterBorderPanel.add(readerPanel,BorderLayout.CENTER);
+		JButton readerRegisterButton=new JButton("注册读者");
+		buttonGridPanel.add(readerRegisterButton);
+		readerRegisterButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String ID=new String(rIDTextField.getText());
-				String pwd=new String(rpwdTextField.getText());
-				//LoginLogout_Service loginLogout_Service = LoginLogout_Service.getInstance();
-				if(false) {//loginLogout_Service.ReaderLogin(ID,pwd)
-					//login success
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "注册失败", "错误", JOptionPane.ERROR_MESSAGE);
-				}
+				Reader reader=new Reader(readerPanel.getText(1),readerPanel.getText(3),
+						readerPanel.getText(5),readerPanel.getText(7),String.valueOf(pwdField.getPassword()));
+				readerManage_Service.AddReader(reader);
+				IDTextField.setText(readerPanel.getText(1));
+				
 			}
 		});
-		registerPanel.add(registerButton);
 		JButton retologinButton=new JButton("返回读者登录界面/back to reader login page");
+		buttonGridPanel.add(retologinButton);
 		retologinButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cardLayout.show(cardPanel, "login");
 			}
 		});
-		registerPanel.add(retologinButton);
-		registerPanel.setLayout(new GridLayout(6,1));
+		buttonGridPanel.setLayout(new GridLayout(2,1));
 		
 		//管理员登录界面
 		JLabel liIDLabel= new JLabel("账号/account ID");
@@ -125,7 +140,7 @@ public class Login_Register_Frame extends JFrame{
 		liloginPanel.add(liIDTextField);
 		JLabel lipwdLabel= new JLabel("密码/password");
 		liloginPanel.add(lipwdLabel);
-		JTextField lipwdTextField= new JTextField(1);
+		JPasswordField lipwdTextField= new JPasswordField();
 		liloginPanel.add(lipwdTextField);
 		JButton liloginButton=new JButton("管理员登录/administrator login");
 		liloginButton.addActionListener(new ActionListener() {
@@ -133,7 +148,7 @@ public class Login_Register_Frame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String ID=new String(liIDTextField.getText());
-				String pwd=new String(lipwdTextField.getText());
+				String pwd=new String(lipwdTextField.getPassword());
 				LoginLogout_Service loginLogout_Service = LoginLogout_Service.getInstance();
 				if(loginLogout_Service.LibLogin(ID, pwd)) {
 					Administrator_Frame administrator_Frame=new Administrator_Frame(ID);
@@ -157,14 +172,23 @@ public class Login_Register_Frame extends JFrame{
 		
 		//显示窗口
 		pack();
+		setBounds(100, 100, 400, 300);
 	    setVisible(true);
 	}
 	
-	
-	static void main(String[] args) {
+	public static void main(String[] args) {
 		Login_Register_Frame login_Register_Frame=new Login_Register_Frame();
+		initGlobalFontSetting(new Font("黑体", Font.PLAIN, 12)); 
 	}
 	
-	
-	
+	//设置全局字体
+	public static void initGlobalFontSetting(Font fnt){
+	    FontUIResource fontRes = new FontUIResource(fnt);
+	    for(Enumeration keys = UIManager.getDefaults().keys(); keys.hasMoreElements();){
+	        Object key = keys.nextElement();
+	        Object value = UIManager.get(key);
+	        if(value instanceof FontUIResource)
+	            UIManager.put(key, fontRes);
+	    }
+	}
 }
