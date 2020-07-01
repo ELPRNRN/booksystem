@@ -161,7 +161,7 @@ public class Login_Register_Frame extends JFrame{
 	}
 	
 	
-	public static void main(String[] args) {
+	static void main(String[] args) {
 		Login_Register_Frame login_Register_Frame=new Login_Register_Frame();
 	}
 	

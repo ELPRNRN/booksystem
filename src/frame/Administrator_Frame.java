@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
+
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -29,17 +31,24 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import frame.MyComponent.MyComboBox;
 import service.BookManage_Service;
 import service.BookSearch_Service;
 import service.ReaderManage_Service;
+import service.ReturnBorrow_Service;
+import model.Author;
 import model.Book;
 import model.Borrow;
 import model.Reader;
+import model.Publisher;
 
 public class Administrator_Frame extends JFrame{
 	private String m_ID;
 	private static BookSearch_Service bookSearch_Service=BookSearch_Service.getInstance();
 	private static ReaderManage_Service readerManage_Service=ReaderManage_Service.getInstance();
+	private static BookManage_Service bookManage_Service=BookManage_Service.getInstance();
+	private static ReturnBorrow_Service returnBorrow_Service=ReturnBorrow_Service.getInstance();
+	private static MyComponent myComponent=MyComponent.getMyComponent();
 	public Administrator_Frame(String ID) {
 		m_ID=ID;
 		//界面初始化
@@ -311,10 +320,22 @@ public class Administrator_Frame extends JFrame{
 				bookInformationFrame.setBounds(200, 200, 370,300);
 			}
 		});
+		bookDeleteMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(JOptionPane.showConfirmDialog(null,"是否删除该图书？","注意",JOptionPane.YES_NO_OPTION)==0) {
+					if(bookManage_Service.DeleteBook((String)bookSearchResulTable.getValueAt(bookSearchResulTable.getSelectedRow(), 0))) {
+						JOptionPane.showMessageDialog(null, "删除图书成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			}
+		});
 		bookContentPanel.setLayout(new GridLayout(2,6));
 		bookSearchResulTable.setPreferredScrollableViewportSize(new Dimension(550,400));
 		
 		//借阅管理面板
+		String[]readerID=new String[1];
 		JPanel readerSearchGridPanel=new JPanel();
 		borrowManagePanel.add(readerSearchGridPanel);
 		JTextField readerSearchReferenceTextField=new JTextField();
@@ -342,6 +363,7 @@ public class Administrator_Frame extends JFrame{
 				int readerSearchMode=readerSearchModeComboBox.getSelectedIndex();
 				if(readerSearchMode==0) {
 					List<Borrow> borrows= bookSearch_Service.searchBorrowInfo(readerSearchReferenceTextField.getText());
+					readerID[0]=readerSearchReferenceTextField.getText();
 					for(Borrow borrow:borrows) {
 						List<Book> searchresult =bookSearch_Service.searchByBookID(borrow.getIdBook());
 						String[]arr=new String[8];
@@ -391,6 +413,7 @@ public class Administrator_Frame extends JFrame{
 							int selectrow=readerSearchResulTable.getSelectedRow();
 							String rIDString=(String)readerSearchResulTable.getValueAt(selectrow, 0);
 							List<Borrow> borrows= bookSearch_Service.searchBorrowInfo(rIDString);
+							readerID[0]=rIDString;
 							for(Borrow borrow:borrows) {
 								List<Book> searchresult =bookSearch_Service.searchByBookID(borrow.getIdBook());
 								String[]arr=new String[8];
@@ -416,15 +439,138 @@ public class Administrator_Frame extends JFrame{
 				}
 			}
 		});
-		readerSearchGridPanel.setLayout(new GridLayout(1,3));
+		JPopupMenu borrowPopupMenu=new JPopupMenu();
+		borrowSearchResulTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                //判断是否为鼠标的BUTTON3按钮，BUTTON3为鼠标右键
+                if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
+                    int focusedRowIndex = bookSearchResulTable.rowAtPoint(evt.getPoint());
+                    if (focusedRowIndex == -1) {
+                        return;
+                    }
+                    //设置焦点
+                    borrowSearchResulTable.setRowSelectionInterval(focusedRowIndex, focusedRowIndex);
+                    borrowPopupMenu.show(borrowSearchResulTable, evt.getX(), evt.getY());
+                }
+            }
+		});
+		JMenuItem returnMenuItem=new JMenuItem();
+		borrowPopupMenu.add(returnMenuItem);
+		returnMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method
+				int selectrow=borrowSearchResulTable.getSelectedRow();
+				returnBorrow_Service.DeleteBorrowBook(readerID[0], (String)borrowSearchResulTable.getValueAt(selectrow, 0));
+			}
+		});
+		readerSearchGridPanel.setLayout(new GridLayout(1,3));	
 		borrowSearchResulTable.setPreferredScrollableViewportSize(new Dimension(550,400));
 		
 		//读者管理面板
-		
+		readerManagePanel.setLayout(new BorderLayout());
+		JPanel readerManageGridPanel=new JPanel();
+		readerManagePanel.add(readerManageGridPanel,BorderLayout.NORTH);
+		JTextField readerManageSearchInformationTextField=new JTextField();
+		readerManageGridPanel.add(readerManageSearchInformationTextField);
+		String[]searchModeStrings= {"按读者ID搜索","按读者姓名搜索"};
+		MyComponent.MyComboBox searchModeComboBox=myComponent.new MyComboBox(searchModeStrings, -1);
+		readerManageGridPanel.add(searchModeComboBox);
+		JButton readerManageSearchJButton=new JButton("搜索读者");
+		readerManageGridPanel.add(readerManageSearchJButton);
+		readerManageGridPanel.setLayout(new GridLayout(1,3));
+		MyComponent.MyReaderTable readerManageSearchResulTable=myComponent.new MyReaderTable();
+		readerManagePanel.add(readerManageSearchResulTable.getJScrollPane(),BorderLayout.CENTER);
+		readerManageSearchJButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				readerManageSearchResulTable.clear();
+				List<Reader>readers;
+				if(searchModeComboBox.getSelectedIndex()==0) {
+					readers=readerManage_Service.SearchReaderByID(readerManageSearchInformationTextField.getText());
+				}
+				else {
+					readers=readerManage_Service.SearchReaderByName(readerManageSearchInformationTextField.getText());
+				}
+				for(Reader reader:readers) {
+					readerManageSearchResulTable.addReader(reader);
+				}
+			}
+		});
+		JPopupMenu readerManagePopupMenu=new JPopupMenu();
+		readerManageSearchResulTable.addMenu(readerManagePopupMenu);
+		JMenuItem deleteReaderMenuItem=new JMenuItem("删除读者");
+		readerManagePopupMenu.add(deleteReaderMenuItem);
+		deleteReaderMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(JOptionPane.showConfirmDialog(null,"是否删除该读者的信息？","注意",JOptionPane.YES_NO_OPTION)==0) {
+					int selectrow=readerManageSearchResulTable.getSelectedRow();
+					if(readerManage_Service.DeleteReader((String)readerManageSearchResulTable.getValueAt(selectrow, 0))) {
+						JOptionPane.showMessageDialog(null, "删除成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
+						readerManageSearchJButton.getActionListeners()[0].actionPerformed(null);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "删除失败，请咨询技术人员寻求帮助", "警告",JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		
 		//添加图书面板
+		JPanel bookAddBorderPanel=new JPanel();
+		addBookPanel.add(bookAddBorderPanel);
+		bookAddBorderPanel.setLayout(new BorderLayout());
+		String[]bookStrings= {"书ID号","书名","价格","类型","作者","作者国籍","出版社","出版社地址","简介","库存"};
+		MyComponent.MyPanel bookPanel=myComponent.new MyPanel(bookStrings, 2);
+		bookAddBorderPanel.add(bookPanel,BorderLayout.CENTER);
+		bookPanel.setJComboBox(7, booktypestrings);
+		JButton addBookButton=new JButton("添加图书");
+		bookAddBorderPanel.add(addBookButton,BorderLayout.SOUTH);
+		addBookButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Book book=new Book(bookPanel.getText(1), bookPanel.getText(3),Integer.parseInt(bookPanel.getText(5)),
+						bookPanel.getText(7),bookPanel.getText(9),bookPanel.getText(13),bookPanel.getText(17),
+						Integer.parseInt(bookPanel.getText(19)));
+				Author author=new Author();
+				author.setName(bookPanel.getText(9));
+				author.setNationality(bookPanel.getText(11));
+				Publisher publisher=new Publisher();
+				publisher.setName(bookPanel.getText(13));
+				publisher.setAddress(bookPanel.getText(15));
+				if(bookManage_Service.RegisterBook(book, author, publisher)) {
+					JOptionPane.showMessageDialog(null, "添加图书成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
+					bookSearchButton.getActionListeners()[0].actionPerformed(null);
+				}
+			}
+		});
 		
 		//读者注册面板
+		JPanel readerRegisterBorderPanel=new JPanel();
+		readerRegisterPanel.add(readerRegisterBorderPanel);
+		readerRegisterBorderPanel.setLayout(new BorderLayout());
+		String[]readerStrings= {"ID","姓名","类型","性别"};
+		MyComponent.MyPanel readerPanel=myComponent.new MyPanel(readerStrings, 1);
+		String[] readertypeStrings= {"教师","学生"};
+		readerPanel.setJComboBox(5, readertypeStrings);
+		String[]genderStrings= {"男","女"};
+		readerPanel.setJComboBox(7, genderStrings);
+		readerRegisterBorderPanel.add(readerPanel,BorderLayout.CENTER);
+		JButton readerRegisterButton=new JButton("注册读者");
+		readerRegisterBorderPanel.add(readerRegisterButton,BorderLayout.SOUTH);
+		readerRegisterButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Reader reader=new Reader(readerPanel.getText(1),readerPanel.getText(3),
+						readerPanel.getText(5),readerPanel.getText(7),"root");
+				readerManage_Service.AddReader(reader);
+			}
+		});
 		
 		//显示窗口
 		pack();
