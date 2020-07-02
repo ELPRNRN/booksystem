@@ -122,7 +122,7 @@ INSERT INTO reader VALUES ('001','初灵','学生','女','root'),
 CREATE TABLE borrow 
 (
   idReader varchar(10) NOT NULL DEFAULT '',
-  idBook varchar(10) DEFAULT NULL,
+  idBook varchar(10) DEFAULT NULL UNIQUE,
   lendDate date NOT NULL DEFAULT '2015-07-25',
   dueDate date NOT NULL DEFAULT '2015-12-19',
   overtime varchar(4) NOT NULL DEFAULT '否',

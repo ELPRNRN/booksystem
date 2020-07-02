@@ -44,7 +44,6 @@ public class Reader_Frame extends JFrame{
 	public Reader_Frame(String ID) {
 		// TODO Auto-generated constructor stub
 		//界面初始化
-		JButton refreshButton=new JButton("刷新");
 		m_ID=new String(ID);
 		LoginLogout_Service.setIdReader(m_ID);
 		setDefaultLookAndFeelDecorated(true);
@@ -161,8 +160,6 @@ public class Reader_Frame extends JFrame{
 						getValueAt(bookSearchResulTable.getSelectedRow(), 0));
 				if(messageString=="借阅成功") {
 					JOptionPane.showMessageDialog(null, "借阅图书成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
-					refreshButton.getActionListeners()[0].actionPerformed(null);
-					bookSearchButton.getActionListeners()[0].actionPerformed(null);
 				}
 				else if(messageString=="借阅失败") {
 					JOptionPane.showMessageDialog(null, "借书失败，请咨询管理人员寻求帮助", "警告",JOptionPane.WARNING_MESSAGE);
@@ -172,19 +169,10 @@ public class Reader_Frame extends JFrame{
 				}
 			}
 		});
-		JMenuItem showBookIntroductionMenuItem=new JMenuItem("显示图书简介");
-		bookSearchPopupMenu.add(showBookIntroductionMenuItem);
-		showBookIntroductionMenuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				JOptionPane.showConfirmDialog(null, (String)bookSearchResulTable.getValueAt(bookSearchResulTable.getSelectedRow(), 7),
-						"简介",JOptionPane.PLAIN_MESSAGE);
-			}
-		});
 		
 		//借阅管理
 		borrowManagePanel.setLayout(new BorderLayout());
+		JButton refreshButton=new JButton("刷新");
 		borrowManagePanel.add(refreshButton,BorderLayout.NORTH);
 		String[] borrowAttributeObjects= {"书号","书名","类型","作者","出版社","借阅日期","归还日期","是否过期未还"};
 		MyComponent.MyTable borrowSearchResultTable=myComponent.new MyTable(borrowAttributeObjects);
@@ -209,6 +197,7 @@ public class Reader_Frame extends JFrame{
 					arr[6]=borrow.getDueDate().toString();
 					arr[7]=borrow.getOvertime();
 					borrowSearchResultTable.getDefaultTableModel().addRow(arr);
+					System.out.println(arr[0]);
 				}
 			}
 		});
@@ -220,11 +209,10 @@ public class Reader_Frame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				int selectrow=borrowSearchResultTable.getSelectedRow();
-				String messageString=returnBorrow_Service.ReturnBook((String)borrowSearchResultTable.getValueAt(selectrow, 0));
+				String messageString=returnBorrow_Service.ReturnBook((String)bookSearchResulTable.
+						getValueAt(bookSearchResulTable.getSelectedRow(), 0));
 				if(messageString=="还书成功") {
 					JOptionPane.showMessageDialog(null, "归还图书成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
-					refreshButton.getActionListeners()[0].actionPerformed(null);
 				}
 				else if(messageString=="还书失败") {
 					JOptionPane.showMessageDialog(null, "还书失败，请咨询管理人员寻求帮助", "警告",JOptionPane.WARNING_MESSAGE);
@@ -233,10 +221,8 @@ public class Reader_Frame extends JFrame{
 					JOptionPane.showMessageDialog(null, "有书过期未还，此次还书失败，请咨询管理人员寻求帮助", 
 							"警告",JOptionPane.WARNING_MESSAGE);
 				}
-				
 			}
 		});
-		refreshButton.getActionListeners()[0].actionPerformed(null);
 		
 		//读者设置
 		List<Reader>readers=readerManage_Service.SearchReaderByID(m_ID);

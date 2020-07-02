@@ -208,14 +208,6 @@ public class Administrator_Frame extends JFrame{
                 }
             }
 		});
-		showBookIntroductionMenuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				JOptionPane.showConfirmDialog(null, (String)bookSearchResulTable.getValueAt(bookSearchResulTable.getSelectedRow(), 9),
-						"简介",JOptionPane.PLAIN_MESSAGE);
-			}
-		});
 		bookUpdatemMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -381,8 +373,6 @@ public class Administrator_Frame extends JFrame{
 								arr[7]=borrow.getOvertime();
 								borrowSearchResultTableModel.addRow(arr);
 							}
-							readerSearchReferenceTextField.setText(readers.get(0).getIdReader());
-							readerSearchModeComboBox.setSelectedIndex(0);
 							selectReaderFrame.dispose();
 						}
 					});
@@ -409,22 +399,14 @@ public class Administrator_Frame extends JFrame{
                 }
             }
 		});
-		JMenuItem returnMenuItem=new JMenuItem("删除借阅图书");
+		JMenuItem returnMenuItem=new JMenuItem();
 		borrowPopupMenu.add(returnMenuItem);
 		returnMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method
-				if(JOptionPane.showConfirmDialog(null, "是否删除该借阅记录（系统将视作归还图书）","删除确认",JOptionPane.YES_NO_OPTION)==0) {
-					int selectrow=borrowSearchResulTable.getSelectedRow();
-					if(returnBorrow_Service.DeleteBorrowBook(readerID[0], (String)borrowSearchResulTable.getValueAt(selectrow, 0))
-							.equals("删除成功")) {
-						readerSearchButton.getActionListeners()[0].actionPerformed(null);
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "删除借阅记录失败，请咨询技术人员寻求帮助","删除失败",JOptionPane.WARNING_MESSAGE);
-					}
-				}
+				int selectrow=borrowSearchResulTable.getSelectedRow();
+				returnBorrow_Service.DeleteBorrowBook(readerID[0], (String)borrowSearchResulTable.getValueAt(selectrow, 0));
 			}
 		});
 		readerSearchGridPanel.setLayout(new GridLayout(1,3));	
