@@ -177,8 +177,17 @@ public class Login_Register_Frame extends JFrame{
 	}
 	
 	public static void main(String[] args) {
+		try
+	    {
+	        org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
+	        UIManager.put("RootPane.setupButtonVisible",false);
+	    }
+	    catch(Exception e)
+	    {
+	        //TODO exception
+	    }
 		Login_Register_Frame login_Register_Frame=new Login_Register_Frame();
-		initGlobalFontSetting(new Font("黑体", Font.PLAIN, 12)); 
+		initGlobalFontSetting(new Font("黑体", Font.PLAIN, 14)); 
 	}
 	
 	//设置全局字体
