@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -35,6 +36,7 @@ import frame.MyComponent.MyComboBox;
 import frame.MyComponent.MyPanel;
 import service.BookManage_Service;
 import service.BookSearch_Service;
+import service.LoginLogout_Service;
 import service.ReaderManage_Service;
 import service.ReturnBorrow_Service;
 import model.Author;
@@ -49,6 +51,7 @@ public class Administrator_Frame extends JFrame{
 	private static ReaderManage_Service readerManage_Service=ReaderManage_Service.getInstance();
 	private static BookManage_Service bookManage_Service=BookManage_Service.getInstance();
 	private static ReturnBorrow_Service returnBorrow_Service=ReturnBorrow_Service.getInstance();
+	private static LoginLogout_Service loginLogout_Service=LoginLogout_Service.getInstance();
 	private static MyComponent myComponent=MyComponent.getMyComponent();
 	public Administrator_Frame(String ID) {
 		//界面初始化
@@ -60,7 +63,8 @@ public class Administrator_Frame extends JFrame{
 							" 借阅管理/Borrow Manage ",
 							" 读者管理/Reader Manage ",
 							"    添加图书/Add Book   ",
-							"读者注册/Reader Register"};
+							"读者注册/Reader Register",
+		};
 		MyComponent.MyCardPanel myCardPanel=myComponent.new MyCardPanel(strings);
 		add(myCardPanel);
 		JPanel bookManagePanel=myCardPanel.getPanel(0);
@@ -68,7 +72,27 @@ public class Administrator_Frame extends JFrame{
 		JPanel readerManagePanel=myCardPanel.getPanel(2);
 		JPanel addBookPanel=myCardPanel.getPanel(3);
 		JPanel readerRegisterPanel=myCardPanel.getPanel(4);
-
+		JPanel menuPanel=myCardPanel.getmenuPanel();
+		JButton logoutButton=new JButton(
+							"      登出/log out     ");
+		menuPanel.add(logoutButton);
+		menuPanel.add(Box.createVerticalStrut(10));
+		logoutButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(JOptionPane.showConfirmDialog(null, "是否确认登出","登出确认",JOptionPane.YES_NO_OPTION)==0) {
+					loginLogout_Service.LibLogout();
+					Login_Register_Frame login_Register_Frame=new Login_Register_Frame();
+					dispose();
+				}
+			}
+		});
+		menuPanel.add(Box.createVerticalGlue());
+		menuPanel.add(new JLabel(new ImageIcon(".\\img\\logo.png")));
+		menuPanel.add(Box.createVerticalStrut(10));
+		menuPanel.setBackground(Color.DARK_GRAY);
+		
 		//图书管理面板
 		JPanel bookContentPanel=new JPanel();
 		bookManagePanel.add(bookContentPanel);
@@ -207,6 +231,14 @@ public class Administrator_Frame extends JFrame{
                     bookManagePopupMenu.show(bookSearchResulTable, evt.getX(), evt.getY());
                 }
             }
+		});
+		showBookIntroductionMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JOptionPane.showConfirmDialog(null, (String)bookSearchResulTable.getValueAt(bookSearchResulTable.getSelectedRow(), 9),
+						"简介",JOptionPane.PLAIN_MESSAGE);
+			}
 		});
 		bookUpdatemMenuItem.addActionListener(new ActionListener() {
 			@Override
@@ -373,6 +405,8 @@ public class Administrator_Frame extends JFrame{
 								arr[7]=borrow.getOvertime();
 								borrowSearchResultTableModel.addRow(arr);
 							}
+							readerSearchReferenceTextField.setText(readers.get(0).getIdReader());
+							readerSearchModeComboBox.setSelectedIndex(0);
 							selectReaderFrame.dispose();
 						}
 					});
@@ -399,14 +433,22 @@ public class Administrator_Frame extends JFrame{
                 }
             }
 		});
-		JMenuItem returnMenuItem=new JMenuItem();
+		JMenuItem returnMenuItem=new JMenuItem("删除借阅图书");
 		borrowPopupMenu.add(returnMenuItem);
 		returnMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method
-				int selectrow=borrowSearchResulTable.getSelectedRow();
-				returnBorrow_Service.DeleteBorrowBook(readerID[0], (String)borrowSearchResulTable.getValueAt(selectrow, 0));
+				if(JOptionPane.showConfirmDialog(null, "是否删除该借阅记录（系统将视作归还图书）","删除确认",JOptionPane.YES_NO_OPTION)==0) {
+					int selectrow=borrowSearchResulTable.getSelectedRow();
+					if(returnBorrow_Service.DeleteBorrowBook(readerID[0], (String)borrowSearchResulTable.getValueAt(selectrow, 0))
+							.equals("删除成功")) {
+						readerSearchButton.getActionListeners()[0].actionPerformed(null);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "删除借阅记录失败，请咨询技术人员寻求帮助","删除失败",JOptionPane.WARNING_MESSAGE);
+					}
+				}
 			}
 		});
 		readerSearchGridPanel.setLayout(new GridLayout(1,3));	

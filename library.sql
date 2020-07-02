@@ -71,6 +71,7 @@ CREATE TABLE book
   author varchar(10) NOT NULL DEFAULT '',
   publisher varchar(20) NOT NULL DEFAULT '',
   intro varchar(100) NOT NULL DEFAULT '',
+  amount int DEFAULT NULL,
   PRIMARY KEY (idBook),
   FOREIGN KEY (author) REFERENCES author ON UPDATE CASCADE,
   FOREIGN KEY (publisher) REFERENCES publisher ON UPDATE CASCADE,
@@ -78,19 +79,19 @@ CREATE TABLE book
 
 
 --Data for table "book"
-INSERT INTO book VALUES ('001','周易',23,'文学','山彤','商务印书出版社','《周易》'),
-						('002','诗经',35,'文学','寒云','华夏出版社','《诗经》'),
-						('003','论语',25,'文学','书雁','中信出版社','《论语》'),
-						('004','纯粹理性批判',47,'哲学','向南','商务印书出版社','理性批判'),
-						('005','资本论',26,'哲学','仁毅','人民出版社','资本论'),
-						('006','围城',18,'小说','思乐','人民出版社','围城'),
-						('007','共产党宣言',35,'哲学','潇晗','中信出版社','共产党宣言'),
-						('008','物种起源',39,'科学','奥然','商务印书出版社','物种起源'),
-						('009','Java开发实战经典',79,'教材','如冬','清华大学出版社','Java'),
-						('010','数据库实用教程',35,'教材','含巧','清华大学出版社','数据库'),
-						('011','Java语言程序设计',65,'教材','李娜','机械工业出版社','JAVA'),
-						('012','倾城之恋',18,'文学','张爱玲','百花文艺出版社','倾城之恋'),
-						('013','孟子',36,'文学','山彤','商务印书出版社','孟子');
+INSERT INTO book VALUES ('001','周易',23,'文学','山彤','商务印书出版社','《周易》',5),
+						('002','诗经',35,'文学','寒云','华夏出版社','《诗经》',5),
+						('003','论语',25,'文学','书雁','中信出版社','《论语》',5),
+						('004','纯粹理性批判',47,'哲学','向南','商务印书出版社','理性批判',5),
+						('005','资本论',26,'哲学','仁毅','人民出版社','资本论',5),
+						('006','围城',18,'小说','思乐','人民出版社','围城',5),
+						('007','共产党宣言',35,'哲学','潇晗','中信出版社','共产党宣言',5),
+						('008','物种起源',39,'科学','奥然','商务印书出版社','物种起源',5),
+						('009','Java开发实战经典',79,'教材','如冬','清华大学出版社','Java',5),
+						('010','数据库实用教程',35,'教材','含巧','清华大学出版社','数据库',5),
+						('011','Java语言程序设计',65,'教材','李娜','机械工业出版社','JAVA',5),
+						('012','倾城之恋',18,'文学','张爱玲','百花文艺出版社','倾城之恋',5),
+						('013','孟子',36,'文学','山彤','商务印书出版社','孟子',5);
 
 
 --Structure for table "reader"
@@ -121,10 +122,10 @@ INSERT INTO reader VALUES ('001','初灵','学生','女','root'),
 --Structure for table "borrow"
 CREATE TABLE borrow 
 (
-  idReader varchar(10) NOT NULL DEFAULT '',
-  idBook varchar(10) DEFAULT NULL UNIQUE,
-  lendDate date NOT NULL DEFAULT '2015-07-25',
-  dueDate date NOT NULL DEFAULT '2015-12-19',
+  idReader varchar(10) NOT NULL ,
+  idBook varchar(10) DEFAULT NULL ,
+  lendDate date NOT NULL ,
+  dueDate date NOT NULL,
   overtime varchar(4) NOT NULL DEFAULT '否',
   PRIMARY KEY(idReader,idBook),
   FOREIGN KEY (idBook) REFERENCES book ON DELETE CASCADE ON UPDATE CASCADE,
@@ -133,9 +134,9 @@ CREATE TABLE borrow
 
 
 --Data for table "borrow"
-INSERT INTO borrow VALUES ('001','001','2016-01-01','2016-01-01','否'),
-						  ('002','006','2016-01-01','2016-03-01','否'),
-						  ('007','011','2016-01-01','2016-03-01','否'),
-						  ('001','005','2016-01-02','2016-03-02','否');
+INSERT INTO borrow VALUES ('001','001','2020-05-01','2020-06-01','否'),
+						  ('002','006','2020-05-01','2020-07-01','否'),
+						  ('007','011','2020-05-01','2020-07-01','否'),
+						  ('001','005','2020-05-02','2020-07-02','否');
 
 
