@@ -12,9 +12,6 @@ import java.util.Enumeration;
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 
-import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
-import org.jb2011.lnf.beautyeye.ch3_button.BEButtonUI;
-
 import frame.MyComponent.MyPanel;
 import model.Reader;
 import service.LoginLogout_Service;
@@ -42,7 +39,6 @@ public class Login_Register_Frame extends JFrame{
 		JPanel liloginPanel=new JPanel();
 		liloginPanel.setBackground(Color.white);
 		cardPanel.add(liloginPanel,"lilogin");
-		
 		
 		//登录页面
 		setTitle("读者登录/readerlogin");
@@ -74,7 +70,6 @@ public class Login_Register_Frame extends JFrame{
 			}
 		});
 		loginPanel.add(loginButton);
-		loginButton.setUI(new BEButtonUI(). setNormalColor(BEButtonUI.NormalColor.normal));
 		JButton toregisterButton=new JButton("我还没有账号/I haven't account yet");
 		toregisterButton.addActionListener(new ActionListener() {
 			@Override
@@ -94,13 +89,6 @@ public class Login_Register_Frame extends JFrame{
 			}
 		});
 		loginPanel.add(toliButton);
-		pwdTextField.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				loginButton.doClick();
-			}
-		});
 		loginPanel.setLayout(new GridLayout(7,1));
 		
 		//注册页面 
@@ -130,14 +118,9 @@ public class Login_Register_Frame extends JFrame{
 				// TODO Auto-generated method stub
 				Reader reader=new Reader(readerPanel.getText(1),readerPanel.getText(3),
 						readerPanel.getText(5),readerPanel.getText(7),String.valueOf(pwdField.getPassword()));
-				if(readerManage_Service.AddReader(reader)) {
-					JOptionPane.showMessageDialog(null, "成功注册新账户，将返回登录界面", "注册成功", JOptionPane.PLAIN_MESSAGE);
-					IDTextField.setText(readerPanel.getText(1));
-					pwdTextField.setText(String.valueOf(pwdField.getPassword()));
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "请咨询管理人员寻求帮助", "注册失败", JOptionPane.ERROR_MESSAGE);
-				}
+				readerManage_Service.AddReader(reader);
+				IDTextField.setText(readerPanel.getText(1));
+				
 			}
 		});
 		JButton retologinButton=new JButton("返回读者登录界面/back to reader login page");
@@ -177,7 +160,6 @@ public class Login_Register_Frame extends JFrame{
 			}
 		});
 		liloginPanel.add(liloginButton);
-		liloginButton.setUI(new BEButtonUI(). setNormalColor(BEButtonUI.NormalColor.normal));
 		JButton litologinButton=new JButton("返回读者登录界面/back to reader login page");
 		litologinButton.addActionListener(new ActionListener() {
 			@Override
@@ -186,13 +168,6 @@ public class Login_Register_Frame extends JFrame{
 			}
 		});
 		liloginPanel.add(litologinButton);
-		lipwdTextField.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				liloginButton.doClick();
-			}
-		});
 		liloginPanel.setLayout(new GridLayout(6,1));
 		
 		//显示窗口
@@ -202,15 +177,6 @@ public class Login_Register_Frame extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		try
-	    {
-			BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.FrameBorderStyle.generalNoTranslucencyShadow;
-	        org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
-	    }
-	    catch(Exception e)
-	    {
-	        //TODO exception
-	    }
 		Login_Register_Frame login_Register_Frame=new Login_Register_Frame();
 		initGlobalFontSetting(new Font("黑体", Font.PLAIN, 12)); 
 	}

@@ -13,7 +13,6 @@ import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.Box;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -36,7 +35,6 @@ import frame.MyComponent.MyComboBox;
 import frame.MyComponent.MyPanel;
 import service.BookManage_Service;
 import service.BookSearch_Service;
-import service.LoginLogout_Service;
 import service.ReaderManage_Service;
 import service.ReturnBorrow_Service;
 import model.Author;
@@ -51,7 +49,6 @@ public class Administrator_Frame extends JFrame{
 	private static ReaderManage_Service readerManage_Service=ReaderManage_Service.getInstance();
 	private static BookManage_Service bookManage_Service=BookManage_Service.getInstance();
 	private static ReturnBorrow_Service returnBorrow_Service=ReturnBorrow_Service.getInstance();
-	private static LoginLogout_Service loginLogout_Service=LoginLogout_Service.getInstance();
 	private static MyComponent myComponent=MyComponent.getMyComponent();
 	public Administrator_Frame(String ID) {
 		//界面初始化
@@ -63,8 +60,7 @@ public class Administrator_Frame extends JFrame{
 							" 借阅管理/Borrow Manage ",
 							" 读者管理/Reader Manage ",
 							"    添加图书/Add Book   ",
-							"读者注册/Reader Register",
-		};
+							"读者注册/Reader Register"};
 		MyComponent.MyCardPanel myCardPanel=myComponent.new MyCardPanel(strings);
 		add(myCardPanel);
 		JPanel bookManagePanel=myCardPanel.getPanel(0);
@@ -72,27 +68,7 @@ public class Administrator_Frame extends JFrame{
 		JPanel readerManagePanel=myCardPanel.getPanel(2);
 		JPanel addBookPanel=myCardPanel.getPanel(3);
 		JPanel readerRegisterPanel=myCardPanel.getPanel(4);
-		JPanel menuPanel=myCardPanel.getmenuPanel();
-		JButton logoutButton=new JButton(
-							"      登出/log out     ");
-		menuPanel.add(logoutButton);
-		menuPanel.add(Box.createVerticalStrut(10));
-		logoutButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if(JOptionPane.showConfirmDialog(null, "是否确认登出","登出确认",JOptionPane.YES_NO_OPTION)==0) {
-					loginLogout_Service.LibLogout();
-					Login_Register_Frame login_Register_Frame=new Login_Register_Frame();
-					dispose();
-				}
-			}
-		});
-		menuPanel.add(Box.createVerticalGlue());
-		menuPanel.add(new JLabel(new ImageIcon(".\\img\\logo.png")));
-		menuPanel.add(Box.createVerticalStrut(10));
-		menuPanel.setBackground(Color.DARK_GRAY);
-		
+
 		//图书管理面板
 		JPanel bookContentPanel=new JPanel();
 		bookManagePanel.add(bookContentPanel);
