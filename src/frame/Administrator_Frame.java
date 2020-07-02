@@ -419,20 +419,6 @@ public class Administrator_Frame extends JFrame{
 			}
 		});
 		JPopupMenu borrowPopupMenu=new JPopupMenu();
-		borrowSearchResulTable.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                //判断是否为鼠标的BUTTON3按钮，BUTTON3为鼠标右键
-                if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
-                    int focusedRowIndex = bookSearchResulTable.rowAtPoint(evt.getPoint());
-                    if (focusedRowIndex == -1) {
-                        return;
-                    }
-                    //设置焦点
-                    borrowSearchResulTable.setRowSelectionInterval(focusedRowIndex, focusedRowIndex);
-                    borrowPopupMenu.show(borrowSearchResulTable, evt.getX(), evt.getY());
-                }
-            }
-		});
 		JMenuItem returnMenuItem=new JMenuItem("删除借阅图书");
 		borrowPopupMenu.add(returnMenuItem);
 		returnMenuItem.addActionListener(new ActionListener() {
@@ -450,6 +436,20 @@ public class Administrator_Frame extends JFrame{
 					}
 				}
 			}
+		});
+		borrowSearchResulTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                //判断是否为鼠标的BUTTON3按钮，BUTTON3为鼠标右键
+                if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
+                    int focusedRowIndex = borrowSearchResulTable.rowAtPoint(evt.getPoint());
+                    if (focusedRowIndex == -1) {
+                        return;
+                    }
+                    //设置焦点
+                    borrowSearchResulTable.setRowSelectionInterval(focusedRowIndex, focusedRowIndex);
+                    borrowPopupMenu.show(borrowSearchResulTable, evt.getX(), evt.getY());
+                }
+            }
 		});
 		readerSearchGridPanel.setLayout(new GridLayout(1,3));	
 		borrowSearchResulTable.setPreferredScrollableViewportSize(new Dimension(550,400));
@@ -482,8 +482,6 @@ public class Administrator_Frame extends JFrame{
 				}
 				for(Reader reader:readers) {
 					readerManageSearchResulTable.addReader(reader);
-					System.out.println(reader.getIdReader());
-					System.out.println(readerManageSearchResulTable.getColumnCount());
 				}
 			}
 		});

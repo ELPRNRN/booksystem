@@ -205,8 +205,8 @@ public class Login_Register_Frame extends JFrame{
 		try
 	    {
 			BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.FrameBorderStyle.generalNoTranslucencyShadow;
-	        org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
-	        UIManager.put("RootPane.setupButtonVisible",false);
+			org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
+			UIManager.put("RootPane.setupButtonVisible",false);
 	    }
 	    catch(Exception e)
 	    {
