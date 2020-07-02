@@ -164,11 +164,8 @@ public class Reader_Frame extends JFrame{
 				else if(messageString=="借阅失败") {
 					JOptionPane.showMessageDialog(null, "借书失败，请咨询管理人员寻求帮助", "警告",JOptionPane.WARNING_MESSAGE);
 				}
-				else if(messageString=="没有库存"){
+				else {
 					JOptionPane.showMessageDialog(null, "该书本已无库存，无法再行借阅", "警告",JOptionPane.WARNING_MESSAGE);
-				}
-				else if(messageString=="有书过期未还"){
-					JOptionPane.showMessageDialog(null, "有书过期未还！请咨询管理人员", "警告",JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});

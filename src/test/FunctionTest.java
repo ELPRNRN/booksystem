@@ -21,11 +21,13 @@ public class FunctionTest
 {
 	 public static void main(String[] args) 
 	 {
-		 ReturnBorrow_Service service= ReturnBorrow_Service.getInstance();
-		 String temp=service.ReturnBook("006");
-		 System.out.println(temp);
+	    	 BookSearch_Service service= BookSearch_Service.getInstance();
+	    	 List<Author> temp=service.searchAuthorInfo("向南");
+	    	 List<Publisher> temp2=service.searchPublisherInfo("人民出版社");
+
 	   
-		     
+		     System.out.println(temp);
+		     System.out.println(temp2);
 	 }
 	 
 }
