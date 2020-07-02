@@ -1,1 +1,8 @@
+/.classpath
+/.project
+/database/
 /frame/
+/model/
+/service/
+/sqlTools/
+/test/

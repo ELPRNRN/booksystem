@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -40,6 +42,7 @@ public class Reader_Frame extends JFrame{
 	private static ReaderManage_Service readerManage_Service=ReaderManage_Service.getInstance();
 	private static BookManage_Service bookManage_Service=BookManage_Service.getInstance();
 	private static ReturnBorrow_Service returnBorrow_Service=ReturnBorrow_Service.getInstance();
+	private static LoginLogout_Service loginLogout_Service=LoginLogout_Service.getInstance();
 	private static MyComponent myComponent=MyComponent.getMyComponent();
 	public Reader_Frame(String ID) {
 		// TODO Auto-generated constructor stub
@@ -59,6 +62,26 @@ public class Reader_Frame extends JFrame{
 		JPanel bookSearchPanel=myCardPanel.getPanel(0);
 		JPanel borrowManagePanel=myCardPanel.getPanel(1);
 		JPanel readerSettingPanel=myCardPanel.getPanel(2);
+		JPanel menuPanel=myCardPanel.getmenuPanel();
+		JButton logoutButton=new JButton(
+							"       登出/log out      ");
+		menuPanel.add(logoutButton);
+		menuPanel.add(Box.createVerticalStrut(10));
+		logoutButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(JOptionPane.showConfirmDialog(null, "是否确认登出","登出确认",JOptionPane.YES_NO_OPTION)==0) {
+					loginLogout_Service.ReaderLogout();
+					Login_Register_Frame login_Register_Frame=new Login_Register_Frame();
+					dispose();
+				}
+			}
+		});
+		menuPanel.add(Box.createVerticalGlue());
+		menuPanel.add(new JLabel(new ImageIcon(".\\img\\logo.png")));
+		menuPanel.add(Box.createVerticalStrut(10));
+		menuPanel.setBackground(Color.DARK_GRAY);
 		
 		//图书搜索
 		JPanel bookContentPanel=new JPanel();
