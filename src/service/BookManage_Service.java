@@ -1,6 +1,13 @@
 package service;
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.text.DecimalFormat;
+import java.text.Format;
+
 import model.Author;
 import model.Book;
 import model.Publisher;
@@ -69,6 +76,45 @@ public class BookManage_Service
 			return true;//删除成功
 		else
 			return false;//删除失败
+	}
+	
+	//自动获得书本ID，用于注册书本
+	//ID记录在dat文件中
+	public String GenerateBookID()
+	{
+
+		try(FileReader fr = new FileReader("bookID.dat");BufferedReader br = new BufferedReader(fr))
+		{
+			String currentID=br.readLine();
+			return currentID;
+		}
+		
+		catch(Exception e)
+		{
+			System.out.print(e.toString());
+		}
+		
+		return "";
+	}
+	
+	//更新dat文件中的图书ID，用于下次自动获取ID注册图书
+	//当本次注册成功之后才调用此函数更新
+	public void UpdateGenerateBookID()
+	{
+		String currentID=GenerateBookID();
+		try(FileWriter fw = new FileWriter("bookID.dat");BufferedWriter bw = new BufferedWriter(fw))
+		{
+			int ID=Integer.parseInt(currentID);
+			int nextID=ID+1;
+			Format f1 = new DecimalFormat("000");
+			String s=f1.format(nextID);
+			bw.write(s);
+		}
+		
+		catch(Exception e)
+		{
+			System.out.print(e.toString());
+		}
 	}
 	
 	
