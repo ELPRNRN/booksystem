@@ -251,7 +251,9 @@ public class Administrator_Frame extends JFrame{
 				JPanel bookBorderPanel=new JPanel(); 
 				bookInformationFrame.add(bookBorderPanel);
 				bookBorderPanel.setLayout(new BorderLayout());
-				String[]bookStrings= {"书ID号","书名","价格","类型","作者","作者国籍","出版社","出版社地址","库存","简介"};
+			 	JPanel bookSouthGridPanel=new JPanel();
+			 	bookBorderPanel.add(bookSouthGridPanel,BorderLayout.SOUTH);
+				String[]bookStrings= {"书ID号","书名","价格","类型","作者","作者国籍","出版社","库存"};
 				MyComponent.MyPanel bookPanel=myComponent.new MyPanel(bookStrings, 2);
 				bookBorderPanel.add(bookPanel,BorderLayout.CENTER);
 				bookPanel.setJComboBox(7, booktypestrings);
@@ -262,30 +264,37 @@ public class Administrator_Frame extends JFrame{
 				bookPanel.setText(9, (String)bookSearchResulTable.getValueAt(selectrow, 4));
 				bookPanel.setText(11, (String)bookSearchResulTable.getValueAt(selectrow, 5));
 				bookPanel.setText(13, (String)bookSearchResulTable.getValueAt(selectrow, 6));
-				bookPanel.setText(15, (String)bookSearchResulTable.getValueAt(selectrow, 7));
-				bookPanel.setText(17, (String)bookSearchResulTable.getValueAt(selectrow, 8));
-				bookPanel.setText(19, (String)bookSearchResulTable.getValueAt(selectrow, 9));
+				bookPanel.setText(15, (String)bookSearchResulTable.getValueAt(selectrow, 8));
+				JLabel bookAddAddressLabel=new JLabel("出版社地址");
+				bookSouthGridPanel.add(bookAddAddressLabel);
+				JTextField bookAddAddressTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 7));
+				bookSouthGridPanel.add(bookAddAddressTextField);
+				JLabel bookAddIntroductionLabel=new JLabel("简介");
+				bookSouthGridPanel.add(bookAddIntroductionLabel);
+				JTextField bookAddIntroductionTextField=new JTextField((String)bookSearchResulTable.getValueAt(selectrow, 9));
+				bookSouthGridPanel.add(bookAddIntroductionTextField);
 				JButton addBookButton=new JButton("更新图书信息");
-				bookBorderPanel.add(addBookButton,BorderLayout.SOUTH);
+				bookSouthGridPanel.add(addBookButton);
 				addBookButton.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
 						Book book=new Book(bookPanel.getText(1), bookPanel.getText(3),Integer.parseInt(bookPanel.getText(5)),
-								bookPanel.getText(7),bookPanel.getText(9),bookPanel.getText(13),bookPanel.getText(17),
+								bookPanel.getText(7),bookPanel.getText(9),bookAddIntroductionTextField.getText(),bookPanel.getText(17),
 								Integer.parseInt(bookPanel.getText(19)));
 						Author author=new Author();
 						author.setName(bookPanel.getText(9));
 						author.setNationality(bookPanel.getText(11));
 						Publisher publisher=new Publisher();
 						publisher.setName(bookPanel.getText(13));
-						publisher.setAddress(bookPanel.getText(15));
+						publisher.setAddress(bookAddAddressTextField.getText());
 						if(bookManage_Service.UpdateBook(book, author, publisher)) {
 							JOptionPane.showMessageDialog(null, "添加图书成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
 							bookSearchButton.getActionListeners()[0].actionPerformed(null);
 						}
 					}
 				});
+				bookSouthGridPanel.setLayout(new GridLayout(5,1));
 				bookInformationFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				bookInformationFrame.pack();
 				bookInformationFrame.setVisible(true);
@@ -507,15 +516,29 @@ public class Administrator_Frame extends JFrame{
 		});
 		
 		//添加图书面板
+		addBookPanel.setLayout(new BorderLayout());
+		MyComponent.MyCenterPanel addCenterPanel=myComponent.new MyCenterPanel();
+		addBookPanel.add(addCenterPanel,BorderLayout.CENTER);
 		JPanel bookAddBorderPanel=new JPanel();
-		addBookPanel.add(bookAddBorderPanel);
+		addCenterPanel.add(bookAddBorderPanel);
 		bookAddBorderPanel.setLayout(new BorderLayout());
-		String[]bookStrings= {"书ID号","书名","价格","类型","作者","作者国籍","出版社","出版社地址","简介","库存"};
-		MyComponent.MyPanel bookPanel=myComponent.new MyPanel(bookStrings, 2);
+		JPanel bookAddSouthGridPanel=new JPanel();
+		bookAddBorderPanel.add(bookAddSouthGridPanel,BorderLayout.SOUTH);
+		String[]bookStrings= {"书ID号","书名","价格","类型","作者","作者国籍","出版社","库存"};
+		MyComponent.MyPanel bookPanel=myComponent.new MyPanel(bookStrings, 2,15);
 		bookAddBorderPanel.add(bookPanel,BorderLayout.CENTER);
 		bookPanel.setJComboBox(7, booktypestrings);
+		JLabel bookAddAddressLabel=new JLabel("出版社地址");
+		bookAddSouthGridPanel.add(bookAddAddressLabel);
+		JTextField bookAddAddressTextField=new JTextField();
+		bookAddSouthGridPanel.add(bookAddAddressTextField);
+		JLabel bookAddIntroductionLabel=new JLabel("简介");
+		bookAddSouthGridPanel.add(bookAddIntroductionLabel);
+		JTextField bookAddIntroductionTextField=new JTextField();
+		bookAddSouthGridPanel.add(bookAddIntroductionTextField);
 		JButton addBookButton=new JButton("添加图书");
-		bookAddBorderPanel.add(addBookButton,BorderLayout.SOUTH);
+		bookAddSouthGridPanel.add(addBookButton);
+		bookAddSouthGridPanel.setLayout(new GridLayout(5,1));
 		addBookButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -537,11 +560,14 @@ public class Administrator_Frame extends JFrame{
 		});
 		
 		//读者注册面板
+		readerRegisterPanel.setLayout(new BorderLayout());
+		MyComponent.MyCenterPanel readerCenterPanel=myComponent.new MyCenterPanel();
+		readerRegisterPanel.add(readerCenterPanel,BorderLayout.CENTER);
 		JPanel readerRegisterBorderPanel=new JPanel();
-		readerRegisterPanel.add(readerRegisterBorderPanel);
+		readerCenterPanel.add(readerRegisterBorderPanel);
 		readerRegisterBorderPanel.setLayout(new BorderLayout());
 		String[]readerStrings= {"ID","姓名","类型","性别"};
-		MyComponent.MyPanel readerPanel=myComponent.new MyPanel(readerStrings, 1);
+		MyComponent.MyPanel readerPanel=myComponent.new MyPanel(readerStrings, 1,15);
 		String[] readertypeStrings= {"教师","学生"};
 		readerPanel.setJComboBox(5, readertypeStrings);
 		String[]genderStrings= {"男","女"};

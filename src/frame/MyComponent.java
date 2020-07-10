@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +27,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import jdk.jfr.Description;
 import model.Book;
 import model.Reader;
 
@@ -142,7 +144,7 @@ public class MyComponent {
 	}
 	
 	final private static String[] BOOKS_STRINGS= {"书号","书名","价格","类型","作者","出版社","库存数量","简介"};
-	public class MyBookTable extends MyTable{
+	public class MyBookTable extends MyTable{		
 		public MyBookTable() {
 			super(BOOKS_STRINGS);
 			super.hidecolumn(7);
@@ -179,7 +181,22 @@ public class MyComponent {
 			}
 		}
 		
-
+		public MyPanel(String[]strings,int column,int length) {
+			// TODO Auto-generated constructor stub
+			for(String string:strings) {
+				JLabel tempLabel=new JLabel(string);
+				super.add(tempLabel);
+				JTextField tempTextField=new JTextField(length);
+				super.add(tempTextField);
+			}
+			if(strings.length%2==0) {
+				super.setLayout(new GridLayout(strings.length/column,column));
+			}
+			else {
+				super.setLayout(new GridLayout(strings.length/column+1,column));
+			}
+		}
+		
 		public void setEditable(int i,boolean b) {
 			Component component=this.getComponent(i);
 			if(component instanceof JTextField) {
@@ -206,14 +223,25 @@ public class MyComponent {
 		* @description i必须为奇数
 		*/
 		public MyComboBox setJComboBox(int i,String[]strings) {
-			MyComboBox comboBox=new MyComboBox(strings);
-			this.remove(this.getComponent(i));
-			this.add(comboBox,i);
-		    this.revalidate();//对panel1面板中的组件重新布局并绘制
-		    this.repaint();//对panel1本身进行重绘
-			return comboBox;
+				MyComboBox comboBox=new MyComboBox(strings);
+				this.remove(this.getComponent(i));
+				this.add(comboBox,i);
+			    this.revalidate();//对panel1面板中的组件重新布局并绘制
+			    this.repaint();//对panel1本身进行重绘
+			    return comboBox;
 		}
 		
+		public JComboBox<String> getComboBox(int index){
+			for(int i=0;i<this.getComponentCount();i++) {
+				if(this.getComponent(i) instanceof JComboBox<?>) {
+					index=index-1;
+					if(index==-1) {
+						return (JComboBox<String>) this.getComponent(i);
+					}
+				}
+			}
+			return null;
+		}
 		
 		/**
 		* @description i必须为奇数
@@ -241,6 +269,7 @@ public class MyComponent {
 				((MyComboBox) component).setSelectedString(string);
 			}
 		}
+		
 	}
 	
 	public class MyCardPanel extends JPanel{
@@ -286,8 +315,38 @@ public class MyComponent {
 		}
 	}
 
-	public void addRow(String[] arr) {
-		// TODO Auto-generated method stub
+	public class MyCenterPanel extends JPanel{//将控件居中处理
+		private JPanel yCenterPanel=new JPanel();
+		private JPanel xCenterPanel=new JPanel();
+		public MyCenterPanel() {
+			// TODO Auto-generated constructor stub
+			super.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			super.add(Box.createGlue());
+			super.add(yCenterPanel);
+			super.add(Box.createGlue());
+			yCenterPanel.setLayout(new BoxLayout(yCenterPanel, BoxLayout.X_AXIS));
+			yCenterPanel.add(Box.createGlue());
+			yCenterPanel.add(xCenterPanel);
+			yCenterPanel.add(Box.createGlue());
+			System.out.println("center success");
+		}
 		
+		/**
+		 * @description 该函数将会改变MyCenterPanel整个控件的布局，请使用setLayout_s(LayoutManager l)来设置中间控件的布局
+		 */
+		@Override
+		public void setLayout(LayoutManager l) {
+			super.setLayout(l);
+		}
+		
+		@Override
+		public Component add(Component c) {
+			return xCenterPanel.add(c);
+		}
+		
+		public void setLayout_s(LayoutManager l) {
+			xCenterPanel.setLayout(l);
+		}
 	}
+	
 }

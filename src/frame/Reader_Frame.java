@@ -46,6 +46,12 @@ public class Reader_Frame extends JFrame{
 	private static MyComponent myComponent=MyComponent.getMyComponent();
 	public Reader_Frame(String ID) {
 		// TODO Auto-generated constructor stub
+		
+		//显示窗口
+		pack();
+		setVisible(true);
+		setBounds(100, 100, 996, 699);
+		
 		//界面初始化
 		JButton refreshButton=new JButton("刷新");
 		m_ID=new String(ID);
@@ -265,19 +271,24 @@ public class Reader_Frame extends JFrame{
 		refreshButton.getActionListeners()[0].actionPerformed(null);
 		
 		//读者设置
+		readerSettingPanel.setLayout(new BorderLayout());
+		MyComponent.MyCenterPanel readerCenterPanel=myComponent.new MyCenterPanel();
+		readerSettingPanel.add(readerCenterPanel,BorderLayout.CENTER);
 		List<Reader>readers=readerManage_Service.SearchReaderByID(m_ID);
 		JPanel readerRegisterBorderPanel=new JPanel();
-		readerSettingPanel.add(readerRegisterBorderPanel);
+		readerCenterPanel.add(readerRegisterBorderPanel);
 		readerRegisterBorderPanel.setLayout(new BorderLayout());
 		String[]readerStrings= {"ID","姓名","类型","性别"};
-		MyComponent.MyPanel readerPanel=myComponent.new MyPanel(readerStrings, 1);
+		MyComponent.MyPanel readerPanel=myComponent.new MyPanel(readerStrings, 1,15);
 		readerPanel.setText(1, m_ID);
 		readerPanel.setText(3, readers.get(0).getNameReader());
 		String[] readertypeStrings= {"教师","学生"};
-		MyComboBox typeComboBox= readerPanel.setJComboBox(5, readertypeStrings);
+		readerPanel.setJComboBox(5, readertypeStrings);
+		MyComboBox typeComboBox=(MyComboBox) readerPanel.getComboBox(0);
 		typeComboBox.setSelectedString(readers.get(0).getType());
 		String[]genderStrings= {"男","女"};
-		MyComboBox genderComboBox= readerPanel.setJComboBox(7, genderStrings);
+		readerPanel.setJComboBox(7, genderStrings);
+		MyComboBox genderComboBox= (MyComboBox) readerPanel.getComboBox(1);
 		genderComboBox.setSelectedString(readers.get(0).getSex());
 		readerRegisterBorderPanel.add(readerPanel,BorderLayout.CENTER);
 		readerPanel.setEditable(false);
@@ -351,6 +362,7 @@ public class Reader_Frame extends JFrame{
 					}
 				});
 				gridPanel.setLayout(new GridLayout(5,2));
+				
 				//显示窗口
 				pwdFrame.pack();
 				pwdFrame.setVisible(true);
@@ -359,10 +371,7 @@ public class Reader_Frame extends JFrame{
 		});
 		
 		
-		//显示窗口
-		pack();
-		setVisible(true);
-		setBounds(100, 100, 996, 699);
+
 	}
 	
 	static void main(String[] args) {
