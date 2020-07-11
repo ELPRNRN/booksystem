@@ -326,8 +326,8 @@ public class Administrator_Frame extends JFrame{
 							return;
 						}
 						Book book=new Book(bookPanel.getText(1), bookPanel.getText(3),Integer.parseInt(bookPanel.getText(5)),
-								bookPanel.getText(7),bookPanel.getText(9),bookAddIntroductionTextField.getText(),bookPanel.getText(17),
-								Integer.parseInt(bookPanel.getText(19)));
+								bookPanel.getText(7),bookPanel.getText(9),bookPanel.getText(13),
+								bookAddIntroductionTextField.getText(),Integer.parseInt(bookPanel.getText(15)));
 						Author author=new Author();
 						author.setName(bookPanel.getText(9));
 						author.setNationality(bookPanel.getText(11));
@@ -337,6 +337,7 @@ public class Administrator_Frame extends JFrame{
 						if(bookManage_Service.UpdateBook(book, author, publisher)) {
 							JOptionPane.showMessageDialog(null, "更新图书成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
 							bookSearchButton.getActionListeners()[0].actionPerformed(null);
+							bookInformationFrame.dispose();
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "更新图书失败！请咨询技术人员寻求帮助", "错误",JOptionPane.ERROR_MESSAGE);
@@ -634,7 +635,7 @@ public class Administrator_Frame extends JFrame{
 				}
 				Book book=new Book(bookPanel.getText(1), bookPanel.getText(3),Integer.parseInt(bookPanel.getText(5)),
 						bookPanel.getText(7),bookPanel.getText(9),bookPanel.getText(13),bookAddIntroductionTextField.getText(),
-						Integer.parseInt(bookPanel.getText(19)));
+						Integer.parseInt(bookPanel.getText(15)));
 				Author author=new Author();
 				author.setName(bookPanel.getText(9));
 				author.setNationality(bookPanel.getText(11));
