@@ -322,7 +322,12 @@ public class Reader_Frame extends JFrame{
 					readerPanel.setEditable(false);
 					Reader reader=new Reader(readerPanel.getText(1),readerPanel.getText(3),
 							readerPanel.getText(5),readerPanel.getText(7),readers.get(0).getPassword());
-					readerManage_Service.UpdateReader(reader);
+					if(readerManage_Service.UpdateReader(reader)) {
+						JOptionPane.showMessageDialog(null, "更新读者信息成功","提示",JOptionPane.PLAIN_MESSAGE);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "更新读者信息失败，请咨询管理人员寻求帮助","错误",JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});
@@ -384,7 +389,7 @@ public class Reader_Frame extends JFrame{
 				//显示窗口
 				pwdFrame.pack();
 				pwdFrame.setVisible(true);
-				pwdFrame.setBounds(200, 200, 250, 200);
+				pwdFrame.setBounds(200, 200, 300, 200);
 			}
 		});
 		

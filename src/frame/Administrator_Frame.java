@@ -335,8 +335,11 @@ public class Administrator_Frame extends JFrame{
 						publisher.setName(bookPanel.getText(13));
 						publisher.setAddress(bookAddAddressTextField.getText());
 						if(bookManage_Service.UpdateBook(book, author, publisher)) {
-							JOptionPane.showMessageDialog(null, "添加图书成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "更新图书成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
 							bookSearchButton.getActionListeners()[0].actionPerformed(null);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "更新图书失败！请咨询技术人员寻求帮助", "错误",JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				});
@@ -355,6 +358,9 @@ public class Administrator_Frame extends JFrame{
 					if(bookManage_Service.DeleteBook((String)bookSearchResulTable.getValueAt(bookSearchResulTable.getSelectedRow(), 0))) {
 						JOptionPane.showMessageDialog(null, "删除图书成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
 						bookSearchButton.getActionListeners()[0].actionPerformed(null);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "删除图书失败！", "错误",JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
