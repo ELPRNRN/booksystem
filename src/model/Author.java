@@ -51,8 +51,17 @@ public class Author
 	public String toString() {
 		return "Author [name=" + name + ", nationality=" + nationality + "]";
 	}
+	public Author(String name, String nationality) {
+		super();
+		this.name = name;
+		this.nationality = nationality;
+	}
+	
+	public Author() {
+		
+	}
 
-
+	
 
 }
 
