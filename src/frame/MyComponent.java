@@ -328,7 +328,6 @@ public class MyComponent {
 			yCenterPanel.add(Box.createGlue());
 			yCenterPanel.add(xCenterPanel);
 			yCenterPanel.add(Box.createGlue());
-			System.out.println("center success");
 		}
 		
 		/**

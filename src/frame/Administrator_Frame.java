@@ -174,6 +174,10 @@ public class Administrator_Frame extends JFrame{
 				}
 				if(bookidTextField.getText().length()!=0) {
 					List<Book> searchresult =bookSearch_Service.searchByBookID(bookidTextField.getText());
+					if(searchresult.size()==0) {
+						JOptionPane.showMessageDialog(null, "未能找到相关书本","警告",JOptionPane.WARNING_MESSAGE);
+						return;
+					}
 					String[]arr=new String[10];
 					Book book=searchresult.get(0);
 					arr[0]=book.getIdBook();
@@ -193,6 +197,10 @@ public class Administrator_Frame extends JFrame{
 					if(typestring=="所有")typestring="";
 					List<Book> searchresult = bookSearch_Service.searchByBookInfo("", bookNameTextField.getText(), typestring, 
 						authorTextField.getText(), publisherTextField.getText());
+					if(searchresult.size()==0) {
+						JOptionPane.showMessageDialog(null, "未能找到相关书本","警告",JOptionPane.WARNING_MESSAGE);
+						return;
+					}
 					for(Book book:searchresult) {
 						String[]arr=new String[10];
 						arr[0]=book.getIdBook();
@@ -279,6 +287,14 @@ public class Administrator_Frame extends JFrame{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
+						if(bookPanel.getText(1).equals("")||bookPanel.getText(3).equals("")||bookPanel.getText(5).equals("")||
+								bookPanel.getText(7).equals("")||bookPanel.getText(9).equals("")||bookPanel.getText(11).equals("")||
+								bookPanel.getText(13).equals("")||bookAddAddressTextField.getText().equals("")||
+								bookAddIntroductionTextField.getText().equals("")||bookPanel.getText(17).equals("")||
+								bookPanel.getText(19).equals("")) {
+							JOptionPane.showMessageDialog(null, "不能有内容为空！", "警告",JOptionPane.WARNING_MESSAGE);
+							return;
+						}
 						Book book=new Book(bookPanel.getText(1), bookPanel.getText(3),Integer.parseInt(bookPanel.getText(5)),
 								bookPanel.getText(7),bookPanel.getText(9),bookAddIntroductionTextField.getText(),bookPanel.getText(17),
 								Integer.parseInt(bookPanel.getText(19)));
@@ -349,6 +365,10 @@ public class Administrator_Frame extends JFrame{
 				int readerSearchMode=readerSearchModeComboBox.getSelectedIndex();
 				if(readerSearchMode==0) {
 					List<Borrow> borrows= bookSearch_Service.searchBorrowInfo(readerSearchReferenceTextField.getText());
+					if(borrows.size()==0) {
+						JOptionPane.showMessageDialog(null, "未能找到该读者的借阅记录","警告",JOptionPane.WARNING_MESSAGE);
+						return;
+					}
 					readerID[0]=readerSearchReferenceTextField.getText();
 					for(Borrow borrow:borrows) {
 						List<Book> searchresult =bookSearch_Service.searchByBookID(borrow.getIdBook());
@@ -367,6 +387,10 @@ public class Administrator_Frame extends JFrame{
 				}
 				else {
 					List<Reader>readers= readerManage_Service.SearchReaderByName(readerSearchReferenceTextField.getText());
+					if(readers.size()==0) {
+						JOptionPane.showMessageDialog(null, "未能找到相关读者","警告",JOptionPane.WARNING_MESSAGE);
+						return;
+					}
 					JFrame selectReaderFrame=new JFrame();
 					selectReaderFrame.setTitle("请选择所要查看的读者并点击确认");
 					JPanel selectReaderPanel=new JPanel();
@@ -399,6 +423,10 @@ public class Administrator_Frame extends JFrame{
 							int selectrow=readerSearchResulTable.getSelectedRow();
 							String rIDString=(String)readerSearchResulTable.getValueAt(selectrow, 0);
 							List<Borrow> borrows= bookSearch_Service.searchBorrowInfo(rIDString);
+							if(borrows.size()==0) {
+								JOptionPane.showMessageDialog(null, "未能找到该读者的借阅记录","警告",JOptionPane.WARNING_MESSAGE);
+								return;
+							}
 							readerID[0]=rIDString;
 							for(Borrow borrow:borrows) {
 								List<Book> searchresult =bookSearch_Service.searchByBookID(borrow.getIdBook());
@@ -489,6 +517,10 @@ public class Administrator_Frame extends JFrame{
 				else {
 					readers=readerManage_Service.SearchReaderByName(readerManageSearchInformationTextField.getText());
 				}
+				if(readers.size()==0) {
+					JOptionPane.showMessageDialog(null, "未能找到相关读者","警告",JOptionPane.WARNING_MESSAGE);
+					return;
+				}
 				for(Reader reader:readers) {
 					readerManageSearchResulTable.addReader(reader);
 				}
@@ -539,10 +571,18 @@ public class Administrator_Frame extends JFrame{
 		JButton addBookButton=new JButton("添加图书");
 		bookAddSouthGridPanel.add(addBookButton);
 		bookAddSouthGridPanel.setLayout(new GridLayout(5,1));
+		bookPanel.setText(1, bookManage_Service.GenerateBookID());
+		bookPanel.setEditable(1,false);
 		addBookButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				if(bookPanel.getText(1).equals("")||bookPanel.getText(3).equals("")||bookPanel.getText(5).equals("")||
+						bookPanel.getText(7).equals("")||bookPanel.getText(9).equals("")||bookPanel.getText(13).equals("")||
+						bookPanel.getText(17).equals("")||bookPanel.getText(19).equals("")) {
+					JOptionPane.showMessageDialog(null, "不能有内容为空！", "警告",JOptionPane.WARNING_MESSAGE);
+					return;
+				}
 				Book book=new Book(bookPanel.getText(1), bookPanel.getText(3),Integer.parseInt(bookPanel.getText(5)),
 						bookPanel.getText(7),bookPanel.getText(9),bookPanel.getText(13),bookPanel.getText(17),
 						Integer.parseInt(bookPanel.getText(19)));
@@ -555,6 +595,10 @@ public class Administrator_Frame extends JFrame{
 				if(bookManage_Service.RegisterBook(book, author, publisher)) {
 					JOptionPane.showMessageDialog(null, "添加图书成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
 					bookSearchButton.getActionListeners()[0].actionPerformed(null);
+					bookManage_Service.UpdateGenerateBookID();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "请咨询技术人员寻求帮助", "添加失败", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -575,13 +619,21 @@ public class Administrator_Frame extends JFrame{
 		readerRegisterBorderPanel.add(readerPanel,BorderLayout.CENTER);
 		JButton readerRegisterButton=new JButton("注册读者");
 		readerRegisterBorderPanel.add(readerRegisterButton,BorderLayout.SOUTH);
+		readerPanel.setText(1, readerManage_Service.GenerateReaderID());
+		readerPanel.setEditable(1,false);
 		readerRegisterButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				Reader reader=new Reader(readerPanel.getText(1),readerPanel.getText(3),
 						readerPanel.getText(5),readerPanel.getText(7),"root");
-				readerManage_Service.AddReader(reader);
+				if(readerManage_Service.AddReader(reader)) {
+					JOptionPane.showMessageDialog(null, "成功注册新账户", "注册成功", JOptionPane.PLAIN_MESSAGE);
+					readerManage_Service.UpdateGenerateReaderID();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "请咨询技术人员寻求帮助", "注册失败", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		

@@ -146,6 +146,10 @@ public class Reader_Frame extends JFrame{
 				bookSearchResulTable.clear();
 				if(bookidTextField.getText().length()!=0) {
 					List<Book> searchresult =bookSearch_Service.searchByBookID(bookidTextField.getText());
+					if(searchresult.size()==0) {
+						JOptionPane.showMessageDialog(null, "未能找到相关图书","警告",JOptionPane.WARNING_MESSAGE);
+						return;
+					}
 					String[]arr=new String[8];
 					Book book=searchresult.get(0);
 					arr[0]=book.getIdBook();
@@ -163,6 +167,10 @@ public class Reader_Frame extends JFrame{
 					if(typestring=="所有")typestring="";
 					List<Book> searchresult = bookSearch_Service.searchByBookInfo("", bookNameTextField.getText(), typestring, 
 						authorTextField.getText(), publisherTextField.getText());
+					if(searchresult.size()==0) {
+						JOptionPane.showMessageDialog(null, "未能找到相关图书","警告",JOptionPane.WARNING_MESSAGE);
+						return;
+					}
 					for(Book book:searchresult) {
 						String[]arr=new String[8];
 						arr[0]=book.getIdBook();
@@ -194,7 +202,7 @@ public class Reader_Frame extends JFrame{
 					bookSearchButton.getActionListeners()[0].actionPerformed(null);
 				}
 				else if(messageString=="借阅失败") {
-					JOptionPane.showMessageDialog(null, "借书失败，请咨询管理人员寻求帮助", "警告",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "借书失败，请咨询管理人员寻求帮助", "错误",JOptionPane.ERROR_MESSAGE);
 				}
 				else if(messageString=="没有库存"){
 					JOptionPane.showMessageDialog(null, "该书本已无库存，无法再行借阅", "警告",JOptionPane.WARNING_MESSAGE);
@@ -259,7 +267,7 @@ public class Reader_Frame extends JFrame{
 					refreshButton.getActionListeners()[0].actionPerformed(null);
 				}
 				else if(messageString=="还书失败") {
-					JOptionPane.showMessageDialog(null, "还书失败，请咨询管理人员寻求帮助", "警告",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "还书失败，请咨询管理人员寻求帮助", "错误",JOptionPane.ERROR_MESSAGE);
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "有书过期未还，此次还书失败，请咨询管理人员寻求帮助", 

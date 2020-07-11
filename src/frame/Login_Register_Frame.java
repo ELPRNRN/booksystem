@@ -124,6 +124,8 @@ public class Login_Register_Frame extends JFrame{
 		readerRegisterBorderPanel.add(readerPanel,BorderLayout.CENTER);
 		JButton readerRegisterButton=new JButton("注册读者");
 		buttonGridPanel.add(readerRegisterButton);
+		readerPanel.setText(1, readerManage_Service.GenerateReaderID());
+		readerPanel.setEditable(1, false);
 		readerRegisterButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -134,6 +136,8 @@ public class Login_Register_Frame extends JFrame{
 					JOptionPane.showMessageDialog(null, "成功注册新账户，将返回登录界面", "注册成功", JOptionPane.PLAIN_MESSAGE);
 					IDTextField.setText(readerPanel.getText(1));
 					pwdTextField.setText(String.valueOf(pwdField.getPassword()));
+					readerManage_Service.UpdateGenerateReaderID();
+					cardLayout.show(cardPanel, "login");
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "请咨询管理人员寻求帮助", "注册失败", JOptionPane.ERROR_MESSAGE);
