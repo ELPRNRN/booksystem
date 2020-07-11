@@ -19,7 +19,7 @@ public class ReaderTools {
 	public List<Reader> ReaderData(String idReader) {
 		String sql = "select idReader,nameReader,kind,sex,password "
 				+ "from reader "
-				+ "where idReader =" + idReader + "";
+				+ "where idReader ='" + idReader + "'";
 		DatabaseTools db = new DatabaseTools();
 		Connection conn = db.getConn();
 		ResultSet rs = null;

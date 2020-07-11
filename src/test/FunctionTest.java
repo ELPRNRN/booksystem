@@ -22,9 +22,12 @@ public class FunctionTest
 	 public static void main(String[] args) 
 	 {
 	    	 BookManage_Service service= BookManage_Service.getInstance();
-	    	 service.UpdateGenerateBookID();
-	    	 String ID=service.GenerateBookID();
-	    	 System.out.println(ID);
+	    	 Book book=new Book("012","三国演义",23,"文学","罗贯中","中国人民出版社","三国",5);
+	    	 Author author =new Author("罗贯中","中国");
+	    	 Publisher publisher=new Publisher("中国人民出版社","北京");
+	    	 boolean temp=service.RegisterBook(book, author, publisher);
+	    	 System.out.println(temp);
+	    	 
 	 }
 	 
 }

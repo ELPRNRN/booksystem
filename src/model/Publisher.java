@@ -50,6 +50,15 @@ public class Publisher
 	public String toString() {
 		return "Publisher [name=" + name + ", address=" + address + "]";
 	}
+	public Publisher(String name, String address) {
+		super();
+		this.name = name;
+		this.address = address;
+	}
+	public Publisher() {
+		
+	}
 
+	
 }
 
