@@ -99,6 +99,12 @@ public class MyComponent {
 			this.getTableHeader().getColumnModel().getColumn(i).setMaxWidth(width); //设置表的标题的宽度也为0,这个很重要
 		}
 		
+		public void setTempleWidth(int i,int width) {
+			TableColumn idColumn= this.getColumnModel().getColumn(i);
+			idColumn.setWidth(width);
+			this.getTableHeader().getColumnModel().getColumn(i).setWidth(width);
+		}
+		
 		public void addMenu(JPopupMenu popupMenu) {
 			MyTable myTable=this;
 			this.addMouseListener(new MouseAdapter() {
@@ -143,11 +149,15 @@ public class MyComponent {
 		}
 	}
 	
-	final private static String[] BOOKS_STRINGS= {"书号","书名","价格","类型","作者","出版社","库存数量","简介"};
+	final private static String[] BOOKS_STRINGS= {"书号","书名","价格","类型","作者","出版社","库存","简介"};
 	public class MyBookTable extends MyTable{		
 		public MyBookTable() {
 			super(BOOKS_STRINGS);
 			super.hidecolumn(7);
+			super.setwidth(0, 35);
+			super.setwidth(2, 35);
+			super.setwidth(3, 35);
+			super.setwidth(6, 35);
 		}
 		
 		public void addBook(Book book) {
@@ -267,6 +277,18 @@ public class MyComponent {
 			}
 			if(component instanceof MyComboBox) {
 				((MyComboBox) component).setSelectedString(string);
+			}
+		}
+		
+		public void cleartext() {
+			for(int i =0;i<this.getComponentCount();i++) {
+				Component component=this.getComponent(i);
+				if(component instanceof JTextField) {
+					((JTextField) component).setText("");
+				}
+				if(component instanceof MyComboBox) {
+					((MyComboBox) component).setSelectedIndex(-1);
+				}
 			}
 		}
 		

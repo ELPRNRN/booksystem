@@ -230,6 +230,8 @@ public class Reader_Frame extends JFrame{
 		MyComponent.MyTable borrowSearchResultTable=myComponent.new MyTable(borrowAttributeObjects);
 		JScrollPane borrowScrollPane=borrowSearchResultTable.getJScrollPane();
 		borrowManagePanel.add(borrowScrollPane,BorderLayout.CENTER);
+		borrowSearchResultTable.setwidth(0, 35);
+		borrowSearchResultTable.setwidth(2, 35);
 		refreshButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -358,7 +360,15 @@ public class Reader_Frame extends JFrame{
 							if(String.valueOf(newpwdField.getPassword()).equals(String.valueOf(newapwdField.getPassword()))) {
 								Reader reader=new Reader(readers.get(0).getIdReader(),readers.get(0).getNameReader(),
 										readers.get(0).getType(),readers.get(0).getSex(),String.valueOf(newpwdField.getPassword()));
-								readerManage_Service.UpdateReader(reader);
+								if(readerManage_Service.UpdateReader(reader)) {
+									Reader newReader=readers.get(0);
+									newReader.setPassword(String.valueOf(newpwdField.getPassword()));
+									JOptionPane.showMessageDialog(null, "成功修改密码", "修改密码成功",JOptionPane.PLAIN_MESSAGE);
+									pwdFrame.dispose();
+								}
+								else {
+									JOptionPane.showMessageDialog(null, "修改密码失败，请咨询管理人员寻求帮助", "错误",JOptionPane.ERROR_MESSAGE);
+								}
 							}
 							else {
 								JOptionPane.showMessageDialog(null, "新密码与再次输入的新密码不匹配，请检查", "警告",JOptionPane.WARNING_MESSAGE);

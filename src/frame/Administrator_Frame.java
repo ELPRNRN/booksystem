@@ -146,7 +146,7 @@ public class Administrator_Frame extends JFrame{
 				//do nothing
 			}
 		});
-		Object[] bookAttributeObjects= {"书号","书名","价格","类型","作者","国籍","出版社","出版社地址","库存数量","简介"};
+		Object[] bookAttributeObjects= {"书号","书名","价格","类型","作者","国籍","出版社","出版社地址","库存","简介"};
 		DefaultTableModel bookSearchResultTableModel =new DefaultTableModel(bookAttributeObjects, 0);
 		bookSearchResulTable.setModel(bookSearchResultTableModel);
 		bookSearchResulTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -164,6 +164,36 @@ public class Administrator_Frame extends JFrame{
 		idColumn1.setMinWidth(0);
 		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0); //设置表的标题的宽度也为0,这个很重要
 		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
+		TableColumn idColumn2= bookSearchResulTable.getColumnModel().getColumn(0);
+		idColumn2.setWidth(35);
+		idColumn2.setMaxWidth(35);
+		idColumn2.setMinWidth(35);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(35); 
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(0).setMinWidth(35);
+		TableColumn idColumn3= bookSearchResulTable.getColumnModel().getColumn(2);
+		idColumn3.setWidth(35);
+		idColumn3.setMaxWidth(35);
+		idColumn3.setMinWidth(35);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(35);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(2).setMinWidth(35);
+		TableColumn idColumn4= bookSearchResulTable.getColumnModel().getColumn(8);
+		idColumn4.setWidth(35);
+		idColumn4.setMaxWidth(35);
+		idColumn4.setMinWidth(35);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(8).setMaxWidth(35);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(8).setMinWidth(35);
+		TableColumn idColumn5= bookSearchResulTable.getColumnModel().getColumn(3);
+		idColumn5.setWidth(35);
+		idColumn5.setMaxWidth(35);
+		idColumn5.setMinWidth(35);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(35);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(3).setMinWidth(35);
+		TableColumn idColumn6= bookSearchResulTable.getColumnModel().getColumn(5);
+		idColumn6.setWidth(35);
+		idColumn6.setMaxWidth(35);
+		idColumn6.setMinWidth(35);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(5).setMaxWidth(35);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(5).setMinWidth(35);
 		bookSearchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -290,8 +320,8 @@ public class Administrator_Frame extends JFrame{
 						if(bookPanel.getText(1).equals("")||bookPanel.getText(3).equals("")||bookPanel.getText(5).equals("")||
 								bookPanel.getText(7).equals("")||bookPanel.getText(9).equals("")||bookPanel.getText(11).equals("")||
 								bookPanel.getText(13).equals("")||bookAddAddressTextField.getText().equals("")||
-								bookAddIntroductionTextField.getText().equals("")||bookPanel.getText(17).equals("")||
-								bookPanel.getText(19).equals("")) {
+								bookAddIntroductionTextField.getText().equals("")||bookPanel.getText(15).equals("")||
+								bookAddAddressTextField.getText().equals("")) {
 							JOptionPane.showMessageDialog(null, "不能有内容为空！", "警告",JOptionPane.WARNING_MESSAGE);
 							return;
 						}
@@ -354,6 +384,18 @@ public class Administrator_Frame extends JFrame{
 		DefaultTableModel borrowSearchResultTableModel =new DefaultTableModel(borrowAttributeObjects, 0);
 		borrowSearchResulTable.setModel(borrowSearchResultTableModel);
 		borrowSearchResulTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		TableColumn idColumn7= borrowSearchResulTable.getColumnModel().getColumn(0);
+		idColumn7.setWidth(35);
+		idColumn7.setMaxWidth(35);
+		idColumn7.setMinWidth(35);
+		borrowSearchResulTable.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(35);
+		borrowSearchResulTable.getTableHeader().getColumnModel().getColumn(0).setMinWidth(35);
+		TableColumn idColumn8= borrowSearchResulTable.getColumnModel().getColumn(2);
+		idColumn8.setWidth(35);
+		idColumn8.setMaxWidth(35);
+		idColumn8.setMinWidth(35);
+		borrowSearchResulTable.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(35);
+		borrowSearchResulTable.getTableHeader().getColumnModel().getColumn(2).setMinWidth(35);
 		readerSearchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -451,7 +493,7 @@ public class Administrator_Frame extends JFrame{
 					selectReaderFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					selectReaderFrame.pack();
 					selectReaderFrame.setVisible(true);
-					selectReaderFrame.setBounds(200, 200, 370,300);
+					selectReaderFrame.setBounds(200, 200, 370,330);
 				}
 			}
 		});
@@ -578,24 +620,29 @@ public class Administrator_Frame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if(bookPanel.getText(1).equals("")||bookPanel.getText(3).equals("")||bookPanel.getText(5).equals("")||
-						bookPanel.getText(7).equals("")||bookPanel.getText(9).equals("")||bookPanel.getText(13).equals("")||
-						bookPanel.getText(17).equals("")||bookPanel.getText(19).equals("")) {
+						bookPanel.getText(7).equals("")||bookPanel.getText(9).equals("")||bookPanel.getText(11).equals("")||
+						bookPanel.getText(13).equals("")||bookAddAddressTextField.getText().equals("")||
+						bookAddIntroductionTextField.getText().equals("")||bookPanel.getText(15).equals("")) {
 					JOptionPane.showMessageDialog(null, "不能有内容为空！", "警告",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				Book book=new Book(bookPanel.getText(1), bookPanel.getText(3),Integer.parseInt(bookPanel.getText(5)),
-						bookPanel.getText(7),bookPanel.getText(9),bookPanel.getText(13),bookPanel.getText(17),
+						bookPanel.getText(7),bookPanel.getText(9),bookPanel.getText(13),bookAddIntroductionTextField.getText(),
 						Integer.parseInt(bookPanel.getText(19)));
 				Author author=new Author();
 				author.setName(bookPanel.getText(9));
 				author.setNationality(bookPanel.getText(11));
 				Publisher publisher=new Publisher();
 				publisher.setName(bookPanel.getText(13));
-				publisher.setAddress(bookPanel.getText(15));
+				publisher.setAddress(bookAddAddressTextField.getText());
 				if(bookManage_Service.RegisterBook(book, author, publisher)) {
 					JOptionPane.showMessageDialog(null, "添加图书成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
 					bookSearchButton.getActionListeners()[0].actionPerformed(null);
 					bookManage_Service.UpdateGenerateBookID();
+					bookPanel.cleartext();
+					bookAddIntroductionTextField.setText("");
+					bookAddAddressTextField.setText("");
+					bookPanel.setText(1, bookManage_Service.GenerateBookID());
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "请咨询技术人员寻求帮助", "添加失败", JOptionPane.ERROR_MESSAGE);
@@ -630,6 +677,9 @@ public class Administrator_Frame extends JFrame{
 				if(readerManage_Service.AddReader(reader)) {
 					JOptionPane.showMessageDialog(null, "成功注册新账户", "注册成功", JOptionPane.PLAIN_MESSAGE);
 					readerManage_Service.UpdateGenerateReaderID();
+					readerPanel.cleartext();
+					readerPanel.setText(1, readerManage_Service.GenerateReaderID());
+					
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "请咨询技术人员寻求帮助", "注册失败", JOptionPane.ERROR_MESSAGE);

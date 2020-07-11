@@ -138,6 +138,8 @@ public class Login_Register_Frame extends JFrame{
 					pwdTextField.setText(String.valueOf(pwdField.getPassword()));
 					readerManage_Service.UpdateGenerateReaderID();
 					cardLayout.show(cardPanel, "login");
+					readerPanel.cleartext();
+					readerPanel.setText(1, readerManage_Service.GenerateReaderID());
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "请咨询管理人员寻求帮助", "注册失败", JOptionPane.ERROR_MESSAGE);
