@@ -230,8 +230,8 @@ public class Reader_Frame extends JFrame{
 		MyComponent.MyTable borrowSearchResultTable=myComponent.new MyTable(borrowAttributeObjects);
 		JScrollPane borrowScrollPane=borrowSearchResultTable.getJScrollPane();
 		borrowManagePanel.add(borrowScrollPane,BorderLayout.CENTER);
-		borrowSearchResultTable.setwidth(0, 35);
-		borrowSearchResultTable.setwidth(2, 35);
+		borrowSearchResultTable.setwidth(0, 45);
+		borrowSearchResultTable.setwidth(2, 45);
 		refreshButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

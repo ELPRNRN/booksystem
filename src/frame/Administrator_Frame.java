@@ -165,35 +165,35 @@ public class Administrator_Frame extends JFrame{
 		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0); //设置表的标题的宽度也为0,这个很重要
 		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
 		TableColumn idColumn2= bookSearchResulTable.getColumnModel().getColumn(0);
-		idColumn2.setWidth(35);
-		idColumn2.setMaxWidth(35);
-		idColumn2.setMinWidth(35);
-		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(35); 
-		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(0).setMinWidth(35);
+		idColumn2.setWidth(45);
+		idColumn2.setMaxWidth(45);
+		idColumn2.setMinWidth(45);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(45); 
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(0).setMinWidth(45);
 		TableColumn idColumn3= bookSearchResulTable.getColumnModel().getColumn(2);
-		idColumn3.setWidth(35);
-		idColumn3.setMaxWidth(35);
-		idColumn3.setMinWidth(35);
-		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(35);
-		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(2).setMinWidth(35);
+		idColumn3.setWidth(45);
+		idColumn3.setMaxWidth(45);
+		idColumn3.setMinWidth(45);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(45);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(2).setMinWidth(45);
 		TableColumn idColumn4= bookSearchResulTable.getColumnModel().getColumn(8);
-		idColumn4.setWidth(35);
-		idColumn4.setMaxWidth(35);
-		idColumn4.setMinWidth(35);
-		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(8).setMaxWidth(35);
-		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(8).setMinWidth(35);
+		idColumn4.setWidth(45);
+		idColumn4.setMaxWidth(45);
+		idColumn4.setMinWidth(45);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(8).setMaxWidth(45);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(8).setMinWidth(45);
 		TableColumn idColumn5= bookSearchResulTable.getColumnModel().getColumn(3);
-		idColumn5.setWidth(35);
-		idColumn5.setMaxWidth(35);
-		idColumn5.setMinWidth(35);
-		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(35);
-		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(3).setMinWidth(35);
+		idColumn5.setWidth(45);
+		idColumn5.setMaxWidth(45);
+		idColumn5.setMinWidth(45);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(45);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(3).setMinWidth(45);
 		TableColumn idColumn6= bookSearchResulTable.getColumnModel().getColumn(5);
-		idColumn6.setWidth(35);
-		idColumn6.setMaxWidth(35);
-		idColumn6.setMinWidth(35);
-		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(5).setMaxWidth(35);
-		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(5).setMinWidth(35);
+		idColumn6.setWidth(45);
+		idColumn6.setMaxWidth(45);
+		idColumn6.setMinWidth(45);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(5).setMaxWidth(45);
+		bookSearchResulTable.getTableHeader().getColumnModel().getColumn(5).setMinWidth(45);
 		bookSearchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -392,17 +392,17 @@ public class Administrator_Frame extends JFrame{
 		borrowSearchResulTable.setModel(borrowSearchResultTableModel);
 		borrowSearchResulTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		TableColumn idColumn7= borrowSearchResulTable.getColumnModel().getColumn(0);
-		idColumn7.setWidth(35);
-		idColumn7.setMaxWidth(35);
-		idColumn7.setMinWidth(35);
-		borrowSearchResulTable.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(35);
-		borrowSearchResulTable.getTableHeader().getColumnModel().getColumn(0).setMinWidth(35);
+		idColumn7.setWidth(45);
+		idColumn7.setMaxWidth(45);
+		idColumn7.setMinWidth(45);
+		borrowSearchResulTable.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(45);
+		borrowSearchResulTable.getTableHeader().getColumnModel().getColumn(0).setMinWidth(45);
 		TableColumn idColumn8= borrowSearchResulTable.getColumnModel().getColumn(2);
-		idColumn8.setWidth(35);
-		idColumn8.setMaxWidth(35);
-		idColumn8.setMinWidth(35);
-		borrowSearchResulTable.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(35);
-		borrowSearchResulTable.getTableHeader().getColumnModel().getColumn(2).setMinWidth(35);
+		idColumn8.setWidth(45);
+		idColumn8.setMaxWidth(45);
+		idColumn8.setMinWidth(45);
+		borrowSearchResulTable.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(45);
+		borrowSearchResulTable.getTableHeader().getColumnModel().getColumn(2).setMinWidth(45);
 		readerSearchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

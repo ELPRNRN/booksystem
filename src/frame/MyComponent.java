@@ -27,7 +27,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import jdk.jfr.Description;
+//import jdk.jfr.Description;
 import model.Book;
 import model.Reader;
 
@@ -154,10 +154,10 @@ public class MyComponent {
 		public MyBookTable() {
 			super(BOOKS_STRINGS);
 			super.hidecolumn(7);
-			super.setwidth(0, 35);
-			super.setwidth(2, 35);
-			super.setwidth(3, 35);
-			super.setwidth(6, 35);
+			super.setwidth(0, 45);
+			super.setwidth(2, 45);
+			super.setwidth(3, 45);
+			super.setwidth(6, 45);
 		}
 		
 		public void addBook(Book book) {
